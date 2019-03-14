@@ -24,17 +24,14 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  spotifyID: {
+  spotifyId: {
     type: Sequelize.STRING
   },
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
   status: Sequelize.ENUM(['User', 'Admin']),
   gender: Sequelize.ENUM(['Male', 'Female']),
-  age: Sequelize.INTEGER,
-  city: Sequelize.STRING,
-  state: Sequelize.STRING,
-  country: Sequelize.STRING
+  age: Sequelize.INTEGER
 })
 
 module.exports = User

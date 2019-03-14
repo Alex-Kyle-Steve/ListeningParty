@@ -18,9 +18,9 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
     (token, refreshToken, profile, done) => {
       // const name = profile.displayName
       console.log(profile)
-      const spotifyID = profile.id
+      const spotifyId = profile.id
       User.findOrCreate({
-        where: {spotifyID: profile.id},
+        where: {spotifyId},
         defaults: {}
       })
         .then(([user]) => done(null, user))
