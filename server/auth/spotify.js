@@ -30,7 +30,25 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
 
   passport.use(strategy)
 
-  router.get('/', passport.authenticate('spotify'))
+  router.get(
+    '/',
+    passport.authenticate('spotify', {
+      scope: [
+        'user-read-recently-played',
+        'user-read-email',
+        'playlist-modify-public',
+        'user-library-read',
+        'playlist-read-collaborative',
+        'user-read-birthdate',
+        'user-read-playback-state',
+        ' user-modify-playback-state',
+        'user-top-read',
+        'user-read-currently-playing',
+        'user-follow-modify'
+      ],
+      showDialog: true
+    })
+  )
 
   router.get(
     '/callback',
