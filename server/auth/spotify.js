@@ -11,24 +11,26 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   const spotifyConfig = {
     clientID: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: process.env.SPOTIFY_CALLBACK
+    callbackURL: 'http://localhost:8080/auth/spotify/callback'
   }
   const strategy = new SpotifyStrategy(
-    {
-      clientID: spotifyConfig.clientID,
-      clientSecret: spotifyConfig.clientSecret,
-      callbackURL: spotifyConfig.callbackURL
-    },
-    function(accessToken, refreshToken, expires_in, profile, done) {
-      User.findOrCreate({spotifyId: profile.id}, function(err, user) {
-        return done(err, user)
+    spotifyConfig,
+    (token, refreshToken, profile, done) => {
+      // const name = profile.displayName
+      console.log(profile)
+      const spotifyID = profile.id
+      User.findOrCreate({
+        where: {spotifyID: profile.id},
+        defaults: {}
       })
+        .then(([user]) => done(null, user))
+        .catch(done)
     }
   )
 
   passport.use(strategy)
 
-  router.get('/', passport.authenticate('spotify', {scope: 'email'}))
+  router.get('/', passport.authenticate('spotify'))
 
   router.get(
     '/callback',
