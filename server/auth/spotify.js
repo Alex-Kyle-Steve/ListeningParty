@@ -15,7 +15,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   }
   const strategy = new SpotifyStrategy(
     spotifyConfig,
-    (accessToken, refreshToken, profile, done) => {
+    (accessToken, refreshToken, expires_in, profile, done) => {
       // const name = profile.displayName
       console.log(profile)
       const spotifyId = profile.id
@@ -23,7 +23,8 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         where: {spotifyId},
         defaults: {
           accessToken: accessToken,
-          refreshToken: refreshToken
+          refreshToken: refreshToken,
+          expires_in: expires_in
         }
       })
         .then(([user]) => done(null, user))

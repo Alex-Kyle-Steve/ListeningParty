@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const request = require('request')
+const {makeAPICall} = require('./apiHelper')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -15,3 +17,5 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/')
