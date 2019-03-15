@@ -8,70 +8,66 @@ import axios from 'axios'
 /**
  * COMPONENT
  */
-const accessToken =
-  'BQBdscOMTaGMXTeniY-SNKmrrhNlQzWCHXcU5yUZDBQIHQRdJNNvCyXxPi2mqkhx-u7PEd1VNF1kyTQXpj3rfvX42LcKR5Zyb5EJkE-87YcD7dnISl2pM5tw9GueJfVQWZPW9Gkr8epFo69yE6ubBTJp4SHT1DfypTPPamYIZaqddFCyEFPPdAzFObRcT93hL9AEYwYsxQFa8u2Mu7ot7l4scQ'
-const refreshToken =
-  'AQBbNuS5TbVz4jLVC_9RdsL6ZEhXpnH7R2zD82a4pFIA4CRu_R9d-WLyOMPUHiUDIoq6YTw4hsIAp8Vy60F-0m4edLOYTRdo5s9A5B_V66-ZQfLCZGqIkeHiygD3LEPnOTwr8Q'
+// const accessToken =
+//   'BQADUvezmfN3OH-8Vn-1DEt7D7idfmsaDT4L1PBwk14T2DKM3uPjlV6AXiHf7WKO_CV4A4qVrSlzfXBhHKmlTfbjHlYYMEi4QrvMT69dSOe9Wd1oJ1ypOdlWXnRzf4ef-AFhq1-x8L7SCrYl_ulipCRaNQGV7dT7Z2i1kFeqhdnKa4vufRkFYzZgAV4KSVQjmY4KV1OhRGb0gPxwqAWrvvWyCQ'
+// const refreshToken =
+//   'AQBbNuS5TbVz4jLVC_9RdsL6ZEhXpnH7R2zD82a4pFIA4CRu_R9d-WLyOMPUHiUDIoq6YTw4hsIAp8Vy60F-0m4edLOYTRdo5s9A5B_V66-ZQfLCZGqIkeHiygD3LEPnOTwr8Q'
 
-const accessHeader = {
-  'Authorization': 'Bearer ' + accessToken,
-  'Content-Type': 'application/x-www-form-urlencoded'
-}
+// const accessHeader = {
+//   Authorization: 'Bearer ' + accessToken,
+//   'Content-Type': 'application/x-www-form-urlencoded'
+// }
 
-const refreshHeader = {
-  'grant_type': 'refresh_token',
-  'refresh_token': refreshToken
-}
+// const refreshHeader = {
+//   grant_type: 'refresh_token',
+//   refresh_token: refreshToken
+// }
 
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
-    axios({
-      method: 'get',
-      url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
-      headers: accessHeader
-    })
-      .then(res => {
-        console.log(res)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    // axios({
+    //   method: 'get',
+    //   url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
+    //   headers: accessHeader
+    // })
+    //   .then(res => {
+    //     console.log(res)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
   }
 
-  getAccessToken() {
-    axios({
-      method: 'post',
-      url: 'https://accounts.spotify.com/api/token',
-      headers: refreshHeader
-    })
-      .then(res => {
-        console.log(res)
-        console.log('SUCESS')
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  // getAccessToken() {
+  //   axios({
+  //     method: 'post',
+  //     url: 'https://accounts.spotify.com/api/token',
+  //     headers: refreshHeader
+  //   })
+  //     .then(res => {
+  //       console.log(res)
+  //       console.log('SUCESS')
+  //     })
+  //     .catch(error => {
+  //       console.log(error)
+  //     })
 
   render() {
     const {isLoggedIn} = this.props
 
     return (
       <div>
-        <button type="button" onClick={this.getAccessToken}>
-          Refresh Token
-        </button>
-
         <Switch>
           {/* Routes placed here are available to all visitors */}
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route exact path="/MusicPlayer" componen={MusicPlayer} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/music-player" component={MusicPlayer} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route exact path="/home" component={UserHome} />
+              <Route exact path="/music-player" component={MusicPlayer} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}

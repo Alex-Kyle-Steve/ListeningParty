@@ -27,7 +27,11 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
           expires_in: expires_in
         }
       })
-        .then(([user]) => done(null, user))
+        .then(([user]) => {
+          user.expires_in = expires_in
+          done(null, user)
+        })
+
         .catch(done)
     }
   )
@@ -38,6 +42,8 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
     '/',
     passport.authenticate('spotify', {
       scope: [
+        'streaming',
+        'user-read-private',
         'user-read-recently-played',
         'user-read-email',
         'playlist-modify-public',
