@@ -3,9 +3,8 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 import axios from 'axios'
-
 const accessToken =
-  'BQADUvezmfN3OH-8Vn-1DEt7D7idfmsaDT4L1PBwk14T2DKM3uPjlV6AXiHf7WKO_CV4A4qVrSlzfXBhHKmlTfbjHlYYMEi4QrvMT69dSOe9Wd1oJ1ypOdlWXnRzf4ef-AFhq1-x8L7SCrYl_ulipCRaNQGV7dT7Z2i1kFeqhdnKa4vufRkFYzZgAV4KSVQjmY4KV1OhRGb0gPxwqAWrvvWyCQ'
+  'BQBO2yKWgxJ73T5X3Pk5gfcX4HHk4-HT67WlpAKfKphBHlZUysd07FuNyHiIYZ32uGO10no0DhQpifgBSfoZ8Gtt6Ng9yXRYA6Sr3Y_mo1cCk43ITd3xmF2ZqIR456U6zWWhJFux7o3UtgV_dySkEUOisIgmdvEzLjzu3ExYGdMv'
 const refreshToken =
   'AQCaMExn5ArN4LxDyipCgM6S1Pvp0fkZHC9s_UqgZ9TrOwYIl0kwHH48VIzFq3zMI_JaDEChl_qA8zbWlhOXgLutWnIm2tN6CvNgH_H6Ody5boZ6d-xJpWXLdmkYo9w2oy9ZsA'
 const accessHeader = {
@@ -42,7 +41,7 @@ export class MusicPlayer extends Component {
   handleScriptLoad() {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token =
-        'BQDrw159syJWnyyyf41KQlq6kEJ35s1gUsV_r8RMuzaLk7gOGeusYPxWI3HHWRa4IrfCdx_g_eKIX0MgtBgDAe5QkxV1y4WSJlgqJEYOMGZNxmn7NIpq4ngnC0yae3Ykg3ycEX7MBHP7XNlbBb1ESpQ3IIQtyPgpGSmRY7YR3lly'
+        'BQDJrRBzEnsbFSo_UozoUMDHuoGb5x3vI3BxC8xbASXiXKYgKdLe6wSlgqqGQutIj2kke7h2dCjR9d8qE1t0J6rUGzYNVZgA4yBrTl3uGb3UhZ7p7jrKn5YcRK2DLFJJCqM1eXRrcjI3tAmvtyXnGDPe3Q7gkqyfVLjPtGNZhBhc'
       window.player = new Spotify.Player({
         name: 'Web Playback SDK Quick Start Player',
         getOAuthToken: cb => {
@@ -85,24 +84,24 @@ export class MusicPlayer extends Component {
   }
 
   componentDidMount() {
-    axios({
-      method: 'get',
-      url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
-      headers: accessHeader
-    })
-      .then(res => {
-        console.log(res.data)
-        this.setState({
-          tracks: res.data.tracks.items,
-          albums: res.data.albums.items,
-          playlists: res.data.playlists.items,
-          artists: res.data.artists.items
-        })
-        console.log(this.state)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    // axios({
+    //   method: 'get',
+    //   url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
+    //   headers: accessHeader
+    // })
+    //   .then(res => {
+    //     console.log(res.data)
+    //     this.setState({
+    //       tracks: res.data.tracks.items,
+    //       albums: res.data.albums.items,
+    //       playlists: res.data.playlists.items,
+    //       artists: res.data.artists.items
+    //     })
+    //     console.log(this.state)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
     this.handleScriptLoad()
   }
   render() {
