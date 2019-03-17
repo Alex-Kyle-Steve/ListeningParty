@@ -8,15 +8,6 @@ import axios from 'axios'
 /**
  * COMPONENT
  */
-// const accessToken =
-//   'BQADUvezmfN3OH-8Vn-1DEt7D7idfmsaDT4L1PBwk14T2DKM3uPjlV6AXiHf7WKO_CV4A4qVrSlzfXBhHKmlTfbjHlYYMEi4QrvMT69dSOe9Wd1oJ1ypOdlWXnRzf4ef-AFhq1-x8L7SCrYl_ulipCRaNQGV7dT7Z2i1kFeqhdnKa4vufRkFYzZgAV4KSVQjmY4KV1OhRGb0gPxwqAWrvvWyCQ'
-// const refreshToken =
-//   'AQBbNuS5TbVz4jLVC_9RdsL6ZEhXpnH7R2zD82a4pFIA4CRu_R9d-WLyOMPUHiUDIoq6YTw4hsIAp8Vy60F-0m4edLOYTRdo5s9A5B_V66-ZQfLCZGqIkeHiygD3LEPnOTwr8Q'
-
-// const accessHeader = {
-//   Authorization: 'Bearer ' + accessToken,
-//   'Content-Type': 'application/x-www-form-urlencoded'
-// }
 
 // const refreshHeader = {
 //   grant_type: 'refresh_token',

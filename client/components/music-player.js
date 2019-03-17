@@ -3,12 +3,12 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 import axios from 'axios'
-const accessToken =
-  'BQBO2yKWgxJ73T5X3Pk5gfcX4HHk4-HT67WlpAKfKphBHlZUysd07FuNyHiIYZ32uGO10no0DhQpifgBSfoZ8Gtt6Ng9yXRYA6Sr3Y_mo1cCk43ITd3xmF2ZqIR456U6zWWhJFux7o3UtgV_dySkEUOisIgmdvEzLjzu3ExYGdMv'
-const refreshToken =
-  'AQCaMExn5ArN4LxDyipCgM6S1Pvp0fkZHC9s_UqgZ9TrOwYIl0kwHH48VIzFq3zMI_JaDEChl_qA8zbWlhOXgLutWnIm2tN6CvNgH_H6Ody5boZ6d-xJpWXLdmkYo9w2oy9ZsA'
+
+// const accessToken;
+// const refreshToken;
+
 const accessHeader = {
-  'Authorization': 'Bearer ' + accessToken,
+  Authorization: 'Bearer ' + accessToken,
   'Content-Type': 'application/x-www-form-urlencoded'
 }
 
@@ -40,14 +40,13 @@ export class MusicPlayer extends Component {
 
   handleScriptLoad() {
     window.onSpotifyWebPlaybackSDKReady = () => {
-      const token =
-        'BQDJrRBzEnsbFSo_UozoUMDHuoGb5x3vI3BxC8xbASXiXKYgKdLe6wSlgqqGQutIj2kke7h2dCjR9d8qE1t0J6rUGzYNVZgA4yBrTl3uGb3UhZ7p7jrKn5YcRK2DLFJJCqM1eXRrcjI3tAmvtyXnGDPe3Q7gkqyfVLjPtGNZhBhc'
-      window.player = new Spotify.Player({
+      const token = (window.player = new Spotify.Player({
+        //User token
         name: 'Web Playback SDK Quick Start Player',
         getOAuthToken: cb => {
           cb(token)
         }
-      })
+      }))
 
       // Error handling
       player.addListener('initialization_error', ({message}) => {

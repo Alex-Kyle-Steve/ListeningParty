@@ -17,7 +17,6 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
     spotifyConfig,
     (accessToken, refreshToken, expires_in, profile, done) => {
       // const name = profile.displayName
-      console.log(profile)
       const spotifyId = profile.id
       User.findOrCreate({
         where: {spotifyId},
@@ -28,7 +27,6 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         }
       })
         .then(([user]) => {
-          user.expires_in = expires_in
           done(null, user)
         })
 

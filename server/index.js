@@ -65,7 +65,6 @@ const createApp = () => {
 
   app.use(function(req, res, next) {
     try {
-      console.log('REQ.SESSION', req.session)
       next()
     } catch (error) {
       console.log(error)
