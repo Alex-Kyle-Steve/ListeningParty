@@ -5,14 +5,6 @@ import {auth} from '../store'
 import axios from 'axios'
 import io from 'socket.io-client'
 import socket from '../socket'
-// const accessToken =
-//   'BQBO2yKWgxJ73T5X3Pk5gfcX4HHk4-HT67WlpAKfKphBHlZUysd07FuNyHiIYZ32uGO10no0DhQpifgBSfoZ8Gtt6Ng9yXRYA6Sr3Y_mo1cCk43ITd3xmF2ZqIR456U6zWWhJFux7o3UtgV_dySkEUOisIgmdvEzLjzu3ExYGdMv'
-// const refreshToken =
-//   'AQCaMExn5ArN4LxDyipCgM6S1Pvp0fkZHC9s_UqgZ9TrOwYIl0kwHH48VIzFq3zMI_JaDEChl_qA8zbWlhOXgLutWnIm2tN6CvNgH_H6Ody5boZ6d-xJpWXLdmkYo9w2oy9ZsA'
-// const accessHeader = {
-//   Authorization: 'Bearer ' + accessToken,
-//   'Content-Type': 'application/x-www-form-urlencoded'
-// }
 
 export class MusicPlayer extends Component {
   constructor() {
