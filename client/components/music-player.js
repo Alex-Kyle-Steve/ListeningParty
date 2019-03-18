@@ -8,7 +8,6 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: async callback => {
       const token = await getAccessToken()
-      console.log(token)
       callback(token)
     }
   })
