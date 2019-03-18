@@ -8,7 +8,9 @@ import axios from 'axios'
 // const refreshToken;
 
 const accessHeader = {
-  Authorization: 'Bearer ' + accessToken,
+  Authorization:
+    'Bearer ' +
+    'BQCP8u8ePvKPiufuDtyFIYREzdlRKYIsQHyPYJIwrpw9oX2sgTE6vc_FmVcwrFuphBK8dwBdRmrfxH7TchIHSz6jCdYGh8iVodOAGP4Y5Cl8aaaxQJM620TMDjkowvw0kihJwQplNbH0WhgstsJJgxn0Vrt2wHE4kD_5Ruchbae3WzaUqiLK_5X2YdnFVHVSyrgFTlHqc9lZR_K_m0A6QB_0eZqphH4yIBWfr0zsZUPf8KocUoI',
   'Content-Type': 'application/x-www-form-urlencoded'
 }
 
@@ -22,21 +24,6 @@ export class MusicPlayer extends Component {
       artists: []
     }
   }
-
-  // getAccessToken() {
-  //   axios({
-  //     method: 'post',
-  //     url: 'https://accounts.spotify.com/api/token'
-  //     // headers: refreshHeader
-  //   })
-  //     .then(res => {
-  //       console.log(res)
-  //       console.log('SUCCESS')
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //     })
-  // }
 
   handleScriptLoad() {
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -83,29 +70,12 @@ export class MusicPlayer extends Component {
   }
 
   componentDidMount() {
-    // axios({
-    //   method: 'get',
-    //   url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
-    //   headers: accessHeader
-    // })
-    //   .then(res => {
-    //     console.log(res.data)
-    //     this.setState({
-    //       tracks: res.data.tracks.items,
-    //       albums: res.data.albums.items,
-    //       playlists: res.data.playlists.items,
-    //       artists: res.data.artists.items
-    //     })
-    //     console.log(this.state)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
     this.handleScriptLoad()
   }
   render() {
     return (
       <div>
+        <script defer src="https://sdk.scdn.co/spotify-player.js" />
         HELLO WORLD
         {/* <button onClick={this.getAccessToken}>Refresh Token</button> */}
       </div>
