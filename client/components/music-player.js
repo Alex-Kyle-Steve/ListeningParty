@@ -3,11 +3,9 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 import axios from 'axios'
+import io from 'socket.io-client'
+const socket = io(window.location.origin)
 
-const accessToken =
-  'BQBO2yKWgxJ73T5X3Pk5gfcX4HHk4-HT67WlpAKfKphBHlZUysd07FuNyHiIYZ32uGO10no0DhQpifgBSfoZ8Gtt6Ng9yXRYA6Sr3Y_mo1cCk43ITd3xmF2ZqIR456U6zWWhJFux7o3UtgV_dySkEUOisIgmdvEzLjzu3ExYGdMv'
-const refreshToken =
-  'AQCaMExn5ArN4LxDyipCgM6S1Pvp0fkZHC9s_UqgZ9TrOwYIl0kwHH48VIzFq3zMI_JaDEChl_qA8zbWlhOXgLutWnIm2tN6CvNgH_H6Ody5boZ6d-xJpWXLdmkYo9w2oy9ZsA'
 const accessHeader = {
   Authorization: 'Bearer ' + accessToken,
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -41,13 +39,14 @@ export class MusicPlayer extends Component {
 
   handleScriptLoad() {
     window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = (window.player = new Spotify.Player({
-        //Access Token
-        name: 'Web Playback SDK Quick Start Player',
-        getOAuthToken: cb => {
-          cb(token)
-        }
-      }))
+      const token =
+        //access token
+        (window.player = new Spotify.Player({
+          name: 'Web Playback SDK Quick Start Player',
+          getOAuthToken: cb => {
+            cb(token)
+          }
+        }))
 
       // Error handling
       player.addListener('initialization_error', ({message}) => {
@@ -65,7 +64,12 @@ export class MusicPlayer extends Component {
 
       // Playback status updates
       player.addListener('player_state_changed', state => {
-        console.log(state)
+        //emits the state object to the server
+        socket.emit('playbackState', {
+          playbackState: state
+        })
+
+        console.log('state', state)
       })
 
       // Ready
@@ -104,7 +108,11 @@ export class MusicPlayer extends Component {
     //   })
     this.handleScriptLoad()
   }
+
   render() {
+    socket.on('playbackState', function(data) {
+      console.log(data)
+    })
     return (
       <div>
         HELLO WORLD
