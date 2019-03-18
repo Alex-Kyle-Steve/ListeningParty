@@ -58,6 +58,15 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
     })
   )
 
+  router.get('/token', (req, res, next) => {
+    req.user && req.user.accessToken
+      ? res.send({
+          accessToken: req.user.accessToken,
+          refreshToken: req.user.refreshToken
+        })
+      : res.send()
+  })
+
   router.get(
     '/callback',
     passport.authenticate('spotify', {
