@@ -46,9 +46,7 @@ export class MusicPlayer extends Component {
         socket.emit('playbackState', {
           playbackState: state
         })
-        socket.on('playbackStateFromServer', function(data) {
-          console.log('from server', data)
-        })
+
         // console.log('state', state)
       })
 
@@ -72,6 +70,9 @@ export class MusicPlayer extends Component {
   }
 
   render() {
+    socket.on('playbackStateFromServer', function(data) {
+      console.log('from server', data)
+    })
     return (
       <div>
         HELLO WORLD
