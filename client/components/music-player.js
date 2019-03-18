@@ -13,13 +13,10 @@ window.onSpotifyWebPlaybackSDKReady = () => {
   })
   // Connect to the player!
   window.player.connect()
-
   window.player.addListener('player_state_changed', state => {
+    console.log('new Song')
     //emits the state object to the server
-    console.log(state)
-    socket.emit('playbackState', {
-      playbackState: state
-    })
+    socket.emit('new_playback_uri', state.context.uri)
   })
 }
 // ** change it to execute only when user logs-in
@@ -36,7 +33,7 @@ export class MusicPlayer extends Component {
   }
 
   render() {
-    socket.on('playbackStateFromServer', function(data) {
+    socket.on('recieve_new_uri', function(data) {
       console.log('from server', data)
     })
     return (
