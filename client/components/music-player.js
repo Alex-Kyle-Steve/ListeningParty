@@ -4,12 +4,15 @@ import PropTypes from 'prop-types'
 import {auth} from '../store'
 import axios from 'axios'
 import io from 'socket.io-client'
-const socket = io(window.location.origin)
-
-const accessHeader = {
-  Authorization: 'Bearer ' + accessToken,
-  'Content-Type': 'application/x-www-form-urlencoded'
-}
+import socket from '../socket'
+// const accessToken =
+//   'BQBO2yKWgxJ73T5X3Pk5gfcX4HHk4-HT67WlpAKfKphBHlZUysd07FuNyHiIYZ32uGO10no0DhQpifgBSfoZ8Gtt6Ng9yXRYA6Sr3Y_mo1cCk43ITd3xmF2ZqIR456U6zWWhJFux7o3UtgV_dySkEUOisIgmdvEzLjzu3ExYGdMv'
+// const refreshToken =
+//   'AQCaMExn5ArN4LxDyipCgM6S1Pvp0fkZHC9s_UqgZ9TrOwYIl0kwHH48VIzFq3zMI_JaDEChl_qA8zbWlhOXgLutWnIm2tN6CvNgH_H6Ody5boZ6d-xJpWXLdmkYo9w2oy9ZsA'
+// const accessHeader = {
+//   Authorization: 'Bearer ' + accessToken,
+//   'Content-Type': 'application/x-www-form-urlencoded'
+// }
 
 export class MusicPlayer extends Component {
   constructor() {
@@ -22,31 +25,14 @@ export class MusicPlayer extends Component {
     }
   }
 
-  // getAccessToken() {
-  //   axios({
-  //     method: 'post',
-  //     url: 'https://accounts.spotify.com/api/token'
-  //     // headers: refreshHeader
-  //   })
-  //     .then(res => {
-  //       console.log(res)
-  //       console.log('SUCCESS')
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //     })
-  // }
-
   handleScriptLoad() {
     window.onSpotifyWebPlaybackSDKReady = () => {
-      const token =
-        //access token
-        (window.player = new Spotify.Player({
-          name: 'Web Playback SDK Quick Start Player',
-          getOAuthToken: cb => {
-            cb(token)
-          }
-        }))
+      const token = (window.player = new Spotify.Player({
+        name: 'Web Playback SDK Quick Start Player',
+        getOAuthToken: cb => {
+          cb(token)
+        }
+      }))
 
       // Error handling
       player.addListener('initialization_error', ({message}) => {
@@ -62,14 +48,16 @@ export class MusicPlayer extends Component {
         console.error(message)
       })
 
-      // Playback status updates
       player.addListener('player_state_changed', state => {
         //emits the state object to the server
+        console.log(state)
         socket.emit('playbackState', {
           playbackState: state
         })
-
-        console.log('state', state)
+        socket.on('playbackStateFromServer', function(data) {
+          console.log('from server', data)
+        })
+        // console.log('state', state)
       })
 
       // Ready
@@ -88,31 +76,10 @@ export class MusicPlayer extends Component {
   }
 
   componentDidMount() {
-    // axios({
-    //   method: 'get',
-    //   url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
-    //   headers: accessHeader
-    // })
-    //   .then(res => {
-    //     console.log(res.data)
-    //     this.setState({
-    //       tracks: res.data.tracks.items,
-    //       albums: res.data.albums.items,
-    //       playlists: res.data.playlists.items,
-    //       artists: res.data.artists.items
-    //     })
-    //     console.log(this.state)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
     this.handleScriptLoad()
   }
 
   render() {
-    socket.on('playbackState', function(data) {
-      console.log(data)
-    })
     return (
       <div>
         HELLO WORLD

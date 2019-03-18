@@ -3,8 +3,8 @@ module.exports = io => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
     socket.on('playbackState', function(data) {
-      console.log(data)
-      io.sockets.emit(data)
+      console.log('from client', data)
+      io.sockets.emit('playbackStateFromServer', data)
     })
 
     socket.on('disconnect', () => {

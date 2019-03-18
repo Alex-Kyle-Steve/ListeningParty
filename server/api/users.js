@@ -35,7 +35,7 @@ router.get('/refreshToken', async (req, res, next) => {
         // ['Authorization']: 'Basic ' + Cliet ID : Client Secret
       },
       params: {
-        'grant_type': 'refresh_token',
+        grant_type: 'refresh_token',
         // ['refresh_token']: //User refresh token,
         success: () => {
           console.log(refreshToken)
