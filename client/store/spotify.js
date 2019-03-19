@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+// grants access token from user session. only handles successful request
+// - TODO: refreshing token, handling error
 export const getAccessToken = () =>
   axios
     .get('/auth/spotify/token')
