@@ -4,45 +4,15 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, MusicPlayer} from './components'
 import {me} from './store'
-import axios from 'axios'
+
 /**
  * COMPONENT
  */
 
-// const refreshHeader = {
-//   grant_type: 'refresh_token',
-//   refresh_token: refreshToken
-// }
-
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
-    // axios({
-    //   method: 'get',
-    //   url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
-    //   headers: accessHeader
-    // })
-    //   .then(res => {
-    //     console.log(res)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
   }
-
-  // getAccessToken() {
-  //   axios({
-  //     method: 'post',
-  //     url: 'https://accounts.spotify.com/api/token',
-  //     headers: refreshHeader
-  //   })
-  //     .then(res => {
-  //       console.log(res)
-  //       console.log('SUCESS')
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //     })
 
   render() {
     const {isLoggedIn} = this.props
