@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {getAccessToken} from '../store/spotify'
 import socket from '../socket'
+// ** change it to execute only when user logs-in
 
 window.onSpotifyWebPlaybackSDKReady = () => {
   window.player = new Spotify.Player({
@@ -34,16 +35,26 @@ export class MusicPlayer extends Component {
       artists: []
     }
   }
+  y
+  // right now player is being created when user moves to MusicPlayer component
+  // this is true for non-spotify user as well.
+  // - TODO: fix to only instantiate when user is logged in with spotify
+  componentDidMount() {
+    window.player = new Spotify.Player({
+      //User token
+      name: 'Web Playback SDK Quick Start Player',
+      getOAuthToken: callback => getAccessToken().then(callback)
+    })
+    // Connect to the player!
+    window.player.addListener('player_state_changed', state => {
+      console.log(state)
+      //emits the state object to the server
+      socket.emit('new_playback_uri', state.track_window.current_track.uri)
+    })
+    window.player.connect()
+  }
 
   render() {
-    socket.on('playbackStateFromServer', function(data) {
-      console.log('from server', data)
-    })
-    return (
-      <div>
-        HELLO WORLD
-        {/* <button onClick={this.getAccessToken}>Refresh Token</button> */}
-      </div>
-    )
+    return <div>HELLO WORLD</div>
   }
 }

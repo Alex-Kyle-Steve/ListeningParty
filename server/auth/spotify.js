@@ -2,6 +2,7 @@ const SpotifyStrategy = require('passport-spotify').Strategy
 const {User} = require('../db/models')
 const passport = require('passport')
 const router = require('express').Router()
+
 require('../../secrets')
 module.exports = router
 
@@ -29,10 +30,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
           })
           return user
         })
-        .then(user => {
-          done(null, user)
-        })
-
+        .then(user => done(null, user))
         .catch(done)
     }
   )
