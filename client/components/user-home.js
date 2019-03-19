@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {ConnectedDiscover} from './discover-main'
 import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
 /**
  * COMPONENT
@@ -13,7 +12,7 @@ export const UserHome = props => {
     <Container>
       <Row>
         <Col>
-          <ConnectedDiscover />
+          <h1>WELCOME</h1>
         </Col>
       </Row>
 
