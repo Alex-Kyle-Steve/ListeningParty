@@ -6,17 +6,14 @@ window.onSpotifyWebPlaybackSDKReady = () => {
   window.player = new Spotify.Player({
     //User token
     name: 'Web Playback SDK Quick Start Player',
-    getOAuthToken: async callback => {
-      const token = await getAccessToken()
-      callback(token)
-    }
+    getOAuthToken: callback => getAccessToken().then(callback)
   })
   // Connect to the player!
   window.player.connect()
   window.player.addListener('player_state_changed', state => {
-    console.log('new Song')
+    console.log(state)
     //emits the state object to the server
-    socket.emit('new_playback_uri', state.context.uri)
+    socket.emit('new_playback_uri', state.track_window.current_track.uri)
   })
 }
 // ** change it to execute only when user logs-in
@@ -33,9 +30,27 @@ export class MusicPlayer extends Component {
   }
 
   render() {
-    socket.on('recieve_new_uri', function(data) {
-      console.log('from server', data)
-    })
+    socket.on('recieve_new_uri', uri =>
+      window.player.getCurrentState().then(state => {
+        console.log('changing music')
+        if (state.track_window.current_track.uri !== uri)
+          window.player._options.getOAuthToken(accessToken =>
+            fetch(
+              `https://api.spotify.com/v1/me/player/play?device_id=${
+                window.player._options.id
+              }`,
+              {
+                method: 'PUT',
+                body: JSON.stringify({uris: [uri]}),
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`
+                }
+              }
+            )
+          )
+      })
+    )
     return (
       <div>
         HELLO WORLD

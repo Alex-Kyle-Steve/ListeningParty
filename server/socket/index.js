@@ -5,7 +5,7 @@ module.exports = io => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
     socket.on('new_playback_uri', uri => {
-      console.log('in server socket')
+      console.log('recieved new uri: ', uri)
       io.sockets.emit('recieve_new_uri', uri)
     })
 
