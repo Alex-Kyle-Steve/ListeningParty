@@ -3,7 +3,7 @@ const {User} = require('../db/models')
 const passport = require('passport')
 const router = require('express').Router()
 
-require('../../secrets')
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 module.exports = router
 
 if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {

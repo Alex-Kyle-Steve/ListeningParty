@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 
 const socket = io(window.location.origin)
 const roomName = window.location.pathname
+
 socket.on('connect', () => {
   console.log('Socket Connected!')
   console.log('roomName', roomName)
@@ -14,7 +15,6 @@ socket.on('connect', () => {
 
 socket.on('recieve_new_uri', uri =>
   window.player.getCurrentState().then(state => {
-    console.log('changing music')
     if (state.track_window.current_track.uri !== uri)
       window.player._options.getOAuthToken(accessToken =>
         fetch(
