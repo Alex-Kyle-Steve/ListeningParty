@@ -12,7 +12,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   const spotifyConfig = {
     clientID: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: '/auth/spotify/callback'
+    callbackURL: process.env.SPOTIFY_CLIENT_ID_CALLBACK
   }
   const strategy = new SpotifyStrategy(
     spotifyConfig,

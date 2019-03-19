@@ -12,7 +12,7 @@ export class MusicPlayer extends Component {
       artists: []
     }
   }
-  y
+
   // right now player is being created when user moves to MusicPlayer component
   // this is true for non-spotify user as well.
   // - TODO: fix to only instantiate when user is logged in with spotify
@@ -25,7 +25,7 @@ export class MusicPlayer extends Component {
     // Connect to the player!
     window.player.addListener('player_state_changed', state => {
       //emits the state object to the server
-      socket.emit('new_playback_uri', state.track_window.current_track.uri)
+      socket.emit('new_playback_uri', state)
     })
     window.player.connect()
   }
