@@ -1,28 +1,9 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Channel} = require('../db/models')
 const axios = require('axios')
 require('../../secrets')
 module.exports = router
 
-//     const accessHeader = {
-//       ['Authorization']:
-//         'Bearer ' +
-//         ,
-//       'Content-Type': 'application/x-www-form-urlencoded'
-//     }
-//     const request = await axios({
-//       method: 'get',
-//       url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
-//       headers: accessHeader
-//     })
-//     res
-//       .send(request.data)
-//       .then(res => {
-//         console.log(res)
-//       })
-//       .catch(error => {
-//         console.log(error)
-//       })
 router.get('/refreshToken', async (req, res, next) => {
   try {
     // console.log(process.env.SPOTIFY_CLIENT_ID)
@@ -59,6 +40,26 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'email']
     })
     res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+router.get('/:id/channels', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id, {
+      include: [{model: Channel, as: 'ownedChannels'}]
+    })
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+router.get('/:id/favorites', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id, {
+      include: [{model: Channel, as: 'favoriteChannel'}]
+    })
+    res.json(user)
   } catch (err) {
     next(err)
   }

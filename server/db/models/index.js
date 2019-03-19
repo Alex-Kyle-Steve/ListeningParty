@@ -9,9 +9,15 @@ const HistoricalPlayList = require('./historicalPlayList')
 
 //Owns a Channel
 Channel.belongsTo(User, {as: 'owner'})
+User.hasMany(Channel, {
+  foreignKey: 'ownerId',
+  sourceKey: 'id',
+  as: 'ownedChannels'
+})
+
 //Favorites
-Channel.belongsToMany(User, {through: 'favorites'})
-User.belongsToMany(Channel, {through: 'favorites'})
+Channel.belongsToMany(User, {as: 'enthusiast', through: 'favorites'})
+User.belongsToMany(Channel, {as: 'favoriteChannel', through: 'favorites'})
 //Associate Tags
 Channel.belongsToMany(Tag, {through: 'ChannelTag'})
 Tag.belongsToMany(Channel, {through: 'ChannelTag'})
