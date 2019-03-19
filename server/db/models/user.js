@@ -27,6 +27,15 @@ const User = db.define('user', {
   spotifyId: {
     type: Sequelize.STRING
   },
+  accessToken: {
+    type: Sequelize.STRING
+  },
+  refreshToken: {
+    type: Sequelize.STRING
+  },
+  expires_in: {
+    type: Sequelize.INTEGER
+  },
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
   status: Sequelize.ENUM(['User', 'Admin']),
