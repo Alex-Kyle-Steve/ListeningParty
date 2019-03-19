@@ -13,7 +13,7 @@ socket.on('connect', () => {
   })
 })
 
-socket.on('recieve_new_uri', () => {
+socket.on('recieve_new_uri', uri => {
   // uri =>
   //   window.player.getCurrentState().then(state => {
   //     if (state.track_window.current_track.uri !== uri)
