@@ -30,32 +30,6 @@ export class MusicPlayer extends Component {
   }
 
   render() {
-    socket.on('recieve_new_uri', uri =>
-      window.player.getCurrentState().then(state => {
-        console.log('changing music')
-        if (state.track_window.current_track.uri !== uri)
-          window.player._options.getOAuthToken(accessToken =>
-            fetch(
-              `https://api.spotify.com/v1/me/player/play?device_id=${
-                window.player._options.id
-              }`,
-              {
-                method: 'PUT',
-                body: JSON.stringify({uris: [uri]}),
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${accessToken}`
-                }
-              }
-            )
-          )
-      })
-    )
-    return (
-      <div>
-        HELLO WORLD
-        {/* <button onClick={this.getAccessToken}>Refresh Token</button> */}
-      </div>
-    )
+    return <div>HELLO WORLD</div>
   }
 }

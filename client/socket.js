@@ -6,4 +6,28 @@ socket.on('connect', () => {
   console.log('Socket Connected!')
 })
 
+socket.on('recieve_new_uri', uri =>
+  window.player.getCurrentState().then(state => {
+    console.log('changing music')
+    if (state.track_window.current_track.uri !== uri)
+      window.player._options.getOAuthToken(accessToken =>
+        fetch(
+          `https://api.spotify.com/v1/me/player/play?device_id=${
+            window.player._options.id
+          }`,
+          {
+            method: 'PUT',
+            body: JSON.stringify({uris: [uri]}),
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        )
+          .then(console.log)
+          .catch(console.error)
+      )
+  })
+)
+
 export default socket
