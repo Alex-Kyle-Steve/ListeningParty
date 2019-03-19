@@ -25,7 +25,7 @@ export class MusicPlayer extends Component {
     // Connect to the player!
     window.player.addListener('player_state_changed', state => {
       //emits the state object to the server
-      socket.emit('new_playback_uri', state)
+      socket.emit('new_playback_uri', state.track_window.current_track.uri)
     })
     window.player.connect()
   }
