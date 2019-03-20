@@ -2,7 +2,8 @@ const SpotifyStrategy = require('passport-spotify').Strategy
 const {User} = require('../db/models')
 const passport = require('passport')
 const router = require('express').Router()
-require('../../secrets')
+
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 module.exports = router
 
 if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
@@ -11,7 +12,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   const spotifyConfig = {
     clientID: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: 'http://localhost:8080/auth/spotify/callback'
+    callbackURL: process.env.SPOTIFY_CLIENT_ID_CALLBACK
   }
   const strategy = new SpotifyStrategy(
     spotifyConfig,
@@ -19,17 +20,17 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
       // const name = profile.displayName
       const spotifyId = profile.id
       User.findOrCreate({
-        where: {spotifyId},
-        defaults: {
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          expires_in: expires_in
-        }
+        where: {spotifyId}
       })
         .then(([user]) => {
-          done(null, user)
+          user.update({
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            expires_in: expires_in
+          })
+          return user
         })
-
+        .then(user => done(null, user))
         .catch(done)
     }
   )
@@ -57,6 +58,15 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
       showDialog: true
     })
   )
+
+  router.get('/token', (req, res, next) => {
+    req.user && req.user.accessToken
+      ? res.send({
+          accessToken: req.user.accessToken,
+          refreshToken: req.user.refreshToken
+        })
+      : res.send()
+  })
 
   router.get(
     '/callback',

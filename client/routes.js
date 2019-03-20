@@ -10,7 +10,7 @@ import {
   ConnectedFavoriteChannels
 } from './components'
 import {me} from './store'
-
+import axios from 'axios'
 /**
  * COMPONENT
  */
@@ -19,7 +19,6 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
   }
-
   render() {
     const {isLoggedIn} = this.props
 
@@ -29,17 +28,12 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          {/* <Route exact path="/music-player" component={MusicPlayer} /> */}
-          <Route
-            exact
-            path="/favoriteChannels"
-            component={ConnectedFavoriteChannels}
-          />
+          <Route exact path="/music-player" component={MusicPlayer} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route exact path="/home" component={UserHome} />
-              {/* <Route exact path="/music-player" component={MusicPlayer} /> */}
+              <Route exact path="/music-player" component={MusicPlayer} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
