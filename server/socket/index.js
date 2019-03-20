@@ -5,7 +5,7 @@ module.exports = io => {
 
     socket.on('new_playback_uri', uri => {
       console.log('recieved new uri: ', uri)
-      io.sockets.emit('recieve_new_uri', uri)
+      this.broadcast.emit('recieve_new_uri', uri)
     })
 
     //joining a channel
