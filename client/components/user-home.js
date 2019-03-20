@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col} from 'react-bootstrap'
 
 import {
   ConnectedFavoriteChannels,
@@ -9,28 +8,28 @@ import {
   ConnectedAllChannels
 } from '.'
 
+import {Row, Col, Container} from 'react-bootstrap'
 /**
  * COMPONENT
  */
 export class UserHome extends React.Component {
   render() {
-    const {email} = this.props
-
     return (
-      <Container className="left-side-bar">
-        <h3>Welcome, {email}</h3>
-        <Row>
-          <Col xs={4}>
-            <ConnectedFavoriteChannels />
-          </Col>
-          <Col xs={4}>
-            <ConnectedOwnedChannels />
-          </Col>
-          <Col xs={4}>
-            <ConnectedAllChannels />
-          </Col>
-        </Row>
-      </Container>
+      <div>
+        <Container>
+          <Row>
+            <Col className="my-center-align" xs={3}>
+              A
+            </Col>
+            <Col className="my-center-align" xs={6}>
+              B
+            </Col>
+            <Col className="my-center-align" xs={3}>
+              C
+            </Col>
+          </Row>
+        </Container>
+      </div>
     )
   }
 }
