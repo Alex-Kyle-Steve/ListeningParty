@@ -1,35 +1,78 @@
 import axios from 'axios'
+import history from '../history'
 
-//Action Types
-const SET_CHANNEL = 'SET_CHANNEL'
+/**
+ * ACTION TYPES
+ */
+const GET_ALL_CHANNELS = 'GET_ALL_CHANNELS'
+const GET_OWNED_CHANNELS = 'GET_OWNED_CHANNELS'
+const GET_FAVORITE_CHANNELS = 'GET_FAVORITE_CHANNELS'
+const GET_SELECTED_CHANNEL = 'GET_SELECTED_CHANNEL'
 
-//Initial State
-
-const defaultChannel = {}
-
-//Action Creator
-const setCurrentChannel = channel => {
-  return {
-    type: SET_CHANNEL,
-    channel
-  }
+/**
+ * INITIAL STATE
+ */
+const defaultChannels = {
+  allChannels: {},
+  ownedChannels: {},
+  favoriteChannels: {},
+  selectedChannel: {}
 }
 
-//Thunk Creators
-export const setCurrentChannelThunk = channel => dispatch => {
+/**
+ * ACTION CREATORS
+ */
+export const getAllChannels = channels => ({type: GET_ALL_CHANNELS, channels})
+export const getOwnedChannels = channels => ({
+  type: GET_OWNED_CHANNELS,
+  channels
+})
+export const getFavoriteChannels = channels => ({
+  type: GET_FAVORITE_CHANNELS,
+  channels
+})
+export const getSelectedChannel = selectedChannel => ({
+  type: GET_SELECTED_CHANNEL,
+  selectedChannel
+})
+
+/**
+ * THUNK CREATORS
+ */
+
+export const fetchChannels = () => async dispatch => {
+  let res
   try {
-    dispatch(setCurrentChannel(channel))
-  } catch (error) {
-    console.log(error)
+    console.log('Inside channels store fetchChannels thunk')
+    res = await axios.get(`/api/channels`)
+    dispatch(getAllChannels(res.data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const fetchSelectedChannel = channelId => async dispatch => {
+  let res
+  try {
+    res = await axios.get(`/api/channels/${channelId}`)
+    dispatch(getSelectedChannel(res.data))
+  } catch (err) {
+    console.error(err)
   }
 }
 
-//Reducer
-
-export default function(state = defaultChannel, action) {
+/**
+ * REDUCER
+ */
+export default function(state = defaultChannels, action) {
   switch (action.type) {
-    case SET_CHANNEL:
-      return action.channel
+    case GET_ALL_CHANNELS:
+      return {...state, allChannels: action.channels}
+    case GET_OWNED_CHANNELS:
+      return {...state, ownedChannels: action.channels}
+    case GET_FAVORITE_CHANNELS:
+      return {...state, favoriteChannels: action.channels}
+    case GET_SELECTED_CHANNEL:
+      return {...state, selectedChannel: action.selectedChannel}
     default:
       return state
   }

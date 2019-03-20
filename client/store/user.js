@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {getOwnedChannels, getFavoriteChannels} from './channel'
 
 /**
  * ACTION TYPES
@@ -25,6 +26,22 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const fetchOwnedChannels = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/users/${userId}/channels`)
+    dispatch(getOwnedChannels(res.data.ownedChannels))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const fetchFavoriteChannels = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/users/${userId}/favorites`)
+    dispatch(getFavoriteChannels(res.data.favoriteChannel))
   } catch (err) {
     console.error(err)
   }

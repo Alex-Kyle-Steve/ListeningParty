@@ -1,16 +1,95 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Channel} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  const userArray = [
+    {email: 'cody@email.com', password: '123'},
+    {email: 'murphy@email.com', password: '123'},
+    {
+      email: 'steve@email.com',
+      password: '123',
+      firstName: 'Steve',
+      lastName: 'Bonifas'
+    },
+    {
+      email: 'kyle@email.com',
+      password: '123',
+      firstName: 'Kyle',
+      lastName: 'Lee'
+    },
+    {
+      email: 'alex@email.com',
+      password: '123',
+      firstName: 'Alex',
+      lastName: 'Lee'
+    }
+  ]
+  await User.bulkCreate(userArray)
+
+  const channelArray = [
+    {
+      name: 'Chicago Blues',
+      description: 'Lots of text describing the Chicago Blues Channel',
+      ownerId: 3
+    },
+    {
+      name: 'Smooth Jazz',
+      description: 'Lots of text describing the Smooth Jazz Channel',
+      ownerId: 2
+    },
+    {
+      name: 'Contemporary Urban',
+      description: 'Lots of text describing the Contemporary Urban Channel',
+      ownerId: 3
+    },
+    {
+      name: 'Hip Hop',
+      description: 'Lots of text describing the Hip Hop Channel',
+      ownerId: 4
+    },
+    {
+      name: 'Modern Pop',
+      description: 'Lots of text describing the Modern Pop Channel',
+      ownerId: 1
+    },
+    {
+      name: 'Oldies',
+      description: 'Lots of text describing the Oldies Channel',
+      ownerId: 3
+    },
+    {
+      name: 'Rap',
+      description: 'Lots of text describing the Rap Channel',
+      ownerId: 4
+    }
+  ]
+  await Channel.bulkCreate(channelArray)
+  const users = await User.findAll()
+  const channels = await Channel.findAll()
+  await users[1].addFavoriteChannel(channels[1])
+  await users[2].addFavoriteChannel(channels[1])
+  await users[0].addFavoriteChannel(channels[1])
+  await users[1].addFavoriteChannel(channels[2])
+  await users[3].addFavoriteChannel(channels[2])
+  await users[4].addFavoriteChannel(channels[2])
+  await users[0].addFavoriteChannel(channels[2])
+  await users[2].addFavoriteChannel(channels[3])
+  await users[4].addFavoriteChannel(channels[3])
+  await users[2].addFavoriteChannel(channels[4])
+  await users[3].addFavoriteChannel(channels[4])
+  await users[4].addFavoriteChannel(channels[4])
+  await users[1].addFavoriteChannel(channels[5])
+  await users[2].addFavoriteChannel(channels[5])
+  await users[3].addFavoriteChannel(channels[5])
+  await users[0].addFavoriteChannel(channels[5])
+  await users[4].addFavoriteChannel(channels[6])
+  await users[1].addFavoriteChannel(channels[0])
+  await users[0].addFavoriteChannel(channels[0])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)

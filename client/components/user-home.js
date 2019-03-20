@@ -1,7 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
+
+import {
+  ConnectedFavoriteChannels,
+  ConnectedOwnedChannels,
+  ConnectedAllChannels
+} from '.'
+
+import {Row, Col, Container} from 'react-bootstrap'
 /**
  * COMPONENT
  */

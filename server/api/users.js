@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Channel} = require('../db/models')
+
 module.exports = router
 
 router.get('/refreshToken', async (req, res, next) => {
@@ -36,6 +37,26 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'email']
     })
     res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+router.get('/:id/channels', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id, {
+      include: [{model: Channel, as: 'ownedChannels'}]
+    })
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+router.get('/:id/favorites', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id, {
+      include: [{model: Channel, as: 'favoriteChannel'}]
+    })
+    res.json(user)
   } catch (err) {
     next(err)
   }
