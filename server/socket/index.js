@@ -2,17 +2,10 @@
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
-    //Might be useful logic for storing chats for different rooms later
-    // const rooms = {}
-    // function getRoom(roomName) {
-    //   if (!rooms[roomName]) {
-    //     rooms[roomName] = []
-    //   }
-    //   return rooms[roomName]
-    // }
-    socket.on('playbackState', function(data) {
-      console.log('from client', data)
-      io.sockets.emit('playbackStateFromServer', data)
+
+    socket.on('new_playback_uri', function(uri) {
+      console.log('recieved new uri: ', uri)
+      this.broadcast.emit('recieve_new_uri', uri)
     })
 
     //joining a channel

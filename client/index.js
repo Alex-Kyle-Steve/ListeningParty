@@ -6,14 +6,15 @@ import history from './history'
 import store from './store'
 import App from './app'
 
-// establishes socket connection
-import './socket'
-
-ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-)
+// hack to work around spotify web player SDK
+// the script tag on index.html calls this function automatically when it loads
+window.onSpotifyWebPlaybackSDKReady = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>,
+    document.getElementById('app')
+  )
+}

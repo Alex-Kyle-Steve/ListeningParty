@@ -5,33 +5,26 @@ import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email} = props
-
-  return (
-    <div>
-      <Container>
-        <Row>
-          <Col className="my-center-align" xs={3}>
-            A
-          </Col>
-          <Col className="my-center-align" xs={6}>
-            B
-          </Col>
-          <Col className="my-center-align" xs={3}>
-            C
-          </Col>
-        </Row>
-      </Container>
-    </div>
-    // <div className="container">
-    //   <div className="row">
-    //     <div className="col-sm">One of three columns</div>
-    //     <div className="col-sm">One of three columns</div>
-    //     <div className="col-sm">One of three columns</div>
-    //   </div>
-    // </div>
-  )
+export class UserHome extends React.Component {
+  render() {
+    return (
+      <div>
+        <Container>
+          <Row>
+            <Col className="my-center-align" xs={3}>
+              A
+            </Col>
+            <Col className="my-center-align" xs={6}>
+              B
+            </Col>
+            <Col className="my-center-align" xs={3}>
+              C
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    )
+  }
 }
 
 /**

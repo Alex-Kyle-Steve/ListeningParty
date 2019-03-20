@@ -1,7 +1,5 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
-const axios = require('axios')
-require('../../secrets')
 module.exports = router
 
 router.get('/refreshToken', async (req, res, next) => {
