@@ -3,7 +3,6 @@ import io from 'socket.io-client'
 
 const socket = io(window.location.origin)
 const roomName = window.location.pathname
-
 socket.on('connect', () => {
   console.log('Socket Connected!')
   console.log('roomName', roomName)
