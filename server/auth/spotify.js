@@ -2,7 +2,8 @@ const SpotifyStrategy = require('passport-spotify').Strategy
 const {User} = require('../db/models')
 const passport = require('passport')
 const router = require('express').Router()
-require('../../secrets')
+
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 module.exports = router
 
 if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
@@ -11,7 +12,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   const spotifyConfig = {
     clientID: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: '/auth/spotify/callback'
+    callbackURL: process.env.SPOTIFY_CLIENT_ID_CALLBACK
   }
   const strategy = new SpotifyStrategy(
     spotifyConfig,
@@ -29,10 +30,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
           })
           return user
         })
-        .then(user => {
-          done(null, user)
-        })
-
+        .then(user => done(null, user))
         .catch(done)
     }
   )
