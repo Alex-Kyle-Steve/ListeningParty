@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-
 import axios from 'axios'
 import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
 

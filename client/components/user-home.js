@@ -9,15 +9,28 @@ export const UserHome = props => {
   const {email} = props
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h1>WELCOME</h1>
-        </Col>
-      </Row>
-
-      <div />
-    </Container>
+    <div>
+      <Container>
+        <Row>
+          <Col className="my-center-align" xs={3}>
+            A
+          </Col>
+          <Col className="my-center-align" xs={6}>
+            B
+          </Col>
+          <Col className="my-center-align" xs={3}>
+            C
+          </Col>
+        </Row>
+      </Container>
+    </div>
+    // <div className="container">
+    //   <div className="row">
+    //     <div className="col-sm">One of three columns</div>
+    //     <div className="col-sm">One of three columns</div>
+    //     <div className="col-sm">One of three columns</div>
+    //   </div>
+    // </div>
   )
 }
 

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-
 import axios from 'axios'
 import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
 
@@ -122,7 +121,7 @@ class ChannelSearch extends Component {
 }
 const mapDispatchToProps = dispatch => {}
 const mapStateToProps = () => {}
-export const ConnectedSpotifyCatalogSearch = connect(
+export const ConnectedChannelSearch = connect(
   mapDispatchToProps,
   mapStateToProps
-)(SpotifyCatalogSearch)
+)(ConnectedChannelSearch)

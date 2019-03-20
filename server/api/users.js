@@ -4,29 +4,8 @@ const axios = require('axios')
 require('../../secrets')
 module.exports = router
 
-//     const accessHeader = {
-//       ['Authorization']:
-//         'Bearer ' +
-//         ,
-//       'Content-Type': 'application/x-www-form-urlencoded'
-//     }
-//     const request = await axios({
-//       method: 'get',
-//       url: `https://api.spotify.com/v1/search?q=roadhouse%20blues&type=album,playlist,artist,track`,
-//       headers: accessHeader
-//     })
-//     res
-//       .send(request.data)
-//       .then(res => {
-//         console.log(res)
-//       })
-//       .catch(error => {
-//         console.log(error)
-//       })
 router.get('/refreshToken', async (req, res, next) => {
   try {
-    // console.log(process.env.SPOTIFY_CLIENT_ID)
-
     const refreshToken = await axios({
       method: 'post',
       url: 'https://accounts.spotify.com/api/token',
