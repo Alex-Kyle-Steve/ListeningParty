@@ -3,19 +3,16 @@ import {connect} from 'react-redux'
 import {Card, Container, Row, Col} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
-import {fetchFavoriteChannels} from '../store/channel'
+import {fetchFavoriteChannels, me} from '../store/user'
 
 export class FavoriteChannels extends Component {
   constructor() {
     super()
   }
 
-  componentDidMount() {
-    console.log(
-      'Inside FavoriteChannels component componentDidMount this.props.fetchFavoriteChannels"\n',
-      this.props.fetchFavoriteChannels
-    )
-    this.props.fetchFavoriteChannels(this.props.user.id)
+  async componentDidMount() {
+    await this.props.fetchMe()
+    await this.props.fetchFavoriteChannels(this.props.user.id)
   }
 
   render() {
@@ -56,14 +53,11 @@ export class FavoriteChannels extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    fetchFavoriteChannels: userId => dispatch(fetchFavoriteChannels(userId))
+    fetchFavoriteChannels: userId => dispatch(fetchFavoriteChannels(userId)),
+    fetchMe: () => dispatch(me())
   }
 }
 const mapStateToProps = state => {
-  console.log(
-    'Inside FavoriteChannels component mapStateToProps state:\n',
-    state
-  )
   return {
     user: state.user,
     favoriteChannels: state.channel.favoriteChannels
