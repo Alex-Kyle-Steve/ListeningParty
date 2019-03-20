@@ -20,8 +20,7 @@ class SpotifyCatalogSearch extends Component {
       method: 'get',
       url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=track`,
       headers: {
-        Authorization:
-          'Bearer BQBE6FXalK6a3qVL13SaFZmcYav0-exeBq_pj5qNFLG5YHe7mpvqaXM50Cwqkj0V8sE_UfrRCUgNJj_UD8doOAbXfxU-ooQO0h6l9V8uk-rY734WPF84v89PFYaFLpXL0EblHGYomyRF2HgcNw2kqkP9P_fs47KGNR3EdHed5BDBkP_GF-vnQSzI9JMsp8E6mk0Y7DyXq9Nt8OqzlxCof6iGh04PZVQMlfvDMH0'
+        Authorization: 'Bearer '
       }
     }).then(res => {
       console.log(res.data)
