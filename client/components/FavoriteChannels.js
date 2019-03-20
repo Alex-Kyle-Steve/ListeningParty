@@ -18,36 +18,31 @@ export class FavoriteChannels extends Component {
   render() {
     const favorites = this.props.favoriteChannels
     return (
-      <div>
-        <Container>
-          <Row>
-            {favorites && favorites.length ? (
-              favorites.map(channel => (
-                <Col key={channel.id} xs={12}>
-                  <Card>
-                    <Card.Body>
-                      <Card.Text>
-                        <Link to={`/channels/${channel.id}`}>
-                          {channel.name}{' '}
-                        </Link>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                  <br />
-                </Col>
-              ))
-            ) : (
-              <Col xs={12}>
-                <Card border="light">
-                  <Card.Text className="center">
-                    <h2>No favorite channels</h2>
+      <Container>
+        <h3>Favorite Channels</h3>
+        {favorites && favorites.length ? (
+          favorites.map(channel => (
+            <Row key={channel.id} md={4}>
+              <Card>
+                <Card.Body>
+                  <Card.Text>
+                    <Link to={`/channels/${channel.id}`}>{channel.name}</Link>
                   </Card.Text>
-                </Card>
-              </Col>
-            )}
-          </Row>
-        </Container>
-      </div>
+                </Card.Body>
+              </Card>
+              <br />
+            </Row>
+          ))
+        ) : (
+          <Col xs={12}>
+            <Card border="light">
+              <Card.Text className="center">
+                <h2>No favorite channels</h2>
+              </Card.Text>
+            </Card>
+          </Col>
+        )}
+      </Container>
     )
   }
 }

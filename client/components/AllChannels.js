@@ -2,26 +2,24 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Card, Container, Row, Col} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import {fetchChannels} from '../store/channel'
 
-import {fetchOwnedChannels, me} from '../store/user'
-
-export class OwnedChannels extends Component {
+export class AllChannels extends Component {
   constructor() {
     super()
   }
 
   async componentDidMount() {
-    await this.props.fetchMe()
-    await this.props.fetchOwnedChannels(this.props.user.id)
+    await this.props.fetchChannels()
   }
 
   render() {
-    const ownedChannels = this.props.ownedChannels
+    const channels = this.props.allChannels
     return (
       <Container>
-        <h3>Owned Channels</h3>
-        {ownedChannels && ownedChannels.length ? (
-          ownedChannels.map(channel => (
+        <h3>All Channels</h3>
+        {channels && channels.length ? (
+          channels.map(channel => (
             <Row key={channel.id} md={4}>
               <Card>
                 <Card.Body>
@@ -37,7 +35,7 @@ export class OwnedChannels extends Component {
           <Col xs={12}>
             <Card border="light">
               <Card.Text className="center">
-                <h2>No owned channels</h2>
+                <h2>No favorite channels</h2>
               </Card.Text>
             </Card>
           </Col>
@@ -48,17 +46,15 @@ export class OwnedChannels extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOwnedChannels: userId => dispatch(fetchOwnedChannels(userId)),
-    fetchMe: () => dispatch(me())
+    fetchChannels: () => dispatch(fetchChannels())
   }
 }
 const mapStateToProps = state => {
   return {
-    user: state.user,
-    ownedChannels: state.channel.ownedChannels
+    allChannels: state.channel.allChannels
   }
 }
-export const ConnectedOwnedChannels = connect(
+export const ConnectedAllChannels = connect(
   mapStateToProps,
   mapDispatchToProps
-)(OwnedChannels)
+)(AllChannels)

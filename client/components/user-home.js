@@ -1,6 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Card, Container, Row, Col} from 'react-bootstrap'
+
+import {
+  ConnectedFavoriteChannels,
+  ConnectedOwnedChannels,
+  ConnectedAllChannels
+} from '.'
 
 /**
  * COMPONENT
@@ -10,9 +17,20 @@ export class UserHome extends React.Component {
     const {email} = this.props
 
     return (
-      <div>
+      <Container className="left-side-bar">
         <h3>Welcome, {email}</h3>
-      </div>
+        <Row>
+          <Col xs={4}>
+            <ConnectedFavoriteChannels />
+          </Col>
+          <Col xs={4}>
+            <ConnectedOwnedChannels />
+          </Col>
+          <Col xs={4}>
+            <ConnectedAllChannels />
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }

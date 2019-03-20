@@ -22,7 +22,7 @@ const defaultChannels = {
 /**
  * ACTION CREATORS
  */
-export const getAllChannels = channels => ({type: GET_All_CHANNELS, channels})
+export const getAllChannels = channels => ({type: GET_ALL_CHANNELS, channels})
 export const getOwnedChannels = channels => ({
   type: GET_OWNED_CHANNELS,
   channels
@@ -43,7 +43,8 @@ export const getSelectedChannel = selectedChannel => ({
 export const fetchChannels = () => async dispatch => {
   let res
   try {
-    res = await axios.post(`/api/channels`)
+    console.log('Inside channels store fetchChannels thunk')
+    res = await axios.get(`/api/channels`)
     dispatch(getAllChannels(res.data))
   } catch (err) {
     console.error(err)
@@ -52,7 +53,7 @@ export const fetchChannels = () => async dispatch => {
 export const fetchSelectedChannel = channelId => async dispatch => {
   let res
   try {
-    res = await axios.post(`/api/channels/:${channelId}`)
+    res = await axios.get(`/api/channels/${channelId}`)
     dispatch(getSelectedChannel(res.data))
   } catch (err) {
     console.error(err)
