@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
 
-class ChannelSearch extends Component {
+class SpotifyCatalogSearch extends Component {
   constructor() {
     super()
     this.state = {

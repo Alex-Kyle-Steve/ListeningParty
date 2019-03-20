@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
+import {ConnectedChannelSearch} from './channel-search'
 import axios from 'axios'
 import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
 
-class SingleChannel extends Component {
+class DiscoverHome extends Component {
   constructor() {
     super()
   }
@@ -16,7 +16,7 @@ class SingleChannel extends Component {
           {/* Left Side Bar */}
           <Row>
             <Col>
-              <ConnectedSpotifyCatalogSearch />
+              <ConnectedChannelSearch />
             </Col>
             {/* Middle */}
             <Col />
@@ -29,4 +29,4 @@ class SingleChannel extends Component {
   }
 }
 
-export const ConnectedSingleChannel = connect()(SingleChannel)
+export const ConnectedDiscoverHome = connect()(DiscoverHome)
