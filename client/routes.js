@@ -2,7 +2,13 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, MusicPlayer} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  MusicPlayer,
+  ConnectedFavoriteChannels
+} from './components'
 import {me} from './store'
 
 /**
@@ -23,12 +29,17 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          <Route exact path="/music-player" component={MusicPlayer} />
+          {/* <Route exact path="/music-player" component={MusicPlayer} /> */}
+          <Route
+            exact
+            path="/favoriteChannels"
+            component={ConnectedFavoriteChannels}
+          />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route exact path="/home" component={UserHome} />
-              <Route exact path="/music-player" component={MusicPlayer} />
+              {/* <Route exact path="/music-player" component={MusicPlayer} /> */}
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}

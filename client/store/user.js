@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {getOwnedChannels, getFavoriteChannels} from './channel'
 
 /**
  * ACTION TYPES
@@ -29,6 +30,22 @@ export const me = () => async dispatch => {
     console.error(err)
   }
 }
+export const fetchUserOwnedChannels = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/users/:${userId}/channels`)
+    dispatch(getOwnedChannels(res.data.ownedChannels))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const fetchFavoriteChannels = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/users/:${userId}/favorites`)
+    dispatch(getFavoriteChannels(res.data.favoriteChannel))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export const auth = (email, password, method) => async dispatch => {
   let res
@@ -39,6 +56,7 @@ export const auth = (email, password, method) => async dispatch => {
   }
 
   try {
+    console.log('Inside user store Auth thunk res.data:\n', res.data)
     dispatch(getUser(res.data))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
@@ -62,6 +80,7 @@ export const logout = () => async dispatch => {
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
+      console.log('Inside user store user reducer action.user:\n', action.user)
       return action.user
     case REMOVE_USER:
       return defaultUser
