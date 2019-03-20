@@ -30,7 +30,7 @@ export const me = () => async dispatch => {
     console.error(err)
   }
 }
-export const fetchUserOwnedChannels = userId => async dispatch => {
+export const fetchOwnedChannels = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/users/${userId}/channels`)
     dispatch(getOwnedChannels(res.data.ownedChannels))

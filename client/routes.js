@@ -7,7 +7,8 @@ import {
   Signup,
   UserHome,
   MusicPlayer,
-  ConnectedFavoriteChannels
+  ConnectedFavoriteChannels,
+  ConnectedOwnedChannels
 } from './components'
 import {me} from './store'
 import axios from 'axios'
@@ -33,6 +34,11 @@ class Routes extends Component {
             exact
             path="/favoriteChannels"
             component={ConnectedFavoriteChannels}
+          />
+          <Route
+            exact
+            path="/ownedChannels"
+            component={ConnectedOwnedChannels}
           />
           {isLoggedIn && (
             <Switch>
