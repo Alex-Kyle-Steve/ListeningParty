@@ -7,11 +7,21 @@ const Song = require('./song')
 const Address = require('./address')
 const HistoricalPlayList = require('./historicalPlayList')
 
-Channel.belongsTo(User)
+//Owns a Channel
+Channel.belongsTo(User, {as: 'owner'})
+User.hasMany(Channel, {
+  foreignKey: 'ownerId',
+  sourceKey: 'id',
+  as: 'ownedChannels'
+})
 
+//Favorites
+Channel.belongsToMany(User, {as: 'enthusiast', through: 'favorites'})
+User.belongsToMany(Channel, {as: 'favoriteChannel', through: 'favorites'})
+//Associate Tags
 Channel.belongsToMany(Tag, {through: 'ChannelTag'})
 Tag.belongsToMany(Channel, {through: 'ChannelTag'})
-
+//Collect User Data
 UserData.belongsTo(User)
 
 // create association between user and address

@@ -2,16 +2,33 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
+import {
+  ConnectedFavoriteChannels,
+  ConnectedOwnedChannels,
+  ConnectedAllChannels
+} from '.'
+
+import {Row, Col, Container} from 'react-bootstrap'
 /**
  * COMPONENT
  */
 export class UserHome extends React.Component {
   render() {
-    const {email} = this.props
-
     return (
       <div>
-        <h3>Welcome, {email}</h3>
+        <Container>
+          <Row>
+            <Col className="my-center-align" xs={3}>
+              A
+            </Col>
+            <Col className="my-center-align" xs={6}>
+              B
+            </Col>
+            <Col className="my-center-align" xs={3}>
+              C
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }
