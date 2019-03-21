@@ -26,3 +26,12 @@ form div {
 .my-center-align {
   text-align: center !important;
 }
+
+.link-styling {
+  text-decoration: none !important;
+  color: black;
+}
+
+a:hover {
+  color: wheat;
+}

@@ -19,13 +19,14 @@ export class UserHome extends React.Component {
         <Container>
           <Row>
             <Col className="my-center-align" xs={3}>
-              A
+              <ConnectedOwnedChannels />
+              <ConnectedFavoriteChannels />
             </Col>
             <Col className="my-center-align" xs={6}>
-              B
+              <ConnectedAllChannels />
             </Col>
             <Col className="my-center-align" xs={3}>
-              C
+              $TEVE
             </Col>
           </Row>
         </Container>

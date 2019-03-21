@@ -35,7 +35,7 @@ export class AllChannels extends Component {
           <Col xs={12}>
             <Card border="light">
               <Card.Text className="center">
-                <h2>No favorite channels</h2>
+                <h2>No Channels Found</h2>
               </Card.Text>
             </Card>
           </Col>
