@@ -15,17 +15,19 @@ import {Row, Col, Container} from 'react-bootstrap'
 export class UserHome extends React.Component {
   render() {
     return (
-      <div>
+      <div className="user-home content">
         <Container>
           <Row>
             <Col className="my-center-align" xs={3}>
-              A
+              <ConnectedOwnedChannels />
+              <hr />
+              <ConnectedFavoriteChannels />
             </Col>
-            <Col className="my-center-align" xs={6}>
-              B
+            <Col className="custom-center-align" xs={6}>
+              <ConnectedAllChannels />
             </Col>
             <Col className="my-center-align" xs={3}>
-              C
+              <h1>Chat Column Here</h1>
             </Col>
           </Row>
         </Container>

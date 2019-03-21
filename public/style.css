@@ -23,6 +23,41 @@ form div {
   width: 300px;
 }
 
-.my-center-align {
+.custom-center-align {
   text-align: center !important;
+}
+.custom-align-left {
+  text-align: left !important;
+}
+
+.link-styling {
+  text-decoration: none !important;
+  color: black;
+}
+
+.link-styling-quick-info {
+  text-decoration: none !important;
+  color: black;
+}
+
+.currentLink {
+  color: #640200;
+  background-color: #000000;
+}
+
+a:hover {
+  color: wheat;
+}
+.myNavLink a {
+  margin: 10px;
+}
+
+.routeContent {
+  width: 95%;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+.nav {
+  width: 100%;
 }
