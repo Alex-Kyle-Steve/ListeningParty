@@ -14,9 +14,9 @@ const REMOVE_CHANNEL = 'REMOVE_CHANNEL'
  * INITIAL STATE
  */
 const defaultChannels = {
-  allChannels: {},
-  ownedChannels: {},
-  favoriteChannels: {},
+  allChannels: [],
+  ownedChannels: [],
+  favoriteChannels: [],
   selectedChannel: {}
 }
 
