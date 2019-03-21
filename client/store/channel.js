@@ -43,7 +43,6 @@ export const getSelectedChannel = selectedChannel => ({
 export const fetchChannels = () => async dispatch => {
   let res
   try {
-    console.log('Inside channels store fetchChannels thunk')
     res = await axios.get(`/api/channels`)
     dispatch(getAllChannels(res.data))
   } catch (err) {

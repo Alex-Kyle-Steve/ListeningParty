@@ -6,8 +6,8 @@ const Song = db.define('song', {
   title: Sequelize.STRING,
   artist: Sequelize.STRING,
   album: Sequelize.STRING,
-  releaseDate: Sequelize.DATEONLY,
-  length: Sequelize.TIME,
+  releaseYear: Sequelize.INTEGER,
+  length: Sequelize.INTEGER,
   track: Sequelize.INTEGER,
   albumArt: Sequelize.BLOB
 })
