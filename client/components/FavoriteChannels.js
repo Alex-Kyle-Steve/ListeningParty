@@ -20,7 +20,8 @@ export class FavoriteChannels extends Component {
     return (
       <Container>
         <ListGroup>
-          <h3>Favorite Channels</h3>
+          <h4>Favorite Channels</h4>
+
           {favorites && favorites.length ? (
             favorites.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>

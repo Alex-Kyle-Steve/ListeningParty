@@ -20,8 +20,7 @@ export class OwnedChannels extends Component {
     return (
       <Container>
         <ListGroup>
-          <h3>My Channels</h3>
-
+          <h4>My Channels</h4>
           {ownedChannels && ownedChannels.length ? (
             ownedChannels.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>

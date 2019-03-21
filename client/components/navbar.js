@@ -6,32 +6,31 @@ import {logout} from '../store'
 import {Button, Image, Col, Row, Container, Table, Form} from 'react-bootstrap'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <Container>
-      <Row>
-        <Col lg="4">
-          <h1>Listening Party</h1>
-        </Col>
-        <nav>
-          {isLoggedIn ? (
-            <div>
-              {/* The navbar will show these links after you log in */}
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={handleClick}>
-                Logout
-              </a>
-            </div>
-          ) : (
-            <div>
-              {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-            </div>
-          )}
-          <Col lg="4" />
-        </nav>
-      </Row>
-    </Container>
+  <div className="nav">
+    <Link to="/home" className="link-styling">
+      <h1>Listening Party</h1>
+    </Link>
+
+    <nav>
+      {isLoggedIn ? (
+        <div>
+          {/* The navbar will show these links after you log in */}
+          <Link to="/home" className="link-styling">
+            Home
+          </Link>
+
+          <a href="#" className="link-styling" onClick={handleClick}>
+            Logout
+          </a>
+        </div>
+      ) : (
+        <div>
+          {/* The navbar will show these links before you log in */}
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Sign Up</Link>
+        </div>
+      )}
+    </nav>
     <hr />
   </div>
 )
