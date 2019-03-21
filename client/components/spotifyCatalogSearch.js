@@ -41,8 +41,6 @@ class SpotifyCatalogSearch extends Component {
     console.log(this.props.user)
     return (
       <Container>
-        {/* <Row> */}
-        {/* <Col xs="3" /> */}
         <Col xs={12}>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="SearchCatalog">
@@ -61,8 +59,7 @@ class SpotifyCatalogSearch extends Component {
             </Form.Group>
           </Form>
         </Col>
-        {/* <Col xs="3" /> */}
-        {/* </Row> */}
+
         <Row>
           <Col>
             {this.state.res.tracks ? (

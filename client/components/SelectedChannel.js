@@ -1,8 +1,18 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col, Table, Modal, Popover} from 'react-bootstrap'
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Table,
+  Image,
+  Modal,
+  Popover,
+  Jumbotron
+} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-
+import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
 
 export class SelectedChannel extends Component {
@@ -21,37 +31,52 @@ export class SelectedChannel extends Component {
     console.log(historicalPlayList)
     return (
       <Container>
-        <Card>
-          <Card.Title>
-            <Card.Body />
-          </Card.Title>
-        </Card>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Artist</th>
-              <th>Song</th>
-              <th>Album</th>
-            </tr>
-          </thead>
-          <tbody>
-            {historicalPlayList && historicalPlayList.length ? (
-              historicalPlayList.map(song => (
-                <tr key={song.song.id}>
-                  <td>{song.song.artist}</td>
-                  <td>{song.song.title}</td>
-                  <td>{song.song.album}</td>
+        <Row>
+          <Col xs={6}>
+            <Card>
+              <Card.Img src="/300x300.png" />
+            </Card>
+          </Col>
+          <Col xs={6}>
+            <Card.Title>Song Information:</Card.Title>
+            <Card.Text>Title</Card.Text>
+            <Card.Text>Artist </Card.Text>
+            <Card.Text>Album</Card.Text>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={6}>
+            <ConnectedSpotifyCatalogSearch />
+          </Col>
+          <Col xs={6}>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Artist</th>
+                  <th>Song</th>
+                  <th>Album</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td />
-                <td> No historical play list</td>
-                <td />
-              </tr>
-            )}
-          </tbody>
-        </Table>
+              </thead>
+              <tbody>
+                {historicalPlayList && historicalPlayList.length ? (
+                  historicalPlayList.map(song => (
+                    <tr key={song.song.id}>
+                      <td>{song.song.artist}</td>
+                      <td>{song.song.title}</td>
+                      <td>{song.song.album}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td />
+                    <td> No historical play list</td>
+                    <td />
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
       </Container>
     )
   }
