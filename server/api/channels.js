@@ -12,6 +12,32 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+router.post('/', async (req, res, next) => {
+  try {
+    const newChannel = await Channel.create(req.body)
+    res.json(newChannel)
+  } catch (err) {
+    next(err)
+  }
+})
+router.put('/:channelId', async (req, res, next) => {
+  try {
+    const editedChannel = await Channel.findById(req.params.channelId)
+    const updatedChannel = await editedChannel.update(req.body)
+    res.json(updatedChannel)
+  } catch (err) {
+    next(err)
+  }
+})
+router.delete('/:channelId', async (req, res, next) => {
+  try {
+    const toDelete = await channelId.findById(req.params.channelId)
+    await toDelete.destroy()
+    res.status(200).send('Successfully deleted Channel')
+  } catch (err) {
+    next(err)
+  }
+})
 router.get('/:channelId', async (req, res, next) => {
   try {
     const selectedChannel = await Channel.findById(req.params.channelId, {

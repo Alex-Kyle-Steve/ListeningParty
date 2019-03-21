@@ -10,7 +10,8 @@ import {
   ConnectedFavoriteChannels,
   ConnectedOwnedChannels,
   ConnectedAllChannels,
-  ConnectedSelectedChannel
+  ConnectedSelectedChannel,
+  ConnectedNewChannel
 } from './components'
 import {me} from './store'
 import axios from 'axios'
@@ -48,6 +49,7 @@ class Routes extends Component {
             path="/channels/:channelId"
             component={ConnectedSelectedChannel}
           />
+          <Route path="/newChannel" component={ConnectedNewChannel} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
