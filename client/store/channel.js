@@ -13,9 +13,9 @@ const GET_SELECTED_CHANNEL = 'GET_SELECTED_CHANNEL'
  * INITIAL STATE
  */
 const defaultChannels = {
-  allChannels: {},
-  ownedChannels: {},
-  favoriteChannels: {},
+  allChannels: [],
+  ownedChannels: [],
+  favoriteChannels: [],
   selectedChannel: {}
 }
 
