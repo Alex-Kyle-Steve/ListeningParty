@@ -36,7 +36,7 @@ export const getSelectedChannel = selectedChannel => ({
   type: GET_SELECTED_CHANNEL,
   selectedChannel
 })
-export const removeSelectedChannel = selectedChannel => ({
+export const removeSelectedChannel = () => ({
   type: REMOVE_CHANNEL
 })
 
@@ -76,8 +76,8 @@ export const updateChannel = (channelId, channelData) => async dispatch => {
   let res
   try {
     res = await axios.put(`/api/channels/${channelId}`, channelData)
-    dispatch(fetchChannels())
-    dispatch(getSelectedChannel(res.data))
+    await dispatch(fetchChannels())
+    await dispatch(fetchSelectedChannel(channelId))
   } catch (err) {
     console.error(err)
   }
@@ -86,7 +86,7 @@ export const deleteChannel = channelId => async dispatch => {
   let res
   try {
     res = await axios.delete(`/api/channels/${channelId}`)
-    dispatch(fetchChannels())
+    await dispatch(fetchChannels())
     dispatch(removeSelectedChannel())
   } catch (err) {
     console.error(err)
