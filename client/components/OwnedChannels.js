@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Col, ListGroup} from 'react-bootstrap'
+import {Card, Container, Row, Col} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import {fetchOwnedChannels, me} from '../store/user'
@@ -19,28 +19,29 @@ export class OwnedChannels extends Component {
     const ownedChannels = this.props.ownedChannels
     return (
       <Container>
-        <ListGroup>
-          <h4>My Channels</h4>
-          {ownedChannels && ownedChannels.length ? (
-            ownedChannels.map(channel => (
-              <ListGroup.Item key={channel.id} style={{border: 'none'}}>
-                <Link to={`/channels/${channel.id}`} className="link-styling">
-                  {channel.name}{' '}
-                </Link>
-              </ListGroup.Item>
-            ))
-          ) : (
-            <Col xs={12}>
-              <Card border="light">
-                <Card.Text className="center">
-                  No owned channels
-                  <br />
-                  Want to create a channel?
-                </Card.Text>
+        <h3>Owned Channels</h3>
+        {ownedChannels && ownedChannels.length ? (
+          ownedChannels.map(channel => (
+            <Row key={channel.id} md={4}>
+              <Card>
+                <Card.Body>
+                  <Card.Text>
+                    <Link to={`/channels/${channel.id}`}>{channel.name}</Link>
+                  </Card.Text>
+                </Card.Body>
               </Card>
-            </Col>
-          )}
-        </ListGroup>
+              <br />
+            </Row>
+          ))
+        ) : (
+          <Col xs={12}>
+            <Card border="light">
+              <Card.Text className="center">
+                <h2>No owned channels</h2>
+              </Card.Text>
+            </Card>
+          </Col>
+        )}
       </Container>
     )
   }

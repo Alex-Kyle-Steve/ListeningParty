@@ -20,7 +20,7 @@ class SpotifyCatalogSearch extends Component {
       method: 'get',
       url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=track`,
       headers: {
-        Authorization: 'Bearer '
+        Authorization: `Bearer ${this.props.user.accessToken}`
       }
     }).then(res => {
       console.log(res.data)
@@ -38,55 +38,36 @@ class SpotifyCatalogSearch extends Component {
   }
 
   render() {
+    console.log(this.props.user)
     return (
       <Container>
-        <Row>
-          <Col xs="3" />
-          <Col xs="6">
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group controlId="SearchCatalog">
-                <Form.Label>
-                  <h1>Search the Spotify Catalog</h1>
-                </Form.Label>
-                <Form.Control
-                  onChange={this.handleChange}
-                  name="search"
-                  type="search"
-                  placeholder="Ex. Someday"
-                />
-                <Button variant="success" type="submit">
-                  Submit
-                </Button>
-              </Form.Group>
-            </Form>
-          </Col>
-          <Col xs="3" />
-        </Row>
+        {/* <Row> */}
+        {/* <Col xs="3" /> */}
+        <Col xs={12}>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group controlId="SearchCatalog">
+              <Form.Label>
+                <h1>Search the Spotify Catalog</h1>
+              </Form.Label>
+              <Form.Control
+                onChange={this.handleChange}
+                name="search"
+                type="search"
+                placeholder="Ex. Someday"
+              />
+              <Button variant="success" type="submit">
+                Submit
+              </Button>
+            </Form.Group>
+          </Form>
+        </Col>
+        {/* <Col xs="3" /> */}
+        {/* </Row> */}
         <Row>
           <Col>
-            <div>
-              {this.state.res.tracks ? (
-                <img src={this.state.res.tracks.items[0].album.images[0].url} />
-              ) : (
-                ''
-              )}
-              <br />
-              <br />
-
-              {this.state.res.tracks ? (
-                <h2>Current Song: {this.state.res.tracks.items[0].name}</h2>
-              ) : (
-                <h1>Search for a Song Above!</h1>
-              )}
-              {this.state.res.tracks ? (
-                <h2>
-                  Artist: {this.state.res.tracks.items[0].artists[0].name}
-                </h2>
-              ) : (
-                ''
-              )}
-              <br />
-              {this.state.res.tracks ? (
+            {this.state.res.tracks ? (
+              <div>
+                <h2>Search Results</h2>
                 <Table>
                   <thead>
                     <tr>
@@ -108,19 +89,25 @@ class SpotifyCatalogSearch extends Component {
                     })}
                   </tbody>
                 </Table>
-              ) : (
-                ''
-              )}
-            </div>
+              </div>
+            ) : (
+              ''
+            )}
           </Col>
         </Row>
       </Container>
     )
   }
 }
-const mapDispatchToProps = dispatch => {}
-const mapStateToProps = () => {}
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
 export const ConnectedSpotifyCatalogSearch = connect(
-  mapDispatchToProps,
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(SpotifyCatalogSearch)

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col} from 'react-bootstrap'
+import {Card, Container, Row, Col, Table, Modal, Popover} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import {fetchSelectedChannel} from '../store/channel'
@@ -18,47 +18,40 @@ export class SelectedChannel extends Component {
   render() {
     const selectedChannel = this.props.selectedChannel
     const historicalPlayList = selectedChannel.historicalPlayLists
+    console.log(historicalPlayList)
     return (
       <Container>
-        <h3>Selected Channel</h3>
-        {selectedChannel.name ? (
-          <div>
-            <h4>Channel Name:</h4>
-            <span>{selectedChannel.name}</span>
-            <h4>Channel Description:</h4>
-            <span>{selectedChannel.description}</span>
-            <h4>Channel Owner:</h4>
-            <span>{selectedChannel.owner.firstName}</span>
-            <br />
-          </div>
-        ) : (
-          'No valid channel selected'
-        )}
-        {historicalPlayList && historicalPlayList.length ? (
-          historicalPlayList.map(song => (
-            <Row key={song.id} md={4}>
-              <Card>
-                <Card.Body>
-                  <Card.Text>
-                    <h4>Song:</h4>
-                    <span>{song.song.title}</span>
-                    <h4>Artist:</h4>
-                    <span>{song.song.artist}</span>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-              <br />
-            </Row>
-          ))
-        ) : (
-          <Col xs={12}>
-            <Card border="light">
-              <Card.Text className="center">
-                <h2>No historical play list</h2>
-              </Card.Text>
-            </Card>
-          </Col>
-        )}
+        <Card>
+          <Card.Title>
+            <Card.Body />
+          </Card.Title>
+        </Card>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Artist</th>
+              <th>Song</th>
+              <th>Album</th>
+            </tr>
+          </thead>
+          <tbody>
+            {historicalPlayList && historicalPlayList.length ? (
+              historicalPlayList.map(song => (
+                <tr key={song.song.id}>
+                  <td>{song.song.artist}</td>
+                  <td>{song.song.title}</td>
+                  <td>{song.song.album}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td />
+                <td> No historical play list</td>
+                <td />
+              </tr>
+            )}
+          </tbody>
+        </Table>
       </Container>
     )
   }
