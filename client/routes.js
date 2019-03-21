@@ -9,7 +9,8 @@ import {
   MusicPlayer,
   ConnectedFavoriteChannels,
   ConnectedOwnedChannels,
-  ConnectedAllChannels
+  ConnectedAllChannels,
+  ConnectedSelectedChannel
 } from './components'
 import {me} from './store'
 import axios from 'axios'
@@ -42,6 +43,11 @@ class Routes extends Component {
             component={ConnectedOwnedChannels}
           />
           <Route exact path="/allChannels" component={ConnectedAllChannels} />
+          <Route
+            exact
+            path="/channels/:channelId"
+            component={ConnectedSelectedChannel}
+          />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}

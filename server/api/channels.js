@@ -17,7 +17,7 @@ router.get('/:channelId', async (req, res, next) => {
     const selectedChannel = await Channel.findById(req.params.channelId, {
       include: [
         {model: User, as: 'owner'},
-        {model: Song, through: HistoricalPlayList}
+        {model: HistoricalPlayList, include: [{model: Song}]}
       ]
     })
     res.json(selectedChannel)

@@ -32,8 +32,10 @@ SongHistory.belongsTo(User)
 SongHistory.belongsTo(Song)
 SongHistory.belongsTo(Channel)
 
-Channel.belongsToMany(Song, {through: HistoricalPlayList})
-Song.belongsToMany(Channel, {through: HistoricalPlayList})
+HistoricalPlayList.belongsTo(Song)
+Song.hasMany(HistoricalPlayList)
+HistoricalPlayList.belongsTo(Channel)
+Channel.hasMany(HistoricalPlayList)
 
 module.exports = {
   User,
