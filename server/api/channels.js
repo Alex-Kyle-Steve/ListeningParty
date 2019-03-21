@@ -18,7 +18,8 @@ router.get('/:channelId', async (req, res, next) => {
       include: [
         {model: User, as: 'owner'},
         {model: HistoricalPlayList, include: [{model: Song}]}
-      ]
+      ],
+      order: [[HistoricalPlayList, 'id', 'DESC']]
     })
     res.json(selectedChannel)
   } catch (err) {
