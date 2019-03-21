@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col} from 'react-bootstrap'
+import {Card, Container, Row, Col, ListGroup} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import {fetchFavoriteChannels, me} from '../store/user'
@@ -19,29 +19,25 @@ export class FavoriteChannels extends Component {
     const favorites = this.props.favoriteChannels
     return (
       <Container>
-        <h3>Favorite Channels</h3>
-        {favorites && favorites.length ? (
-          favorites.map(channel => (
-            <Row key={channel.id} md={4}>
-              <Card>
-                <Card.Body>
-                  <Card.Text>
-                    <Link to={`/channels/${channel.id}`}>{channel.name}</Link>
-                  </Card.Text>
-                </Card.Body>
+        <ListGroup>
+          <h4>Favorite Channels</h4>
+
+          {favorites && favorites.length ? (
+            favorites.map(channel => (
+              <ListGroup.Item key={channel.id} style={{border: 'none'}}>
+                <Link to={`/channels/${channel.id}`} className="link-styling">
+                  {channel.name}{' '}
+                </Link>
+              </ListGroup.Item>
+            ))
+          ) : (
+            <Col xs={12}>
+              <Card border="light">
+                <Card.Text className="center">No favorite channels</Card.Text>
               </Card>
-              <br />
-            </Row>
-          ))
-        ) : (
-          <Col xs={12}>
-            <Card border="light">
-              <Card.Text className="center">
-                <h2>No favorite channels</h2>
-              </Card.Text>
-            </Card>
-          </Col>
-        )}
+            </Col>
+          )}
+        </ListGroup>
       </Container>
     )
   }
