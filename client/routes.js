@@ -9,7 +9,8 @@ import {
   MusicPlayer,
   ConnectedFavoriteChannels,
   ConnectedOwnedChannels,
-  ConnectedAllChannels
+  ConnectedAllChannels,
+  ConnectedSelectedChannel
 } from './components'
 import {me} from './store'
 import axios from 'axios'
@@ -25,30 +26,39 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      // <div className="routeContent">
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/music-player" component={MusicPlayer} />
-        <Route
-          exact
-          path="/favoriteChannels"
-          component={ConnectedFavoriteChannels}
-        />
-        <Route exact path="/ownedChannels" component={ConnectedOwnedChannels} />
-        <Route exact path="/allChannels" component={ConnectedAllChannels} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route exact path="/home" component={UserHome} />
-            <Route exact path="/music-player" component={MusicPlayer} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
-      </Switch>
-      // </div>
+      <div>
+        <Switch>
+          {/* Routes placed here are available to all visitors */}
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/music-player" component={MusicPlayer} />
+          <Route
+            exact
+            path="/favoriteChannels"
+            component={ConnectedFavoriteChannels}
+          />
+          <Route
+            exact
+            path="/ownedChannels"
+            component={ConnectedOwnedChannels}
+          />
+          <Route exact path="/allChannels" component={ConnectedAllChannels} />
+          <Route
+            exact
+            path="/channels/:channelId"
+            component={ConnectedSelectedChannel}
+          />
+          {isLoggedIn && (
+            <Switch>
+              {/* Routes placed here are only available after logging in */}
+              <Route exact path="/home" component={UserHome} />
+              <Route exact path="/music-player" component={MusicPlayer} />
+            </Switch>
+          )}
+          {/* Displays our Login component as a fallback */}
+          <Route component={Login} />
+        </Switch>
+      </div>
     )
   }
 }
