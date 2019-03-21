@@ -11,6 +11,8 @@ import {
   ConnectedOwnedChannels,
   ConnectedAllChannels,
   ConnectedSelectedChannel,
+  ConnectedNewChannel,
+  ConnectedEditChannel,
   ConnectedSelectedSong
 } from './components'
 import {me} from './store'
@@ -43,7 +45,13 @@ class Routes extends Component {
             path="/channels/:channelId"
             component={ConnectedSelectedChannel}
           />
+          <Route
+            path="/editChannel/:channelId"
+            component={ConnectedEditChannel}
+          />
+          <Route path="/newChannel" component={ConnectedNewChannel} />
           <Route path="/songs/:songId" component={ConnectedSelectedSong} />
+
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
