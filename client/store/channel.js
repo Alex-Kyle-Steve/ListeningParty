@@ -8,14 +8,15 @@ const GET_ALL_CHANNELS = 'GET_ALL_CHANNELS'
 const GET_OWNED_CHANNELS = 'GET_OWNED_CHANNELS'
 const GET_FAVORITE_CHANNELS = 'GET_FAVORITE_CHANNELS'
 const GET_SELECTED_CHANNEL = 'GET_SELECTED_CHANNEL'
+const REMOVE_CHANNEL = 'REMOVE_CHANNEL'
 
 /**
  * INITIAL STATE
  */
 const defaultChannels = {
-  allChannels: {},
-  ownedChannels: {},
-  favoriteChannels: {},
+  allChannels: [],
+  ownedChannels: [],
+  favoriteChannels: [],
   selectedChannel: {}
 }
 
@@ -34,6 +35,9 @@ export const getFavoriteChannels = channels => ({
 export const getSelectedChannel = selectedChannel => ({
   type: GET_SELECTED_CHANNEL,
   selectedChannel
+})
+export const removeSelectedChannel = () => ({
+  type: REMOVE_CHANNEL
 })
 
 /**
@@ -58,6 +62,36 @@ export const fetchSelectedChannel = channelId => async dispatch => {
     console.error(err)
   }
 }
+export const createChannel = channelData => async dispatch => {
+  let res
+  try {
+    res = await axios.post(`/api/channels/`, channelData)
+    await dispatch(fetchChannels())
+    await dispatch(fetchSelectedChannel(res.data.id))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const updateChannel = (channelId, channelData) => async dispatch => {
+  let res
+  try {
+    res = await axios.put(`/api/channels/${channelId}`, channelData)
+    await dispatch(fetchChannels())
+    await dispatch(fetchSelectedChannel(channelId))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const deleteChannel = channelId => async dispatch => {
+  let res
+  try {
+    res = await axios.delete(`/api/channels/${channelId}`)
+    await dispatch(fetchChannels())
+    dispatch(removeSelectedChannel())
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 /**
  * REDUCER
@@ -72,6 +106,8 @@ export default function(state = defaultChannels, action) {
       return {...state, favoriteChannels: action.channels}
     case GET_SELECTED_CHANNEL:
       return {...state, selectedChannel: action.selectedChannel}
+    case REMOVE_CHANNEL:
+      return {...state, selectedChannel: {}}
     default:
       return state
   }
