@@ -8,7 +8,8 @@ class SpotifyCatalogSearch extends Component {
     super()
     this.state = {
       query: '',
-      res: {}
+      res: {},
+      show: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -41,31 +42,32 @@ class SpotifyCatalogSearch extends Component {
     console.log(this.props.user)
     return (
       <Container>
-        <Col xs={12}>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group controlId="SearchCatalog">
-              <Form.Label>
-                <h1>Search the Spotify Catalog</h1>
-              </Form.Label>
-              <Form.Control
-                onChange={this.handleChange}
-                name="search"
-                type="search"
-                placeholder="Ex. Someday"
-              />
+        <Row>
+          <Col xs={12}>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group controlId="SearchCatalog">
+                <Form.Label>
+                  <h1>Search the Spotify Catalog</h1>
+                </Form.Label>
+                <Form.Control
+                  onChange={this.handleChange}
+                  name="search"
+                  type="search"
+                  placeholder="Ex. Someday"
+                />
+              </Form.Group>
               <Button variant="success" type="submit">
                 Submit
               </Button>
-            </Form.Group>
-          </Form>
-        </Col>
-
+            </Form>
+          </Col>
+        </Row>
         <Row>
-          <Col>
+          <Col xs={12}>
             {this.state.res.tracks ? (
               <div>
                 <h2>Search Results</h2>
-                <Table>
+                <Table className="flags-table">
                   <thead>
                     <tr>
                       <th>Artist</th>
@@ -80,6 +82,9 @@ class SpotifyCatalogSearch extends Component {
                           <td>{item.artists[0].name}</td>
                           <td>{item.name}</td>
                           <td>{item.album.name}</td>
+                          <td>
+                            <Button>Add</Button>
+                          </td>
                           <td style={{display: 'none'}}>{item.href}</td>
                         </tr>
                       )

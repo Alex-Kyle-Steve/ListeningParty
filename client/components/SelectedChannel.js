@@ -38,44 +38,64 @@ export class SelectedChannel extends Component {
             </Card>
           </Col>
           <Col xs={6}>
-            <Card.Title>Song Information:</Card.Title>
-            <Card.Text>Title</Card.Text>
-            <Card.Text>Artist </Card.Text>
-            <Card.Text>Album</Card.Text>
+            <Row>
+              <Col xs={12}>
+                <Card.Title>
+                  <h3>Song Information</h3>
+                </Card.Title>
+              </Col>
+              <Col xs={12}>
+                <Card.Text>
+                  <h4>Title</h4>
+                </Card.Text>
+              </Col>
+              <Col xs={12}>
+                <Card.Text>
+                  <h4>Artist </h4>
+                </Card.Text>
+              </Col>
+              <Col xs={12}>
+                <Card.Text>
+                  <h4>Album</h4>
+                </Card.Text>
+              </Col>
+            </Row>
+            <Row>
+              {/* <div>
+                <Table hover>
+                  <thead>
+                    <tr>
+                      <th>Artist</th>
+                      <th>Song</th>
+                      <th>Album</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {historicalPlayList ? (
+                      historicalPlayList.map(song => {
+                        return (
+                          <tr key={song.id}>
+                            <td>{song.song.artist}</td>
+                            <td>{song.song.title}</td>
+                            <td>{song.song.album}</td>
+                          </tr>
+                        )
+                      })
+                    ) : (
+                      <tr />
+                    )}
+                  </tbody>
+                </Table>
+              </div> */}
+            </Row>
           </Col>
         </Row>
         <Row>
-          <Col xs={6}>
-            <ConnectedSpotifyCatalogSearch />
-          </Col>
-          <Col xs={6}>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Artist</th>
-                  <th>Song</th>
-                  <th>Album</th>
-                </tr>
-              </thead>
-              <tbody>
-                {historicalPlayList && historicalPlayList.length ? (
-                  historicalPlayList.map(song => (
-                    <tr key={song.song.id}>
-                      <td>{song.song.artist}</td>
-                      <td>{song.song.title}</td>
-                      <td>{song.song.album}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td />
-                    <td> No historical play list</td>
-                    <td />
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </Col>
+          <ConnectedSpotifyCatalogSearch />
+
+          {/* <Col xs={6}>
+
+          </Col> */}
         </Row>
       </Container>
     )
