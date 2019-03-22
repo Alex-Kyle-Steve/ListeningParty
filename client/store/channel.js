@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 /**
  * ACTION TYPES
@@ -8,16 +7,18 @@ const GET_ALL_CHANNELS = 'GET_ALL_CHANNELS'
 const GET_OWNED_CHANNELS = 'GET_OWNED_CHANNELS'
 const GET_FAVORITE_CHANNELS = 'GET_FAVORITE_CHANNELS'
 const GET_SELECTED_CHANNEL = 'GET_SELECTED_CHANNEL'
+const SET_CURRENT_CHANNEL = 'SET_CURRENT_CHANNEL'
 const REMOVE_CHANNEL = 'REMOVE_CHANNEL'
 
 /**
  * INITIAL STATE
  */
 const defaultChannels = {
-  allChannels: [],
-  ownedChannels: [],
-  favoriteChannels: [],
-  selectedChannel: {}
+  allChannels: {},
+  ownedChannels: {},
+  favoriteChannels: {},
+  selectedChannel: {},
+  currentChannel: {}
 }
 
 /**
@@ -38,6 +39,11 @@ export const getSelectedChannel = selectedChannel => ({
 })
 export const removeSelectedChannel = () => ({
   type: REMOVE_CHANNEL
+})
+
+export const setCurrentChannel = currentChannel => ({
+  type: SET_CURRENT_CHANNEL,
+  currentChannel
 })
 
 /**
@@ -106,6 +112,8 @@ export default function(state = defaultChannels, action) {
       return {...state, favoriteChannels: action.channels}
     case GET_SELECTED_CHANNEL:
       return {...state, selectedChannel: action.selectedChannel}
+    case SET_CURRENT_CHANNEL:
+      return {...state, currentChannel: action.currentChannel}
     case REMOVE_CHANNEL:
       return {...state, selectedChannel: {}}
     default:
