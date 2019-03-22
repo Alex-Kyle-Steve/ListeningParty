@@ -1,22 +1,36 @@
-import axios from 'axios'
-import {createPlayer, playNewUri} from '../music-player'
+import musicPlayerEvent, {createPlayer, playNewUri} from '../music-player'
 
 const SET_PLAYER = 'SET_PLAYER'
-const SET_READY = 'SET_READY'
 
 // ACTION CREATOR
 export const setPlayer = player => ({type: SET_PLAYER, player})
-export const setReady = isReady => ({type: SET_READY, isReady})
 // END - ACTION CREATOR
 
-export const initializePlayer = () => dispatch =>
-  dispatch(setPlayer(createPlayer()))
+// THUNK CREATOR
+export const initializePlayer = () => async (dispatch, getState) => {
+  const player = createPlayer()
+  player.addListener('player-state-changed', state => {
+    const {currentChannel, user} = getState()
+    musicPlayerEvent.emit(
+      state,
+      currentChannel.id,
+      currentChannel.ownerId === user.id
+    )
+  })
+  player.addListener('ready', device => {
+    console.log('Connected with Device', device)
+  })
+  player.addListener('not_ready', device => {
+    console.log('Device is not ready for playback', device)
+  })
+  await player.connect()
+  dispatch(setPlayer(player))
+}
 
 export const playTrack = uri => (dispatch, getState) =>
-  dispatch(playNewUri(uri, getState()))
+  dispatch(playNewUri(uri, getState().player))
 
 export default function(state = {}, action) {
   if (action.type === SET_PLAYER) return action.player
-  else if (action.type === SET_READY) return {...state, isReady: action.isReady}
   return state
 }
