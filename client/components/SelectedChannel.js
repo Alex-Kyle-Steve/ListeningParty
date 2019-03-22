@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Card, Container, Row, Col} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
-
+import {ScrollTable} from './ScrollTable'
+import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
+import {ConnectedFavoriteChannels} from './FavoriteChannels'
+import {ConnectedOwnedChannels} from './OwnedChannels'
+import {ConnectedAllChannels} from './AllChannels'
 
 export class SelectedChannel extends Component {
   constructor() {
@@ -15,51 +18,77 @@ export class SelectedChannel extends Component {
     await this.props.fetchSelectedChannel(channelId)
   }
 
+  formatData() {
+    return this.props.selectedChannel.historicalPlayLists.reduce(
+      (accumulator, currentValue) => {
+        accumulator.push(currentValue.song)
+        return accumulator
+      },
+      []
+    )
+  }
+
   render() {
     const selectedChannel = this.props.selectedChannel
     const historicalPlayList = selectedChannel.historicalPlayLists
+
     return (
-      <Container>
-        <h3>Selected Channel</h3>
-        {selectedChannel.name ? (
-          <div>
-            <h4>Channel Name:</h4>
-            <span>{selectedChannel.name}</span>
-            <h4>Channel Description:</h4>
-            <span>{selectedChannel.description}</span>
-            <h4>Channel Owner:</h4>
-            <span>{selectedChannel.owner.firstName}</span>
-            <br />
-          </div>
-        ) : (
-          'No valid channel selected'
-        )}
-        {historicalPlayList && historicalPlayList.length ? (
-          historicalPlayList.map(song => (
-            <Row key={song.id} md={4}>
+      <div>
+        <Container fluid={true}>
+          <Row>
+            {/* Channel Bar */}
+            <Col xs={3}>
+              <ConnectedOwnedChannels />
+              <ConnectedFavoriteChannels />
+              <ConnectedAllChannels />
+            </Col>
+            {/* Music info/Player */}
+            <Col xs={6}>
               <Card>
-                <Card.Body>
-                  <Card.Text>
-                    <h4>Song:</h4>
-                    <span>{song.song.title}</span>
-                    <h4>Artist:</h4>
-                    <span>{song.song.artist}</span>
-                  </Card.Text>
-                </Card.Body>
+                <Row>
+                  <Col xs={6}>
+                    <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
+                  </Col>
+                  <Col xs={6}>
+                    <Row>
+                      <Col xs={12}>
+                        <Card.Title>Song Information</Card.Title>
+                      </Col>
+                      <Col xs={12}>
+                        <Card.Text>Road Head</Card.Text>
+                      </Col>
+                      <Col xs={12}>
+                        <Card.Text>Japanese Breakfast</Card.Text>
+                      </Col>
+                      <Col xs={12}>
+                        <Card.Text>Soft Sounds from Another Planet</Card.Text>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}>
+                        {this.props.selectedChannel.historicalPlayLists !==
+                        historicalPlayList ? (
+                          <ScrollTable playList={historicalPlayList} />
+                        ) : (
+                          <ScrollTable playList={historicalPlayList} />
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
               </Card>
-              <br />
-            </Row>
-          ))
-        ) : (
-          <Col xs={12}>
-            <Card border="light">
-              <Card.Text className="center">
-                <h2>No historical play list</h2>
-              </Card.Text>
-            </Card>
-          </Col>
-        )}
-      </Container>
+              <Row>
+                <ConnectedSpotifyCatalogSearch />
+              </Row>
+            </Col>
+
+            {/* Chat */}
+            <Col xs={3}>
+              <Col>CHAT HERE</Col>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     )
   }
 }

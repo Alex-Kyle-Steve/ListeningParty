@@ -61,3 +61,8 @@ a:hover {
 .nav {
   width: 100%;
 }
+
+.channel-image {
+  max-height: 50% !important;
+  max-width: 50% !important;
+}

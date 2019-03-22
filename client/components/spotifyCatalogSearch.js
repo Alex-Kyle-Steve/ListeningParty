@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
-
+import {SpotifyCatalogScrollTable} from './SpotifyCatalogScrollTable'
 class SpotifyCatalogSearch extends Component {
   constructor() {
     super()
     this.state = {
       query: '',
-      res: {}
+      res: {},
+      show: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -20,10 +21,9 @@ class SpotifyCatalogSearch extends Component {
       method: 'get',
       url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=track`,
       headers: {
-        Authorization: 'Bearer '
+        Authorization: `Bearer ${this.props.user.accessToken}`
       }
     }).then(res => {
-      console.log(res.data)
       this.setState({
         res: res.data
       })
@@ -33,94 +33,56 @@ class SpotifyCatalogSearch extends Component {
     this.setState({
       query: event.target.value
     })
-    console.log('state', this.state.query)
-    console.log(event.target.value)
   }
 
   render() {
     return (
       <Container>
         <Row>
-          <Col xs="3" />
-          <Col xs="6">
+          <Col xs={12}>
             <Form onSubmit={this.handleSubmit}>
               <Form.Group controlId="SearchCatalog">
                 <Form.Label>
-                  <h1>Search the Spotify Catalog</h1>
+                  <h1>Search Spotify</h1>
                 </Form.Label>
                 <Form.Control
                   onChange={this.handleChange}
                   name="search"
                   type="search"
-                  placeholder="Ex. Someday"
+                  placeholder="Artist, Album, or Song"
                 />
-                <Button variant="success" type="submit">
-                  Submit
-                </Button>
               </Form.Group>
+              <Button variant="success" type="submit">
+                Submit
+              </Button>
             </Form>
           </Col>
-          <Col xs="3" />
         </Row>
         <Row>
-          <Col>
-            <div>
-              {this.state.res.tracks ? (
-                <img src={this.state.res.tracks.items[0].album.images[0].url} />
-              ) : (
-                ''
-              )}
-              <br />
-              <br />
-
-              {this.state.res.tracks ? (
-                <h2>Current Song: {this.state.res.tracks.items[0].name}</h2>
-              ) : (
-                <h1>Search for a Song Above!</h1>
-              )}
-              {this.state.res.tracks ? (
-                <h2>
-                  Artist: {this.state.res.tracks.items[0].artists[0].name}
-                </h2>
-              ) : (
-                ''
-              )}
-              <br />
-              {this.state.res.tracks ? (
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Artist</th>
-                      <th>Song</th>
-                      <th>Album</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.res.tracks.items.map(item => {
-                      return (
-                        <tr key={item.id}>
-                          <td>{item.artists[0].name}</td>
-                          <td>{item.name}</td>
-                          <td>{item.album.name}</td>
-                          <td style={{display: 'none'}}>{item.href}</td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </Table>
-              ) : (
-                ''
-              )}
-            </div>
+          <Col xs={12}>
+            {this.state.res.tracks ? (
+              <div>
+                <h2>Search Results</h2>
+                <SpotifyCatalogScrollTable tracks={this.state.res.tracks} />
+              </div>
+            ) : (
+              ''
+            )}
           </Col>
         </Row>
       </Container>
     )
   }
 }
-const mapDispatchToProps = dispatch => {}
-const mapStateToProps = () => {}
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
 export const ConnectedSpotifyCatalogSearch = connect(
-  mapDispatchToProps,
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(SpotifyCatalogSearch)

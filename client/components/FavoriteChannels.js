@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Card, Container, Row, Col, ListGroup} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-
 import {fetchFavoriteChannels, me} from '../store/user'
 
 export class FavoriteChannels extends Component {
