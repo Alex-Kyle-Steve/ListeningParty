@@ -22,10 +22,11 @@ export class ScrollTable extends React.Component {
   render() {
     return (
       <div>
+        <h2>Up next</h2>
         {this.props.playList ? (
           <BootstrapTable
             scrollTop="Top"
-            maxHeight="250px"
+            maxHeight="400px"
             bordered={false}
             data={this.formatData()}
             hover

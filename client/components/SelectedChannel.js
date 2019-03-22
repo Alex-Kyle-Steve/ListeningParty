@@ -8,7 +8,7 @@ import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedAllChannels} from './AllChannels'
 import socket from '../socket'
-
+import SpotifyPlayer from 'react-spotify-player'
 export class SelectedChannel extends Component {
   async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
@@ -29,14 +29,17 @@ export class SelectedChannel extends Component {
   render() {
     const selectedChannel = this.props.selectedChannel
     const historicalPlayList = selectedChannel.historicalPlayLists
-
+    const channelId = parseInt(this.props.match.params.channelId)
     return (
       <div>
         <Container fluid={true}>
           <Row>
             {/* Channel Bar */}
             <Col xs={3}>
-              <ConnectedOwnedChannels />
+              <ConnectedOwnedChannels
+                changeChannel={this.props.fetchSelectedChannel}
+                channelId={channelId}
+              />
               <ConnectedFavoriteChannels />
               <ConnectedAllChannels />
             </Col>
@@ -63,14 +66,7 @@ export class SelectedChannel extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col xs={12}>
-                        {this.props.selectedChannel.historicalPlayLists !==
-                        historicalPlayList ? (
-                          <ScrollTable playList={historicalPlayList} />
-                        ) : (
-                          <ScrollTable playList={historicalPlayList} />
-                        )}
-                      </Col>
+                      <Col xs={12}>MUSIC PLAYER HERE</Col>
                     </Row>
                   </Col>
                 </Row>
@@ -82,7 +78,23 @@ export class SelectedChannel extends Component {
 
             {/* Chat */}
             <Col xs={3}>
-              <Col>CHAT HERE</Col>
+              <Row>
+                <Col xs={12}>
+                  {selectedChannel.description ? (
+                    this.props.selectedChannel.historicalPlayLists !==
+                    historicalPlayList ? (
+                      <ScrollTable playList={historicalPlayList} />
+                    ) : (
+                      <ScrollTable playList={historicalPlayList} />
+                    )
+                  ) : (
+                    ''
+                  )}
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12}>CHAT HERRE</Col>
+              </Row>
             </Col>
           </Row>
         </Container>

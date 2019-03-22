@@ -24,7 +24,11 @@ export class OwnedChannels extends Component {
           {ownedChannels && ownedChannels.length ? (
             ownedChannels.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>
-                <Link to={`/channels/${channel.id}`} className="link-styling">
+                <Link
+                  to={`/channels/${channel.id}`}
+                  className="link-styling"
+                  onClick={this.props.changeChannel(this.props.channelId)}
+                >
                   {channel.name}{' '}
                 </Link>
               </ListGroup.Item>
