@@ -39,8 +39,8 @@ const User = db.define('user', {
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
   status: Sequelize.ENUM(['User', 'Admin']),
-  gender: Sequelize.ENUM(['Male', 'Female']),
-  age: Sequelize.INTEGER
+  gender: Sequelize.ENUM(['Male', 'Female', 'Non-Binary']),
+  birthDate: Sequelize.DATEONLY
 })
 
 module.exports = User
