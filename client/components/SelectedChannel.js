@@ -15,7 +15,6 @@ import {Link} from 'react-router-dom'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedAllChannels} from './AllChannels'
@@ -31,7 +30,6 @@ export class SelectedChannel extends Component {
   }
 
   formatData() {
-    console.log(this.props.selectedChannel.historicalPlayLists)
     return this.props.selectedChannel.historicalPlayLists.reduce(
       (accumulator, currentValue) => {
         accumulator.push(currentValue.song)
@@ -60,10 +58,7 @@ export class SelectedChannel extends Component {
               <Card>
                 <Row>
                   <Col xs={6}>
-                    <Card.Img
-                      src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440"
-                      // className="channel-image"
-                    />
+                    <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
                   </Col>
                   <Col xs={6}>
                     <Row>
@@ -81,7 +76,14 @@ export class SelectedChannel extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <ScrollTable playList={historicalPlayList} />
+                      <Col xs={12}>
+                        {this.props.selectedChannel.historicalPlayLists !==
+                        historicalPlayList ? (
+                          <ScrollTable playList={historicalPlayList} />
+                        ) : (
+                          <ScrollTable playList={historicalPlayList} />
+                        )}
+                      </Col>
                     </Row>
                   </Col>
                 </Row>
@@ -96,35 +98,6 @@ export class SelectedChannel extends Component {
               <Col>CHAT HERE</Col>
             </Col>
           </Row>
-
-          {/* <Row>
-            <Col xs={6}>
-              <Card>
-                <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
-              </Card>
-            </Col>
-            <Col xs={6}>
-              <Row>
-                <Col xs={12}>
-                  <Card.Title>Song Information</Card.Title>
-                </Col>
-                <Col xs={12}>
-                  <Card.Text>Road Head</Card.Text>
-                </Col>
-                <Col xs={12}>
-                  <Card.Text>Japanese Breakfast</Card.Text>
-                </Col>
-                <Col xs={12}>
-                  <Card.Text>Soft Sounds from Another Planet</Card.Text>
-                </Col>
-              </Row>
-              <Row>
-                <ScrollTable playList={historicalPlayList} />
-              </Row>
-            </Col>
-          </Row> */}
-          {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
-          {/* Different Part of Page */}
         </Container>
       </div>
     )

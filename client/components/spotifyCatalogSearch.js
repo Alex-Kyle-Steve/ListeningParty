@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
-
+import {SpotifyCatalogScrollTable} from './SpotifyCatalogScrollTable'
 class SpotifyCatalogSearch extends Component {
   constructor() {
     super()
@@ -24,7 +24,6 @@ class SpotifyCatalogSearch extends Component {
         Authorization: `Bearer ${this.props.user.accessToken}`
       }
     }).then(res => {
-      console.log(res.data)
       this.setState({
         res: res.data
       })
@@ -64,31 +63,7 @@ class SpotifyCatalogSearch extends Component {
             {this.state.res.tracks ? (
               <div>
                 <h2>Search Results</h2>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Artist</th>
-                      <th>Song</th>
-                      <th>Album</th>
-                      <th>Cue</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.res.tracks.items.map(item => {
-                      return (
-                        <tr key={item.id}>
-                          <td>{item.artists[0].name}</td>
-                          <td>{item.name}</td>
-                          <td>{item.album.name}</td>
-                          <td>
-                            <Button>Add</Button>
-                          </td>
-                          <td style={{display: 'none'}}>{item.href}</td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </Table>
+                <SpotifyCatalogScrollTable tracks={this.state.res.tracks} />
               </div>
             ) : (
               ''
