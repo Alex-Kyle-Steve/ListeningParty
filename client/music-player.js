@@ -7,6 +7,7 @@ const musicPlayerEvent = new EventEmitter()
 /**
  * handler for musicPlayerEvents when the player state changes
  * emit event to other socket when it is triggered by the channel owner
+ *
  * @param {*} state
  * @param {*} isChannelOwner
  */
@@ -16,10 +17,12 @@ const handleStateChanged = (state, channelId, isChannelOwner) => {
     socket.emit('played-new-song', currentTrack.uri, channelId)
   }
 }
+
 const handleJoinChannel = channelId => {}
 
 // listener for state change in spotify player
 musicPlayerEvent.on('state-changed', handleStateChanged)
+
 // listener for when user joins a channel
 // allow to catch-up to what's currently playing
 musicPlayerEvent.on('join-channel', handleJoinChannel)

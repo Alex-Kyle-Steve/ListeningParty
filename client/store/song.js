@@ -4,7 +4,7 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_SELECTED_SONG = 'GET_SELECTED_CHANNEL'
+const GET_SELECTED_SONG = 'GET_SELECTED_SONG'
 
 /**
  * INITIAL STATE
