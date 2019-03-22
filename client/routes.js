@@ -6,13 +6,11 @@ import {
   Login,
   Signup,
   UserHome,
-  MusicPlayer,
   ConnectedFavoriteChannels,
   ConnectedOwnedChannels,
   ConnectedAllChannels
 } from './components'
-import {me} from './store'
-import axios from 'axios'
+import {me, initializePlayer} from './store'
 /**
  * COMPONENT
  */
@@ -21,6 +19,13 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
   }
+
+  componentDidUpdate() {
+    this.props.isWithSpotify &&
+      !this.props.player._options &&
+      this.props.loadSpotifyPlayer()
+  }
+
   render() {
     const {isLoggedIn} = this.props
 
@@ -30,7 +35,6 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          <Route exact path="/music-player" component={MusicPlayer} />
           <Route
             exact
             path="/favoriteChannels"
@@ -46,7 +50,6 @@ class Routes extends Component {
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route exact path="/home" component={UserHome} />
-              <Route exact path="/music-player" component={MusicPlayer} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
@@ -64,7 +67,9 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isWithSpotify: !!state.user.spotifyId,
+    player: state.player
   }
 }
 
@@ -72,6 +77,9 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
+    },
+    loadSpotifyPlayer() {
+      dispatch(initializePlayer())
     }
   }
 }

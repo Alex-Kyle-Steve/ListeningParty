@@ -3,9 +3,8 @@ module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    socket.on('new_playback_uri', function(uri) {
-      console.log('recieved new uri: ', uri)
-      this.broadcast.emit('recieve_new_uri', uri)
+    socket.on('new-playback-uri', function(uri) {
+      this.broadcast.emit('recieve-new-uri', uri)
     })
 
     //joining a channel

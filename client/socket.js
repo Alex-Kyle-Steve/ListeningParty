@@ -1,18 +1,14 @@
 //front end
 import io from 'socket.io-client'
+import {musicPlayerEvent} from './music-player'
 
 const socket = io(window.location.origin)
-const roomName = window.location.pathname
+
 socket.on('connect', () => {
   console.log('Socket Connected!')
-  console.log('roomName', roomName)
-  socket.emit('join-channel', roomName)
-  socket.on('Hello', function(data) {
-    console.log('test emit from server room', data)
-  })
 })
 
-socket.on('recieve_new_uri', uri =>
+socket.on('recieved-new-uri', uri =>
   window.player.getCurrentState().then(state => {
     // if state is null, no music is playing. WHY SPOTIFY!!!!!!!!
     // just play the song if current track does not match the owner's song
