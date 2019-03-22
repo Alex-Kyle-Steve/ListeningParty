@@ -1,22 +1,11 @@
 import React, {Component} from 'react'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Table,
-  Image,
-  Modal,
-  Popover,
-  Jumbotron
-} from 'react-bootstrap'
-export class SpotifyCatalogScrollTable extends React.Component {
-  // [{id: 1, song: 'a',album: 'a'}]
-
+import {Button} from 'react-bootstrap'
+export class SpotifyCatalogScrollTable extends Component {
   formatData() {
     console.log('format this', this.props.tracks)
     let songObj = {}
+
     return this.props.tracks.items.reduce((accumulator, currentValue) => {
       songObj = {
         album: currentValue.album.name,
@@ -29,6 +18,10 @@ export class SpotifyCatalogScrollTable extends React.Component {
     }, [])
   }
 
+  //Adds an "Add" Button to the table
+  showButton() {
+    return <Button>Add</Button>
+  }
   render() {
     return (
       <div>
@@ -45,6 +38,9 @@ export class SpotifyCatalogScrollTable extends React.Component {
               Song
             </TableHeaderColumn>
             <TableHeaderColumn dataField="album">Album</TableHeaderColumn>
+            <TableHeaderColumn dataFormat={this.showButton}>
+              Cue
+            </TableHeaderColumn>
           </BootstrapTable>
         ) : (
           ''

@@ -12,8 +12,6 @@ import {
   Jumbotron
 } from 'react-bootstrap'
 export class ScrollTable extends React.Component {
-  // [{id: 1, song: 'a',album: 'a'}]
-
   formatData() {
     return this.props.playList.reduce((accumulator, currentValue) => {
       accumulator.push(currentValue.song)
