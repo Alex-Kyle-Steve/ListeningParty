@@ -10,6 +10,9 @@ export class OwnedChannels extends Component {
     super()
   }
 
+  handleClick() {
+    this.props.changeChannel(this.props.channelId)
+  }
   async componentDidMount() {
     await this.props.fetchMe()
     await this.props.fetchOwnedChannels(this.props.user.id)
@@ -27,7 +30,7 @@ export class OwnedChannels extends Component {
                 <Link
                   to={`/channels/${channel.id}`}
                   className="link-styling"
-                  onClick={this.props.changeChannel(this.props.channelId)}
+                  onClick={this.handleClick()}
                 >
                   {channel.name}{' '}
                 </Link>

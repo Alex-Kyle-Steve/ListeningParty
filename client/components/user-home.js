@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-
+import {fetchSelectedChannel} from '../store/channel'
 import {
   ConnectedFavoriteChannels,
   ConnectedOwnedChannels,
@@ -19,9 +19,13 @@ export class UserHome extends React.Component {
         <Container fluid={true}>
           <Row>
             <Col className="my-center-align" xs={3}>
-              <ConnectedOwnedChannels />
+              <ConnectedOwnedChannels
+                changeChannel={this.props.fetchSelectedChannel}
+              />
               <hr />
-              <ConnectedFavoriteChannels />
+              <ConnectedFavoriteChannels
+                changeChannel={this.props.fetchSelectedChannel}
+              />
             </Col>
             <Col className="custom-center-align" xs={6}>
               <ConnectedAllChannels />
@@ -44,8 +48,13 @@ const mapState = state => {
     email: state.user.email
   }
 }
+const mapDispatch = dispatch => {
+  return {
+    fetchSelectedChannel: channelId => dispatch(fetchSelectedChannel(channelId))
+  }
+}
 
-export default connect(mapState)(UserHome)
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES

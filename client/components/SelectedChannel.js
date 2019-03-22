@@ -6,9 +6,9 @@ import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
-import {ConnectedAllChannels} from './AllChannels'
+import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
-import SpotifyPlayer from 'react-spotify-player'
+
 export class SelectedChannel extends Component {
   async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
@@ -41,7 +41,7 @@ export class SelectedChannel extends Component {
                 channelId={channelId}
               />
               <ConnectedFavoriteChannels />
-              <ConnectedAllChannels />
+              <ConnectedAllChannelsSidebar />
             </Col>
             {/* Music info/Player */}
             <Col xs={6}>

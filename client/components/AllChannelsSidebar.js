@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Card, Container, Col, ListGroup} from 'react-bootstrap'
 import {fetchChannels} from '../store/channel'
-import {ConnectedChannelLineItem} from './ChannelLineItem'
+import {ConnectedChannelLineItemSidebar} from './ChannelLineItemSidebar'
 
-export class AllChannels extends Component {
+export class AllChannelsSidebar extends Component {
   constructor(props, context) {
     super(props, context)
   }
@@ -22,7 +22,7 @@ export class AllChannels extends Component {
           {channels && channels.length ? (
             channels.map(channel => {
               return (
-                <ConnectedChannelLineItem
+                <ConnectedChannelLineItemSidebar
                   changeChannel={this.props.fetchChannels}
                   key={channel.id}
                   channel={channel}
@@ -53,7 +53,7 @@ const mapStateToProps = state => {
     allChannels: state.channel.allChannels
   }
 }
-export const ConnectedAllChannels = connect(
+export const ConnectedAllChannelsSidebar = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AllChannels)
+)(AllChannelsSidebar)
