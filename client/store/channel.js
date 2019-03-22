@@ -8,6 +8,7 @@ const GET_OWNED_CHANNELS = 'GET_OWNED_CHANNELS'
 const GET_FAVORITE_CHANNELS = 'GET_FAVORITE_CHANNELS'
 const GET_SELECTED_CHANNEL = 'GET_SELECTED_CHANNEL'
 const SET_CURRENT_CHANNEL = 'SET_CURRENT_CHANNEL'
+const REMOVE_CHANNEL = 'REMOVE_CHANNEL'
 
 /**
  * INITIAL STATE
@@ -36,6 +37,9 @@ export const getSelectedChannel = selectedChannel => ({
   type: GET_SELECTED_CHANNEL,
   selectedChannel
 })
+export const removeSelectedChannel = () => ({
+  type: REMOVE_CHANNEL
+})
 
 export const setCurrentChannel = currentChannel => ({
   type: SET_CURRENT_CHANNEL,
@@ -49,7 +53,6 @@ export const setCurrentChannel = currentChannel => ({
 export const fetchChannels = () => async dispatch => {
   let res
   try {
-    console.log('Inside channels store fetchChannels thunk')
     res = await axios.get(`/api/channels`)
     dispatch(getAllChannels(res.data))
   } catch (err) {
@@ -61,6 +64,36 @@ export const fetchSelectedChannel = channelId => async dispatch => {
   try {
     res = await axios.get(`/api/channels/${channelId}`)
     dispatch(getSelectedChannel(res.data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const createChannel = channelData => async dispatch => {
+  let res
+  try {
+    res = await axios.post(`/api/channels/`, channelData)
+    await dispatch(fetchChannels())
+    await dispatch(fetchSelectedChannel(res.data.id))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const updateChannel = (channelId, channelData) => async dispatch => {
+  let res
+  try {
+    res = await axios.put(`/api/channels/${channelId}`, channelData)
+    await dispatch(fetchChannels())
+    await dispatch(fetchSelectedChannel(channelId))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const deleteChannel = channelId => async dispatch => {
+  let res
+  try {
+    res = await axios.delete(`/api/channels/${channelId}`)
+    await dispatch(fetchChannels())
+    dispatch(removeSelectedChannel())
   } catch (err) {
     console.error(err)
   }
@@ -81,6 +114,8 @@ export default function(state = defaultChannels, action) {
       return {...state, selectedChannel: action.selectedChannel}
     case SET_CURRENT_CHANNEL:
       return {...state, currentChannel: action.currentChannel}
+    case REMOVE_CHANNEL:
+      return {...state, selectedChannel: {}}
     default:
       return state
   }

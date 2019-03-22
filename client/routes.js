@@ -8,7 +8,12 @@ import {
   UserHome,
   ConnectedFavoriteChannels,
   ConnectedOwnedChannels,
-  ConnectedAllChannels
+  ConnectedAllChannels,
+  ConnectedSelectedChannel,
+  ConnectedNewChannel,
+  ConnectedEditChannel,
+  ConnectedSelectedSong,
+  ConnectedEditUser
 } from './components'
 import {me, initializePlayer} from './store'
 /**
@@ -36,20 +41,27 @@ class Routes extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route
-            exact
             path="/favoriteChannels"
             component={ConnectedFavoriteChannels}
           />
-          <Route
-            exact
-            path="/ownedChannels"
-            component={ConnectedOwnedChannels}
-          />
+          <Route path="/ownedChannels" component={ConnectedOwnedChannels} />
           <Route exact path="/allChannels" component={ConnectedAllChannels} />
+          <Route
+            path="/channels/:channelId"
+            component={ConnectedSelectedChannel}
+          />
+          <Route
+            path="/editChannel/:channelId"
+            component={ConnectedEditChannel}
+          />
+          <Route path="/newChannel" component={ConnectedNewChannel} />
+          <Route path="/songs/:songId" component={ConnectedSelectedSong} />
+
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route exact path="/home" component={UserHome} />
+              <Route path="/editUser/:userId" component={ConnectedEditUser} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}

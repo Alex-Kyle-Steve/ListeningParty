@@ -73,6 +73,23 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const updateUser = (userId, userData) => async dispatch => {
+  try {
+    const res = await axios.put(`/api/users/${userId}`, userData)
+    dispatch(getUser(res.data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteUser = userId => async dispatch => {
+  try {
+    await axios.delete(userId)
+    dispatch(removeUser())
+  } catch (err) {
+    console.error(err)
+  }
+}
 /**
  * REDUCER
  */
