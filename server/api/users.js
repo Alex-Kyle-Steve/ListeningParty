@@ -61,3 +61,21 @@ router.get('/:id/favorites', async (req, res, next) => {
     next(err)
   }
 })
+router.put('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const updatedUser = user.update(req.body)
+    res.json(updatedUser)
+  } catch (err) {
+    next(err)
+  }
+})
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const updatedUser = user.destroy()
+    res.json(updatedUser)
+  } catch (err) {
+    next(err)
+  }
+})

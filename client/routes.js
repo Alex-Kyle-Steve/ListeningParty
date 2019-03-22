@@ -13,7 +13,8 @@ import {
   ConnectedSelectedChannel,
   ConnectedNewChannel,
   ConnectedEditChannel,
-  ConnectedSelectedSong
+  ConnectedSelectedSong,
+  ConnectedEditUser
 } from './components'
 import {me} from './store'
 import axios from 'axios'
@@ -56,6 +57,7 @@ class Routes extends Component {
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route exact path="/home" component={UserHome} />
+              <Route path="/editUser/:userId" component={ConnectedEditUser} />
               <Route exact path="/music-player" component={MusicPlayer} />
             </Switch>
           )}
