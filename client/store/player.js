@@ -9,12 +9,13 @@ export const setPlayer = player => ({type: SET_PLAYER, player})
 // THUNK CREATOR
 export const initializePlayer = () => async (dispatch, getState) => {
   const player = createPlayer()
-  player.addListener('player-state-changed', state => {
-    const {currentChannel, user} = getState()
+  player.addListener('player_state_changed', state => {
+    const {channel: {selectedChannel}, user} = getState()
     musicPlayerEvent.emit(
+      'state-changed',
       state,
-      currentChannel.id,
-      currentChannel.ownerId === user.id
+      selectedChannel.id,
+      selectedChannel.ownerId === user.id
     )
   })
   player.addListener('ready', device => {
