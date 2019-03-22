@@ -24,6 +24,7 @@ class SpotifyCatalogSearch extends Component {
         Authorization: `Bearer ${this.props.user.accessToken}`
       }
     }).then(res => {
+      console.log(res.data)
       this.setState({
         res: res.data
       })
@@ -33,8 +34,6 @@ class SpotifyCatalogSearch extends Component {
     this.setState({
       query: event.target.value
     })
-    console.log('state', this.state.query)
-    console.log(event.target.value)
   }
 
   render() {

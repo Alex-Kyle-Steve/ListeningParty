@@ -62,6 +62,7 @@ a:hover {
   width: 100%;
 }
 
-.full-width {
-  width: 100vw !important;
+.channel-image {
+  max-height: 50% !important;
+  max-width: 50% !important;
 }

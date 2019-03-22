@@ -16,8 +16,9 @@ import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
-// import {ConnectedFavoriteChannels} from './FavoriteChannels'
-// import {ConnectedOwnedChannels} from './OwnedChannels'
+import {ConnectedFavoriteChannels} from './FavoriteChannels'
+import {ConnectedOwnedChannels} from './OwnedChannels'
+import {ConnectedAllChannels} from './AllChannels'
 
 export class SelectedChannel extends Component {
   constructor() {
@@ -48,6 +49,55 @@ export class SelectedChannel extends Component {
       <div>
         <Container fluid={true}>
           <Row>
+            {/* Channel Bar */}
+            <Col xs={3}>
+              <ConnectedOwnedChannels />
+              <ConnectedFavoriteChannels />
+              <ConnectedAllChannels />
+            </Col>
+            {/* Music info/Player */}
+            <Col xs={6}>
+              <Card>
+                <Row>
+                  <Col xs={6}>
+                    <Card.Img
+                      src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440"
+                      // className="channel-image"
+                    />
+                  </Col>
+                  <Col xs={6}>
+                    <Row>
+                      <Col xs={12}>
+                        <Card.Title>Song Information</Card.Title>
+                      </Col>
+                      <Col xs={12}>
+                        <Card.Text>Road Head</Card.Text>
+                      </Col>
+                      <Col xs={12}>
+                        <Card.Text>Japanese Breakfast</Card.Text>
+                      </Col>
+                      <Col xs={12}>
+                        <Card.Text>Soft Sounds from Another Planet</Card.Text>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <ScrollTable playList={historicalPlayList} />
+                    </Row>
+                  </Col>
+                </Row>
+              </Card>
+              <Row>
+                <ConnectedSpotifyCatalogSearch />
+              </Row>
+            </Col>
+
+            {/* Chat */}
+            <Col xs={3}>
+              <Col>CHAT HERE</Col>
+            </Col>
+          </Row>
+
+          {/* <Row>
             <Col xs={6}>
               <Card>
                 <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
@@ -72,10 +122,9 @@ export class SelectedChannel extends Component {
                 <ScrollTable playList={historicalPlayList} />
               </Row>
             </Col>
-          </Row>
-          <Row>
-            <ConnectedSpotifyCatalogSearch />
-          </Row>
+          </Row> */}
+          {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
+          {/* Different Part of Page */}
         </Container>
       </div>
     )

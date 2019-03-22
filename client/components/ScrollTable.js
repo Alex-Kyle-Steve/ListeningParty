@@ -27,7 +27,7 @@ export class ScrollTable extends React.Component {
         {this.props.playList ? (
           <BootstrapTable
             scrollTop="Top"
-            maxHeight="650px"
+            maxHeight="250px"
             bordered={false}
             data={this.formatData()}
             hover
