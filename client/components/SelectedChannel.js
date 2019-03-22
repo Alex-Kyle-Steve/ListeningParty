@@ -7,15 +7,13 @@ import {fetchSelectedChannel} from '../store/channel'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedAllChannels} from './AllChannels'
+import {socket} from '../socket'
 
 export class SelectedChannel extends Component {
-  constructor() {
-    super()
-  }
-
   async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
     await this.props.fetchSelectedChannel(channelId)
+    socket.emit('join-room', channelId)
   }
 
   formatData() {
