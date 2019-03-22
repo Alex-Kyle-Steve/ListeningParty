@@ -61,3 +61,7 @@ a:hover {
 .nav {
   width: 100%;
 }
+
+.full-width {
+  width: 100vw !important;
+}

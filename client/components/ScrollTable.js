@@ -26,8 +26,9 @@ export class ScrollTable extends React.Component {
       <div>
         {this.props.playList ? (
           <BootstrapTable
-            scrollTop={5}
-            maxHeight="20px"
+            scrollTop="Top"
+            maxHeight="650px"
+            bordered={false}
             data={this.formatData()}
             hover
           >
@@ -35,7 +36,7 @@ export class ScrollTable extends React.Component {
             <TableHeaderColumn dataField="title" isKey>
               Song
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="album">album</TableHeaderColumn>
+            <TableHeaderColumn dataField="album">Album</TableHeaderColumn>
           </BootstrapTable>
         ) : (
           ''

@@ -15,9 +15,9 @@ import {Link} from 'react-router-dom'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
-// import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
-import {ConnectedFavoriteChannels} from './FavoriteChannels'
-import {ConnectedOwnedChannels} from './OwnedChannels'
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
+// import {ConnectedFavoriteChannels} from './FavoriteChannels'
+// import {ConnectedOwnedChannels} from './OwnedChannels'
 
 export class SelectedChannel extends Component {
   constructor() {
@@ -29,13 +29,24 @@ export class SelectedChannel extends Component {
     await this.props.fetchSelectedChannel(channelId)
   }
 
+  formatData() {
+    console.log(this.props.selectedChannel.historicalPlayLists)
+    return this.props.selectedChannel.historicalPlayLists.reduce(
+      (accumulator, currentValue) => {
+        accumulator.push(currentValue.song)
+        return accumulator
+      },
+      []
+    )
+  }
+
   render() {
     const selectedChannel = this.props.selectedChannel
     const historicalPlayList = selectedChannel.historicalPlayLists
 
     return (
       <div>
-        <Container>
+        <Container fluid={true}>
           <Row>
             <Col xs={6}>
               <Card>
@@ -58,112 +69,12 @@ export class SelectedChannel extends Component {
                 </Col>
               </Row>
               <Row>
-                {/* React BootStrap table */}
-                {/* <div>
-                <Table hover>
-                  <thead>
-                    <tr>
-                      <th>Artist</th>
-                      <th>Song</th>
-                      <th>Album</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {historicalPlayList ? (
-                      historicalPlayList.map(song => {
-                        return (
-                          <tr key={song.id}>
-                            <td>{song.song.artist}</td>
-                            <td>{song.song.title}</td>
-                            <td>{song.song.album}</td>
-                          </tr>
-                        )
-                      })
-                    ) : (
-                      <tr />
-                    )}
-                  </tbody>
-                </Table>
-              </div> */}
-                {/* React-bootstrap-tables  */}
-                {/* <ScrollTable playList={historicalPlayList} /> */}
-                {/* vanilla html */}
-                <table cellspace="0" cellPadding="0" border="0" width="320">
-                  <tbody>
-                    <tr>
-                      <td style={{width: '10px'}}>
-                        <table
-                          cellspace="300"
-                          cellPadding="10"
-                          border="1"
-                          height="20"
-                          width="300"
-                        >
-                          <tbody>
-                            <tr
-                              style={{
-                                width: '400px',
-                                color: 'black',
-                                backgroundColor: 'wheat'
-                              }}
-                            >
-                              <th>Artist</th>
-                              <th>Song</th>
-                              <th>Album</th>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div
-                          style={{
-                            width: '400px',
-                            height: '400px',
-                            overflow: 'auto'
-                          }}
-                        >
-                          <table
-                            cellspace="0"
-                            cellPadding="1"
-                            border="1"
-                            width="300"
-                          >
-                            {historicalPlayList ? (
-                              historicalPlayList.map(song => {
-                                return (
-                                  <tbody key={song.song.id}>
-                                    <tr>
-                                      <td>{song.song.artist}</td>
-                                      <td>{song.song.title}</td>
-                                      <td>{song.song.album}</td>
-                                    </tr>
-                                  </tbody>
-                                )
-                              })
-                            ) : (
-                              <tbody>
-                                <tr>
-                                  <td>No Songs</td>
-                                </tr>
-                              </tbody>
-                            )}
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <ScrollTable playList={historicalPlayList} />
               </Row>
             </Col>
           </Row>
           <Row>
             <ConnectedSpotifyCatalogSearch />
-
-            {/* <Col xs={6}>
-
-          </Col> */}
           </Row>
         </Container>
       </div>

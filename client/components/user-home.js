@@ -16,7 +16,7 @@ export class UserHome extends React.Component {
   render() {
     return (
       <div className="user-home content">
-        <Container>
+        <Container fluid={true}>
           <Row>
             <Col className="my-center-align" xs={3}>
               <ConnectedOwnedChannels />
