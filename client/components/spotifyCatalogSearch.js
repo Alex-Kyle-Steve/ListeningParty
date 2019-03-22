@@ -24,7 +24,6 @@ class SpotifyCatalogSearch extends Component {
         Authorization: `Bearer ${this.props.user.accessToken}`
       }
     }).then(res => {
-      console.log(res.data)
       this.setState({
         res: res.data
       })
@@ -39,7 +38,6 @@ class SpotifyCatalogSearch extends Component {
   }
 
   render() {
-    console.log(this.props.user)
     return (
       <Container>
         <Row>
@@ -47,13 +45,13 @@ class SpotifyCatalogSearch extends Component {
             <Form onSubmit={this.handleSubmit}>
               <Form.Group controlId="SearchCatalog">
                 <Form.Label>
-                  <h1>Search the Spotify Catalog</h1>
+                  <h1>Search Spotify</h1>
                 </Form.Label>
                 <Form.Control
                   onChange={this.handleChange}
                   name="search"
                   type="search"
-                  placeholder="Ex. Someday"
+                  placeholder="Artist, Album, or Song"
                 />
               </Form.Group>
               <Button variant="success" type="submit">
@@ -67,12 +65,13 @@ class SpotifyCatalogSearch extends Component {
             {this.state.res.tracks ? (
               <div>
                 <h2>Search Results</h2>
-                <Table className="flags-table">
+                <Table>
                   <thead>
                     <tr>
                       <th>Artist</th>
                       <th>Song</th>
                       <th>Album</th>
+                      <th>Cue</th>
                     </tr>
                   </thead>
                   <tbody>

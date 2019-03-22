@@ -12,8 +12,12 @@ import {
   Jumbotron
 } from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
+// import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
+import {ConnectedFavoriteChannels} from './FavoriteChannels'
+import {ConnectedOwnedChannels} from './OwnedChannels'
 
 export class SelectedChannel extends Component {
   constructor() {
@@ -28,40 +32,34 @@ export class SelectedChannel extends Component {
   render() {
     const selectedChannel = this.props.selectedChannel
     const historicalPlayList = selectedChannel.historicalPlayLists
-    console.log(historicalPlayList)
+
     return (
-      <Container>
-        <Row>
-          <Col xs={6}>
-            <Card>
-              <Card.Img src="/300x300.png" />
-            </Card>
-          </Col>
-          <Col xs={6}>
-            <Row>
-              <Col xs={12}>
-                <Card.Title>
-                  <h3>Song Information</h3>
-                </Card.Title>
-              </Col>
-              <Col xs={12}>
-                <Card.Text>
-                  <h4>Title</h4>
-                </Card.Text>
-              </Col>
-              <Col xs={12}>
-                <Card.Text>
-                  <h4>Artist </h4>
-                </Card.Text>
-              </Col>
-              <Col xs={12}>
-                <Card.Text>
-                  <h4>Album</h4>
-                </Card.Text>
-              </Col>
-            </Row>
-            <Row>
-              {/* <div>
+      <div>
+        <Container>
+          <Row>
+            <Col xs={6}>
+              <Card>
+                <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
+              </Card>
+            </Col>
+            <Col xs={6}>
+              <Row>
+                <Col xs={12}>
+                  <Card.Title>Song Information</Card.Title>
+                </Col>
+                <Col xs={12}>
+                  <Card.Text>Road Head</Card.Text>
+                </Col>
+                <Col xs={12}>
+                  <Card.Text>Japanese Breakfast</Card.Text>
+                </Col>
+                <Col xs={12}>
+                  <Card.Text>Soft Sounds from Another Planet</Card.Text>
+                </Col>
+              </Row>
+              <Row>
+                {/* React BootStrap table */}
+                {/* <div>
                 <Table hover>
                   <thead>
                     <tr>
@@ -87,17 +85,88 @@ export class SelectedChannel extends Component {
                   </tbody>
                 </Table>
               </div> */}
-            </Row>
-          </Col>
-        </Row>
-        <Row>
-          <ConnectedSpotifyCatalogSearch />
+                {/* React-bootstrap-tables  */}
+                {/* <ScrollTable playList={historicalPlayList} /> */}
+                {/* vanilla html */}
+                <table cellspace="0" cellPadding="0" border="0" width="320">
+                  <tbody>
+                    <tr>
+                      <td style={{width: '10px'}}>
+                        <table
+                          cellspace="300"
+                          cellPadding="10"
+                          border="1"
+                          height="20"
+                          width="300"
+                        >
+                          <tbody>
+                            <tr
+                              style={{
+                                width: '400px',
+                                color: 'black',
+                                backgroundColor: 'wheat'
+                              }}
+                            >
+                              <th>Artist</th>
+                              <th>Song</th>
+                              <th>Album</th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div
+                          style={{
+                            width: '400px',
+                            height: '400px',
+                            overflow: 'auto'
+                          }}
+                        >
+                          <table
+                            cellspace="0"
+                            cellPadding="1"
+                            border="1"
+                            width="300"
+                          >
+                            {historicalPlayList ? (
+                              historicalPlayList.map(song => {
+                                return (
+                                  <tbody key={song.song.id}>
+                                    <tr>
+                                      <td>{song.song.artist}</td>
+                                      <td>{song.song.title}</td>
+                                      <td>{song.song.album}</td>
+                                    </tr>
+                                  </tbody>
+                                )
+                              })
+                            ) : (
+                              <tbody>
+                                <tr>
+                                  <td>No Songs</td>
+                                </tr>
+                              </tbody>
+                            )}
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <ConnectedSpotifyCatalogSearch />
 
-          {/* <Col xs={6}>
+            {/* <Col xs={6}>
 
           </Col> */}
-        </Row>
-      </Container>
+          </Row>
+        </Container>
+      </div>
     )
   }
 }
