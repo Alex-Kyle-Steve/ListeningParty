@@ -10,7 +10,9 @@ socket.on('connect', () => {
 
 socket.on(
   'recieved-new-song',
-  uri => store.dispatch(playTrack(uri))
+  uri => {
+    store.dispatch(playTrack(uri))
+  }
   //   window.player.getCurrentState().then(state => {
   //     // if state is null, no music is playing. WHY SPOTIFY!!!!!!!!
   //     // just play the song if current track does not match the owner's song
