@@ -11,6 +11,8 @@ socket.on('connect', () => {
 socket.on(
   'recieved-new-song',
   uri => {
+    // for testing. take out later
+    console.log('new URI!!:', uri)
     store.dispatch(playTrack(uri))
   }
   //   window.player.getCurrentState().then(state => {
