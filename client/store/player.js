@@ -1,4 +1,5 @@
 import musicPlayerEvent, {createPlayer, playNewUri} from '../music-player'
+import {setNewTrack} from './'
 
 const SET_PLAYER_INSTANCE = 'SET_PLAYER_INSTANCE'
 const SET_READY = 'SET_READY'
@@ -54,7 +55,9 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
 export const playTrack = uri => (dispatch, getState) =>
   playNewUri({uri, player: getState().player.instance})
     .then(() => getState().player.instance.getCurrentState())
-    .then(playerState => dispatch(playerState.track_window.current_track))
+    .then(playerState =>
+      dispatch(setNewTrack(playerState.track_window.current_track))
+    )
 
 /**
  * toggle pause and resume of the spotify player when:
@@ -65,11 +68,11 @@ export const togglePause = isPaused => (dispatch, getState) => {
   const player = getState().player.instance
   return isPaused
     ? player.pause().then(() => {
-        console.log('player paused!')
+        console.log('player paused: isPaused =', isPaused)
         dispatch(setPause(true))
       })
     : player.resume().then(() => {
-        console.log('player resumed!')
+        console.log('player resumed: isPaused =', isPaused)
         dispatch(setPause(false))
       })
 }

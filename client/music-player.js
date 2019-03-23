@@ -35,7 +35,7 @@ const handleStateChanged = (playerState, dispatch, getState) => {
     // if owner player has toggled play or pause
     if (isOwnerPaused !== isPaused) {
       // broadcast to other channel participants
-      socket.emit('toggled-pause', isPaused, channelId)
+      socket.emit('toggled-pause', isOwnerPaused, channelId)
       // change owner state
       dispatch(setPause(isOwnerPaused))
     }
