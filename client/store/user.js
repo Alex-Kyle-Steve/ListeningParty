@@ -46,6 +46,24 @@ export const fetchFavoriteChannels = userId => async dispatch => {
     console.error(err)
   }
 }
+export const addFavoriteChannel = (userId, channelId) => async dispatch => {
+  try {
+    const res = await axios.post(`/api/users/${userId}/favorites/${channelId}`)
+    dispatch(fetchFavoriteChannels(userId))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const removeFavoriteChannel = (userId, channelId) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/users/${userId}/favorites/${channelId}`
+    )
+    dispatch(fetchFavoriteChannels(userId))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export const auth = (email, password, method) => async dispatch => {
   let res
