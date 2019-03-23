@@ -8,17 +8,28 @@ import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
-import {Player} from './Player'
+import {ConnectedPlayer} from './Player'
 export class SelectedChannel extends Component {
   constructor() {
     super()
   }
   async componentDidMount() {
+    console.log('I mounted')
     const channelId = parseInt(this.props.match.params.channelId)
     socket.emit('join-room', channelId)
     await this.props.fetchSelectedChannel(channelId)
   }
 
+  async componentDidUpdate(prevProps, nextState) {
+    console.log('I got called')
+    if (
+      String(prevProps.selectedChannel.id) !==
+      String(this.props.match.params.channelId)
+    ) {
+      const channelId = parseInt(this.props.match.params.channelId)
+      await this.props.fetchSelectedChannel(channelId)
+    }
+  }
   formatData() {
     return this.props.selectedChannel.historicalPlayLists.reduce(
       (accumulator, currentValue) => {
@@ -33,6 +44,7 @@ export class SelectedChannel extends Component {
     const selectedChannel = this.props.selectedChannel
     const historicalPlayList = selectedChannel.historicalPlayLists
     const channelId = parseInt(this.props.match.params.channelId)
+
     return (
       <div>
         <Container fluid={true}>
@@ -67,7 +79,7 @@ export class SelectedChannel extends Component {
                     </Row>
                     <Row>
                       <Col xs={12}>
-                        <Player />
+                        <ConnectedPlayer />
                       </Col>
                     </Row>
                   </Col>
@@ -133,7 +145,8 @@ const mapDispatchToProps = dispatch => {
 }
 const mapStateToProps = state => {
   return {
-    selectedChannel: state.channel.selectedChannel
+    selectedChannel: state.channel.selectedChannel,
+    playerInstance: state.player.instance
   }
 }
 export const ConnectedSelectedChannel = connect(

@@ -105,7 +105,6 @@ class ChanneLineItem extends Component {
             </Card.Body>
           </Card>
         </CardDeck>
-        {/* <ListGroup.Item key={this.props.channel.id} style={{border: 'none'}}> */}
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.channel.name}</Modal.Title>
@@ -124,8 +123,6 @@ class ChanneLineItem extends Component {
             </Link>
           </Modal.Footer>
         </Modal>
-        {/* </ListGroup.Item> */}
-        {/* </Card> */}
       </Container>
     )
   }

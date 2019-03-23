@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import {Button} from 'react-bootstrap'
 export class SpotifyCatalogScrollTable extends Component {
+  constructor() {
+    super()
+  }
   formatData() {
     let songObj = {}
     return this.props.tracks.items.reduce((accumulator, currentValue) => {
@@ -18,12 +21,17 @@ export class SpotifyCatalogScrollTable extends Component {
 
   //Adds an "Add" Button to the table
   showButton() {
-    return <Button variant="primary">Add</Button>
+    return (
+      <Button variant="primary" onClick={this.handleClick}>
+        Add
+      </Button>
+    )
   }
   render() {
+    console.log(this.props.tracks)
     return (
       <div>
-        {this.props.tracks ? (
+        {this.props.tracks.items.length !== 0 ? (
           <BootstrapTable
             scrollTop="Top"
             maxHeight="400px"
