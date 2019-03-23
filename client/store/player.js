@@ -29,7 +29,7 @@ export const initializePlayer = () => async (dispatch, getState) => {
 }
 
 export const playTrack = uri => (dispatch, getState) =>
-  dispatch(playNewUri(uri, getState().player))
+  dispatch(playNewUri({uri, webPlayer: getState().player}))
 
 export default function(state = {}, action) {
   if (action.type === SET_PLAYER) return action.player
