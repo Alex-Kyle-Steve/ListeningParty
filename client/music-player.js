@@ -42,6 +42,11 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   }
 }
 
+/**
+ * handler for joining the channel
+ * TODO:
+ * - sync current track.
+ */
 const handleJoinChannel = channelId => {}
 
 // listener for state change in spotify player
