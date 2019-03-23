@@ -52,11 +52,17 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
  * - when joining channel
  * @param {string} uri
  */
-export const playTrack = uri => (dispatch, getState) =>
+export const playTrack = (uri, isPaused) => (dispatch, getState) =>
+  getState().currentTrack.uri !== uri &&
   playNewUri({uri, player: getState().player.instance})
     .then(() => getState().player.instance.getCurrentState())
     .then(playerState =>
       dispatch(setNewTrack(playerState.track_window.current_track))
+    )
+    .then(() => isPaused && getState().player.instance.pause())
+    .then(
+      () =>
+        isPaused !== getState().player.isPaused && dispatch(setPause(isPaused))
     )
 
 /**
@@ -68,11 +74,9 @@ export const togglePause = isPaused => (dispatch, getState) => {
   const player = getState().player.instance
   return isPaused
     ? player.pause().then(() => {
-        console.log('player paused: isPaused =', isPaused)
         dispatch(setPause(true))
       })
     : player.resume().then(() => {
-        console.log('player resumed: isPaused =', isPaused)
         dispatch(setPause(false))
       })
 }

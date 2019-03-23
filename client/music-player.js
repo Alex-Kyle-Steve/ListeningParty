@@ -28,17 +28,20 @@ const handleStateChanged = (playerState, dispatch, getState) => {
     const ownerTrack = playerState.track_window.current_track
     // if owner track has changed
     if (ownerTrack.id !== currentTrack.id) {
-      socket.emit('played-new-song', ownerTrack.uri, channelId)
+      socket.emit(
+        'played-new-song',
+        ownerTrack.uri,
+        playerState.paused,
+        channelId
+      )
       dispatch(setNewTrack(ownerTrack))
     }
-    // get the owner player's pause status
-    const isOwnerPaused = playerState.paused
     // if owner player has toggled play or pause
-    if (isOwnerPaused !== isPaused) {
+    if (playerState.paused !== isPaused) {
       // broadcast to other channel participants
-      socket.emit('toggled-pause', isOwnerPaused, channelId)
+      socket.emit('toggled-pause', playerState.paused, channelId)
       // change owner state
-      dispatch(setPause(isOwnerPaused))
+      dispatch(setPause(playerState.paused))
     }
   }
 }
