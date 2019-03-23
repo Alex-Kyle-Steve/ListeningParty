@@ -13,7 +13,8 @@ import {
   ConnectedNewChannel,
   ConnectedEditChannel,
   ConnectedSelectedSong,
-  ConnectedEditUser
+  ConnectedEditUser,
+  ConnectedMessages
 } from './components'
 import {me, initializePlayer} from './store'
 /**
@@ -40,27 +41,28 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          <Route
-            path="/favoriteChannels"
-            component={ConnectedFavoriteChannels}
-          />
-          <Route path="/ownedChannels" component={ConnectedOwnedChannels} />
           <Route exact path="/allChannels" component={ConnectedAllChannels} />
           <Route
             path="/channels/:channelId"
             component={ConnectedSelectedChannel}
           />
-          <Route
-            path="/editChannel/:channelId"
-            component={ConnectedEditChannel}
-          />
-          <Route path="/newChannel" component={ConnectedNewChannel} />
           <Route path="/songs/:songId" component={ConnectedSelectedSong} />
 
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route exact path="/home" component={UserHome} />
+              <Route
+                path="/favoriteChannels"
+                component={ConnectedFavoriteChannels}
+              />
+              <Route path="/ownedChannels" component={ConnectedOwnedChannels} />
+              <Route
+                path="/editChannel/:channelId"
+                component={ConnectedEditChannel}
+              />
+              <Route path="/newChannel" component={ConnectedNewChannel} />
+              <Route path="/chat" component={ConnectedMessages} />
               <Route path="/editUser/:userId" component={ConnectedEditUser} />
             </Switch>
           )}

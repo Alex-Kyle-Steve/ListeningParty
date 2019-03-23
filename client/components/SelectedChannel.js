@@ -7,6 +7,7 @@ import {fetchSelectedChannel} from '../store/channel'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedAllChannels} from './AllChannels'
+import {ConnectedMessages} from './MessageList'
 import socket from '../socket'
 
 export class SelectedChannel extends Component {
@@ -82,7 +83,7 @@ export class SelectedChannel extends Component {
 
             {/* Chat */}
             <Col xs={3}>
-              <Col>CHAT HERE</Col>
+              <ConnectedMessages />
             </Col>
           </Row>
         </Container>

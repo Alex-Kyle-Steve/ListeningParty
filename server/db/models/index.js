@@ -6,6 +6,7 @@ const SongHistory = require('./songHistory')
 const Song = require('./song')
 const Address = require('./address')
 const HistoricalPlayList = require('./historicalPlayList')
+const Message = require('./message')
 
 //Owns a Channel
 Channel.belongsTo(User, {as: 'owner'})
@@ -35,7 +36,18 @@ SongHistory.belongsTo(Channel)
 HistoricalPlayList.belongsTo(Song)
 Song.hasMany(HistoricalPlayList)
 HistoricalPlayList.belongsTo(Channel)
+
 Channel.hasMany(HistoricalPlayList)
+
+Channel.hasMany(Message, {
+  onDelete: 'cascade',
+  hooks: true
+})
+
+User.hasMany(Message)
+
+Message.belongsTo(Channel)
+Message.belongsTo(User)
 
 module.exports = {
   User,
@@ -44,5 +56,6 @@ module.exports = {
   UserData,
   SongHistory,
   Song,
-  HistoricalPlayList
+  HistoricalPlayList,
+  Message
 }
