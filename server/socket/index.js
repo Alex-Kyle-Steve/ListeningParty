@@ -17,9 +17,9 @@ module.exports = io => {
     })
 
     // owner changed the song
-    socket.on('played-new-song', function(uri, channelId) {
+    socket.on('played-new-song', function(uri, channelId, isPaused = false) {
       // broadcasts to other listeners in the channel
-      this.broadcast.to(channelId).emit('owner-played-new-song', uri)
+      this.broadcast.to(channelId).emit('owner-played-new-song', uri, isPaused)
     })
     // owner toggled pause
     socket.on('toggled-pause', function(isPaused, channelId) {
