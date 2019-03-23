@@ -2,7 +2,7 @@ import musicPlayerEvent, {createPlayer, playNewUri} from '../music-player'
 
 const SET_PLAYER_INSTANCE = 'SET_PLAYER_INSTANCE'
 const TOGGLE_READY = 'TOGGLE_READY'
-const TOGGLE_PAUSE = 'TOGGLE_PAUSE'
+const SET_PAUSE = 'SET_PAUSE'
 
 // ACTION CREATOR
 export const setPlayerInstance = instance => ({
@@ -10,7 +10,7 @@ export const setPlayerInstance = instance => ({
   instance
 })
 export const toggleReady = isReady => ({type: TOGGLE_READY, isReady})
-export const togglePause = isPaused => ({type: TOGGLE_PAUSE, isPaused})
+export const setPause = isPaused => ({type: SET_PAUSE, isPaused})
 // END - ACTION CREATOR
 
 // player listener
@@ -52,14 +52,32 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
  * @param {string} uri
  */
 export const playTrack = uri => (dispatch, getState) =>
-  playNewUri({uri, webPlayer: getState().player.instance})
+  playNewUri({uri, player: getState().player.instance})
 
+/**
+ * toggle pause and resume of the spotify player when:
+ * - owner pauses the song
+ * @param {boolean} isPaused
+ */
+export const togglePause = isPaused => (dispatch, getState) => {
+  const player = getState().player.instance
+  return isPaused
+    ? player.pause().then(() => dispatch(setPause(true)))
+    : player.resume().then(() => dispatch(setPause(false)))
+}
+
+/**
+ * initial state of the player store state:
+ * - instance: Spotify player object
+ * - isReady: boolean determining whether player is ready
+ * - isPaused: boolean determining if player is paused
+ */
 const initialState = {instance: null, isReady: false, isPaused: false}
 
 export default function(state = initialState, action) {
   if (action.type === SET_PLAYER_INSTANCE)
     return {...state, instance: action.instance}
   if (action.type === TOGGLE_READY) return {...state, isReady: action.isReady}
-  if (action.type === TOGGLE_PAUSE) return {...state, isPaused: action.isPaused}
+  if (action.type === SET_PAUSE) return {...state, isPaused: action.isPaused}
   return state
 }

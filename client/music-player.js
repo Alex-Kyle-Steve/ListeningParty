@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import {setNewTrack, togglePause} from './store'
+import {setNewTrack, setPause} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -17,7 +17,9 @@ const handleStateChanged = (playerState, dispatch, getState) => {
     currentTrack,
     player: {isPaused}
   } = getState()
+  // id of the current channel participating
   const channelId = selectedChannel.id
+  // determine if the triggered player is owner's
   const isChannelOwner = selectedChannel.ownerId === user.id
   // if it was triggered by channel owner's player, manage all the listeners
   if (isChannelOwner) {
@@ -32,8 +34,10 @@ const handleStateChanged = (playerState, dispatch, getState) => {
     const isOwnerPaused = playerState.paused
     // if owner player has toggled play or pause
     if (isOwnerPaused !== isPaused) {
+      // broadcast to other channel participants
       socket.emit('toggled-pause', isPaused, channelId)
-      dispatch(togglePause(isOwnerPaused))
+      // change owner state
+      dispatch(setPause(isOwnerPaused))
     }
   }
 }
@@ -67,7 +71,7 @@ export const createPlayer = () =>
  * - add error-handling when playback fails
  * - fetch new OAuthToken when
  */
-export const playNewUri = ({uri, webPlayer: {_options: {getOAuthToken, id}}}) =>
+export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
   getOAuthToken(accessToken =>
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
       method: 'PUT',
