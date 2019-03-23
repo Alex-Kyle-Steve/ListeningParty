@@ -10,6 +10,7 @@ const musicPlayerEvent = new EventEmitter()
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
+  console.log('state changed!!!!')
   // get current channel, track and user from the state
   const {
     channel: {selectedChannel},
@@ -26,7 +27,7 @@ const handleStateChanged = (playerState, dispatch, getState) => {
     // get the owner player's current track
     const ownerTrack = playerState.track_window.current_track
     // if owner track has changed
-    if (ownerTrack !== currentTrack) {
+    if (ownerTrack.id !== currentTrack.id) {
       socket.emit('played-new-song', ownerTrack.uri, channelId)
       dispatch(setNewTrack(ownerTrack))
     }
