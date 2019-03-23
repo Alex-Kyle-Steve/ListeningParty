@@ -22,7 +22,7 @@ export class ScrollTable extends React.Component {
   render() {
     return (
       <div>
-        <h2>Up next</h2>
+        <h5>Up next</h5>
         {this.props.playList ? (
           <BootstrapTable
             scrollTop="Top"

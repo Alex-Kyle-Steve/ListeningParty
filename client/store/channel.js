@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Next} from 'react-bootstrap/PageItem'
 
 /**
  * ACTION TYPES
@@ -60,10 +61,15 @@ export const fetchChannels = () => async dispatch => {
   }
 }
 export const fetchSelectedChannel = channelId => async dispatch => {
+  //I have no idea why the routing is so wonky but adding the if statement fixed the 500 when navigating to /home
   let res
   try {
-    res = await axios.get(`/api/channels/${channelId}`)
-    dispatch(getSelectedChannel(res.data))
+    if (channelId === undefined) {
+      console.log()
+    } else {
+      res = await axios.get(`/api/channels/${channelId}`)
+      dispatch(getSelectedChannel(res.data))
+    }
   } catch (err) {
     console.error(err)
   }

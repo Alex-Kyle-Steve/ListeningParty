@@ -20,7 +20,7 @@ export class SpotifyCatalogScrollTable extends Component {
 
   //Adds an "Add" Button to the table
   showButton() {
-    return <Button>Add</Button>
+    return <Button variant="primary">Add</Button>
   }
   render() {
     return (

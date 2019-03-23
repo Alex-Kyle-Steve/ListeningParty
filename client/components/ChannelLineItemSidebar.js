@@ -25,42 +25,45 @@ class ChannelLineItemSidebar extends Component {
   }
   render() {
     return (
-      <Container>
-        <ListGroup.Item key={this.props.channel.id} style={{border: 'none'}}>
-          <Link
-            to={`/channels/${this.props.channel.id}`}
-            className="link-styling-quick-info"
-          >
-            {this.props.channel.name}{' '}
-          </Link>
-          <Button
-            variant="link"
-            className="link-styling"
-            onClick={this.handleShow}
-            size="sm"
-          >
-            quick info
-          </Button>
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>{this.props.channel.name}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{this.props.channel.description}</Modal.Body>
-            <Modal.Footer>
-              <Button variant="danger" onClick={this.handleClose}>
-                Close
-              </Button>
+      <ListGroup.Item
+        key={this.props.channel.id}
+        style={{border: 'none'}}
+        className="line-item-sidebar-hover"
+      >
+        <Link
+          to={`/channels/${this.props.channel.id}`}
+          className="link-styling"
+        >
+          {this.props.channel.name}{' '}
+        </Link>
+        <Button
+          variant="link"
+          className="link-styling"
+          onClick={this.handleShow}
+          size="sm"
+        >
+          Quick Info
+        </Button>
 
-              <Link to={`/channels/${this.props.channel.id}`}>
-                {' '}
-                <Button variant="success" onClick={this.handleClose}>
-                  Join Channel
-                </Button>{' '}
-              </Link>
-            </Modal.Footer>
-          </Modal>
-        </ListGroup.Item>
-      </Container>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.props.channel.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.props.channel.description}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={this.handleClose}>
+              Close
+            </Button>
+
+            <Link to={`/channels/${this.props.channel.id}`}>
+              {' '}
+              <Button variant="success" onClick={this.handleClose}>
+                Join Channel
+              </Button>{' '}
+            </Link>
+          </Modal.Footer>
+        </Modal>
+      </ListGroup.Item>
     )
   }
 }

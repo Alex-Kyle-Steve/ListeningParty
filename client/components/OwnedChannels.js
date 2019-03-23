@@ -21,7 +21,7 @@ export class OwnedChannels extends Component {
   render() {
     const ownedChannels = this.props.ownedChannels
     return (
-      <Container>
+      <Container fluid={true}>
         <ListGroup>
           <h4>My Channels</h4>
           {ownedChannels && ownedChannels.length ? (

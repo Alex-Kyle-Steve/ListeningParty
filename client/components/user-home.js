@@ -15,7 +15,7 @@ import {Row, Col, Container} from 'react-bootstrap'
 export class UserHome extends React.Component {
   render() {
     return (
-      <div className="user-home content">
+      <div className="user-home-content">
         <Container fluid={true}>
           <Row>
             <Col className="my-center-align" xs={3}>

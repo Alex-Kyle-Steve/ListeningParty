@@ -43,7 +43,7 @@ class SpotifyCatalogSearch extends Component {
             <Form onSubmit={this.handleSubmit}>
               <Form.Group controlId="SearchCatalog">
                 <Form.Label>
-                  <h1>Search Spotify</h1>
+                  <h5>Search Spotify</h5>
                 </Form.Label>
                 <Form.Control
                   onChange={this.handleChange}
@@ -52,7 +52,7 @@ class SpotifyCatalogSearch extends Component {
                   placeholder="Artist, Album, or Song"
                 />
               </Form.Group>
-              <Button variant="success" type="submit">
+              <Button variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
