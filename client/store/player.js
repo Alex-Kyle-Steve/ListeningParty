@@ -53,6 +53,8 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
  */
 export const playTrack = uri => (dispatch, getState) =>
   playNewUri({uri, player: getState().player.instance})
+    .then(getState().player.instance.getCurrentState())
+    .then(playerState => dispatch(playerState.track_window.current_track))
 
 /**
  * toggle pause and resume of the spotify player when:
@@ -62,8 +64,14 @@ export const playTrack = uri => (dispatch, getState) =>
 export const togglePause = isPaused => (dispatch, getState) => {
   const player = getState().player.instance
   return isPaused
-    ? player.pause().then(() => dispatch(setPause(true)))
-    : player.resume().then(() => dispatch(setPause(false)))
+    ? player.pause().then(() => {
+        console.log('player paused!')
+        dispatch(setPause(true))
+      })
+    : player.resume().then(() => {
+        console.log('player resumed!')
+        dispatch(setPause(false))
+      })
 }
 
 /**
