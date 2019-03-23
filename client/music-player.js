@@ -1,24 +1,40 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
+import {setNewTrack, togglePause} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
 /**
  * handler for musicPlayerEvents when the player state changes
  * emit event to other socket when it is triggered by the channel owner
- *
- * @param {*} state
- * @param {*} isChannelOwner
  */
-const handleStateChanged = (state, getState) => {
-  // get current channel and user from the state
-  const {channel: {selectedChannel}, user} = getState()
+const handleStateChanged = (playerState, dispatch, getState) => {
+  // get current channel, track and user from the state
+  const {
+    channel: {selectedChannel},
+    user,
+    currentTrack,
+    player: {isPaused}
+  } = getState()
   const channelId = selectedChannel.id
   const isChannelOwner = selectedChannel.ownerId === user.id
+  // if it was triggered by channel owner's player, manage all the listeners
   if (isChannelOwner) {
-    const currentTrack = state.track_window.current_track
-    socket.emit('played-new-song', currentTrack.uri, channelId)
+    // get the owner player's current track
+    const ownerTrack = playerState.track_window.current_track
+    // if owner track has changed
+    if (ownerTrack !== currentTrack) {
+      socket.emit('played-new-song', ownerTrack.uri, channelId)
+      dispatch(setNewTrack(ownerTrack))
+    }
+    // get the owner player's pause status
+    const isOwnerPaused = playerState.paused
+    // if owner player has toggled play or pause
+    if (isOwnerPaused !== isPaused) {
+      socket.emit('toggled-pause', isPaused, channelId)
+      dispatch(togglePause(isOwnerPaused))
+    }
   }
 }
 

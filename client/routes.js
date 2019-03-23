@@ -15,7 +15,7 @@ import {
   ConnectedSelectedSong,
   ConnectedEditUser
 } from './components'
-import {me, initializePlayer} from './store'
+import {me, initializePlayerInstance} from './store'
 /**
  * COMPONENT
  */
@@ -27,7 +27,7 @@ class Routes extends Component {
 
   componentDidUpdate() {
     this.props.isWithSpotify &&
-      !this.props.player._options &&
+      !this.props.player.instance &&
       this.props.loadSpotifyPlayer()
   }
 
@@ -91,7 +91,7 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     loadSpotifyPlayer() {
-      dispatch(initializePlayer())
+      dispatch(initializePlayerInstance())
     }
   }
 }
