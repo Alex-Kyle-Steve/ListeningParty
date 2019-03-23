@@ -53,7 +53,7 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
  */
 export const playTrack = uri => (dispatch, getState) =>
   playNewUri({uri, player: getState().player.instance})
-    .then(getState().player.instance.getCurrentState())
+    .then(() => getState().player.instance.getCurrentState())
     .then(playerState => dispatch(playerState.track_window.current_track))
 
 /**
