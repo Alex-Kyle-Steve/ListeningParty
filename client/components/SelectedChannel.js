@@ -8,49 +8,15 @@ import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
-
+import {Player} from './Player'
 export class SelectedChannel extends Component {
   constructor() {
     super()
-    this.state = {
-      images: [
-        'https://picsum.photos/300/300?blur?image=4',
-        'https://picsum.photos/300/300?blur?image=1',
-        'https://picsum.photos/300/300?blur?image=2',
-        'https://picsum.photos/300/300?blur?image=3',
-        'https://picsum.photos/300/300?blur?image=6',
-        'https://picsum.photos/300/300?blur?image=7',
-        'https://picsum.photos/300/300?blur?image=8',
-        'https://picsum.photos/300/300?blur?image=9',
-        'https://picsum.photos/300/300?blur?image=10',
-        'https://picsum.photos/300/300?image=1',
-        'https://picsum.photos/300/300?image=2',
-        'https://picsum.photos/300/300?image=3',
-        'https://picsum.photos/300/300?image=4',
-        'https://picsum.photos/300/300?image=5',
-        'https://picsum.photos/300/300?image=6',
-        'https://picsum.photos/300/300?image=7',
-        'https://picsum.photos/300/300?image=8',
-        'https://picsum.photos/300/300?image=9',
-        'https://picsum.photos/300/300?image=10',
-        'https://picsum.photos/300/300?image=11',
-        'https://picsum.photos/300/300?image=12',
-        'https://picsum.photos/300/300?image=13',
-        'https://picsum.photos/300/300?image=14',
-        'https://picsum.photos/300/300?image=15',
-        'https://picsum.photos/300/300?image=16',
-        'https://picsum.photos/300/300?image=17',
-        'https://picsum.photos/300/300?image=18',
-        'https://picsum.photos/300/300?image=19',
-        'https://picsum.photos/300/300?image=20',
-        'https://picsum.photos/300/300?image=21'
-      ]
-    }
   }
   async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
     socket.emit('join-room', channelId)
-    // await this.props.fetchSelectedChannel(channelId)
+    await this.props.fetchSelectedChannel(channelId)
   }
 
   formatData() {
@@ -67,17 +33,13 @@ export class SelectedChannel extends Component {
     const selectedChannel = this.props.selectedChannel
     const historicalPlayList = selectedChannel.historicalPlayLists
     const channelId = parseInt(this.props.match.params.channelId)
-    console.log(selectedChannel)
     return (
       <div>
         <Container fluid={true}>
           <Row>
             {/* Channel Bar */}
             <Col xs={3}>
-              <ConnectedOwnedChannels
-                changeChannel={this.props.fetchSelectedChannel}
-                channelId={channelId}
-              />
+              <ConnectedOwnedChannels channelId={channelId} />
               <ConnectedFavoriteChannels />
               <ConnectedAllChannelsSidebar />
             </Col>
@@ -104,7 +66,9 @@ export class SelectedChannel extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col xs={12}>MUSIC PLAYER HERE</Col>
+                      <Col xs={12}>
+                        <Player />
+                      </Col>
                     </Row>
                   </Col>
                 </Row>

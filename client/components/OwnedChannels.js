@@ -11,11 +11,11 @@ export class OwnedChannels extends Component {
   }
 
   handleClick() {
-    this.props.changeChannel(this.props.channelId)
+    // this.props.changeChannel(this.props.channelId)
   }
   async componentDidMount() {
-    await this.props.fetchMe()
-    await this.props.fetchOwnedChannels(this.props.user.id)
+    // await this.props.fetchMe()
+    // await this.props.fetchOwnedChannels(this.props.user.id)
   }
 
   render() {
@@ -30,7 +30,7 @@ export class OwnedChannels extends Component {
                 <Link
                   to={`/channels/${channel.id}`}
                   className="link-styling"
-                  onClick={this.handleClick()}
+                  // onClick={this.handleClick()}
                 >
                   {channel.name}{' '}
                 </Link>

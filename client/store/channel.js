@@ -61,15 +61,10 @@ export const fetchChannels = () => async dispatch => {
   }
 }
 export const fetchSelectedChannel = channelId => async dispatch => {
-  //I have no idea why the routing is so wonky but adding the if statement fixed the 500 when navigating to /home
   let res
   try {
-    if (channelId === undefined) {
-      console.log()
-    } else {
-      res = await axios.get(`/api/channels/${channelId}`)
-      dispatch(getSelectedChannel(res.data))
-    }
+    res = await axios.get(`/api/channels/${channelId}`)
+    dispatch(getSelectedChannel(res.data))
   } catch (err) {
     console.error(err)
   }
