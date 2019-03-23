@@ -43,16 +43,17 @@ class SpotifyCatalogSearch extends Component {
             <Form onSubmit={this.handleSubmit}>
               <Form.Group controlId="SearchCatalog">
                 <Form.Label>
-                  <h1>Search Spotify</h1>
+                  <h5>Search Spotify</h5>
                 </Form.Label>
                 <Form.Control
                   onChange={this.handleChange}
                   name="search"
                   type="search"
                   placeholder="Artist, Album, or Song"
+                  size="lg"
                 />
               </Form.Group>
-              <Button variant="success" type="submit">
+              <Button variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
@@ -62,7 +63,7 @@ class SpotifyCatalogSearch extends Component {
           <Col xs={12}>
             {this.state.res.tracks ? (
               <div>
-                <h2>Search Results</h2>
+                <h5>Search Results</h5>
                 <SpotifyCatalogScrollTable tracks={this.state.res.tracks} />
               </div>
             ) : (
