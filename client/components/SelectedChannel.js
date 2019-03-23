@@ -20,7 +20,7 @@ export class SelectedChannel extends Component {
     await this.props.fetchSelectedChannel(channelId)
   }
 
-  async componentDidUpdate(prevProps, nextState) {
+  async componentDidUpdate(prevProps) {
     console.log('I got called')
     if (
       String(prevProps.selectedChannel.id) !==

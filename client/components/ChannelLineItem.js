@@ -114,9 +114,7 @@ class ChanneLineItem extends Component {
             <Button variant="danger" onClick={this.handleClose}>
               Close
             </Button>
-
             <Link to={`channels/${this.props.channel.id}`}>
-              {' '}
               <Button variant="success" onClick={this.handleClose}>
                 Join Channel
               </Button>{' '}
