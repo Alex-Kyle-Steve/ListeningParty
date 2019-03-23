@@ -11,7 +11,11 @@ const musicPlayerEvent = new EventEmitter()
  * @param {*} state
  * @param {*} isChannelOwner
  */
-const handleStateChanged = (state, channelId, isChannelOwner) => {
+const handleStateChanged = (state, getState) => {
+  // get current channel and user from the state
+  const {channel: {selectedChannel}, user} = getState()
+  const channelId = selectedChannel.id
+  const isChannelOwner = selectedChannel.ownerId === user.id
   if (isChannelOwner) {
     const currentTrack = state.track_window.current_track
     socket.emit('played-new-song', currentTrack.uri, channelId)
