@@ -49,17 +49,17 @@ musicPlayerEvent.on('state-changed', handleStateChanged)
 
 // listener for when user joins a channel
 // allow to catch-up to what's currently playing
-musicPlayerEvent.on('join-channel', handleJoinChannel)
+musicPlayerEvent.on('joined-channel', handleJoinChannel)
 
 // grants access token from user session. only handles successful request
 // - TODO: refreshing token, handling error
 export const getAccessToken = () =>
   axios.get('/auth/spotify/token').then(res => res.data.accessToken)
 
+// creates player
 export const createPlayer = () =>
   new Spotify.Player({
-    //User token
-    name: 'Web Playback SDK Quick Start Player',
+    name: 'Listening Party Spotify Player',
     getOAuthToken: callback => getAccessToken().then(callback)
   })
 
@@ -69,7 +69,7 @@ export const createPlayer = () =>
  * @returns {Spotify.Player}
  * TODO:
  * - add error-handling when playback fails
- * - fetch new OAuthToken when
+ * - fetch new auth token when expired
  */
 export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
   getOAuthToken(accessToken =>
