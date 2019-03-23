@@ -50,6 +50,7 @@ class SpotifyCatalogSearch extends Component {
                   name="search"
                   type="search"
                   placeholder="Artist, Album, or Song"
+                  size="lg"
                 />
               </Form.Group>
               <Button variant="primary" type="submit">
@@ -62,7 +63,7 @@ class SpotifyCatalogSearch extends Component {
           <Col xs={12}>
             {this.state.res.tracks ? (
               <div>
-                <h2>Search Results</h2>
+                <h5>Search Results</h5>
                 <SpotifyCatalogScrollTable tracks={this.state.res.tracks} />
               </div>
             ) : (
