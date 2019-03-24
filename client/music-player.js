@@ -55,9 +55,9 @@ const resolveStateChange = (uri, paused, position) => ({
   shouldChangeTrack,
   shouldSeek
 }) =>
-  Promise.resolve(
-    () => shouldChangeTrack && store.dispatch(playTrack(uri))
-  ).then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
+  Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri))).then(
+    () => shouldTogglePlay && store.dispatch(togglePause(paused))
+  )
 
 /**
  * handler for when channel owner's player state changes
