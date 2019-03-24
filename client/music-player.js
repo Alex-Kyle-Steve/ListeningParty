@@ -30,14 +30,16 @@ const getChangedState = async (
   channelPosition
 ) => {
   const player = store.getState().player
-  const {
-    paused,
-    track_window: {current_track: {uri}},
-    position
-  } = await player.getCurrentState()
-  const shouldTogglePlay = isChannelPaused === paused
-  const shouldChangeTrack = channelTrackUri === uri
-  const shouldScroll = channelPosition === position
+  const playerState = await player.getCurrentState()
+  const shouldTogglePlay =
+    !playerState || isChannelPaused !== playerState.paused
+  const shouldChangeTrack =
+    !playerState ||
+    channelTrackUri !== playerState.track_window.current_track.uri
+  const shouldScroll =
+    !playerState ||
+    channelPosition > playerState.position + 3000 ||
+    channelPosition < playerState.position - 3000
 
   return {shouldTogglePlay, shouldChangeTrack, shouldScroll}
 }
