@@ -10,17 +10,13 @@ class Messages extends Component {
     await this.props.fetchMessages()
   }
 
-  async componentDidUpdate(prevState, prevProps) {
-    if (
-      String(prevState.messages.length) !== String(this.props.messages.length)
-    ) {
+  async componentDidUpdate(prevState) {
+    if (prevState.messages.length !== this.props.messages.length) {
       await this.props.fetchMessages()
-    } else {
-      return 'A'
     }
   }
+
   render() {
-    console.log(this.props.messages)
     const channelId = Number(this.props.selectedChannel.id)
     const messages = this.props.messages
     const filteredMessages = messages.filter(message => {
@@ -30,11 +26,13 @@ class Messages extends Component {
     return (
       <div>
         <h4>Chat Dialog</h4>
-        <ul className="media-list">
-          {filteredMessages.map(message => (
-            <Message message={message} key={message.id} />
-          ))}
-        </ul>
+        <div style={{overflow: 'scroll', height: '400px'}}>
+          <ul className="media-list">
+            {filteredMessages.map(message => (
+              <Message message={message} key={message.id} />
+            ))}
+          </ul>
+        </div>
         <NewMessageEntry channelId={channelId} />
       </div>
     )
@@ -44,7 +42,7 @@ class Messages extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    // messages: state.message.messages,
+    messages: state.message.messages,
     selectedChannel: state.channel.selectedChannel
   }
 }

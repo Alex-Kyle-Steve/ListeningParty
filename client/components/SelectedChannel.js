@@ -83,7 +83,7 @@ export class SelectedChannel extends Component {
 
             {/* Chat */}
             <Col xs={3}>
-              <ConnectedMessages messages={this.props.messages} />
+              <ConnectedMessages />
             </Col>
           </Row>
         </Container>

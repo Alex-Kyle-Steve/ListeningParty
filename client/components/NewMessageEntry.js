@@ -38,7 +38,7 @@ class NewMessageEntry extends Component {
           />
           <span className="input-group-btn">
             <button className="btn btn-default" type="submit">
-              Chat!
+              Send
             </button>
           </span>
         </div>
