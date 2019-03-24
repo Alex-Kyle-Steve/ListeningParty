@@ -10,12 +10,9 @@ export class OwnedChannels extends Component {
     super()
   }
 
-  handleClick() {
-    // this.props.changeChannel(this.props.channelId)
-  }
   async componentDidMount() {
-    // await this.props.fetchMe()
-    // await this.props.fetchOwnedChannels(this.props.user.id)
+    await this.props.fetchMe()
+    await this.props.fetchOwnedChannels(this.props.user.id)
   }
 
   render() {
@@ -27,11 +24,7 @@ export class OwnedChannels extends Component {
           {ownedChannels && ownedChannels.length ? (
             ownedChannels.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>
-                <Link
-                  to={`/channels/${channel.id}`}
-                  className="link-styling"
-                  // onClick={this.handleClick()}
-                >
+                <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
               </ListGroup.Item>
