@@ -46,14 +46,7 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
  */
 export const playTrack = uri => (dispatch, getState) => {
   const player = getState().player
-  console.log(uri)
-  return player
-    .getCurrentState()
-    .then(
-      state =>
-        state.track_window.current_track.uri !== uri &&
-        playNewUri({uri, player})
-    )
+  return player.playNewUri({uri, player})
 }
 
 /**
@@ -61,15 +54,11 @@ export const playTrack = uri => (dispatch, getState) => {
  * - owner pause state changes
  * @param {boolean} isPaused
  */
-export const togglePause = isPaused => (dispatch, getState) => {
+export const togglePause = () => (dispatch, getState) => {
   const player = getState().player
-  console.log(isPaused)
-  return player
-    .getCurrentState()
-    .then(state => state.paused !== isPaused && player.togglePlay())
-    .then(() => {
-      console.log(isPaused ? 'Paused' : 'Playing')
-    })
+  return player.togglePlay().then(() => {
+    console.log('toggled play')
+  })
 }
 
 export default function(state = null, action) {

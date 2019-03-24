@@ -11,12 +11,7 @@ const musicPlayerEvent = new EventEmitter()
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
   // get current channel, track and user from the state
-  const {
-    channel: {selectedChannel},
-    user,
-    currentTrack,
-    player: {isPaused}
-  } = getState()
+  const {channel: {selectedChannel}, user} = getState()
   // id of the current channel participating
   const channelId = selectedChannel.id
   // determine if the triggered player is owner's
@@ -28,14 +23,40 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   }
 }
 
+// helper for determining what to update
+const getChangedState = async (
+  isChannelPaused,
+  channelTrackUri,
+  channelPosition
+) => {
+  const player = store.getState().player
+  const {
+    paused,
+    track_window: {current_track: {uri}},
+    position
+  } = await player.getCurrentState()
+  const shouldTogglePlay = isChannelPaused === paused
+  const shouldChangeTrack = channelTrackUri === uri
+  const shouldScroll = channelPosition === position
+
+  return {shouldTogglePlay, shouldChangeTrack, shouldScroll}
+}
+
 /**
  * handler for when channel owner's player state changes
  * @param {WebPlaybackState} playerState
+ * TODO:
+ * - scrolling music
  */
 const handleStateReceived = receivedState => {
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
-  store.dispatch(playTrack(uri))
-  store.dispatch(togglePause(paused))
+  const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = getChangedState(
+    paused,
+    uri,
+    position
+  )
+  if (shouldChangeTrack) store.dispatch(playTrack(uri))
+  if (shouldTogglePlay) store.dispatch(togglePause())
 }
 
 /**
