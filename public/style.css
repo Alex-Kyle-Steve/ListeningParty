@@ -85,7 +85,6 @@ form div {
 }
 
 .media-list {
-  overflow-y: scroll;
   flex: 1 1 auto;
 }
 .text-shadow {
