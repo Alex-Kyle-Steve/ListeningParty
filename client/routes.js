@@ -39,9 +39,9 @@ class Routes extends Component {
       <div>
         <Switch>
           {/* Routes placed here are available to all visitors */}
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/allChannels" component={ConnectedAllChannels} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/allChannels" component={ConnectedAllChannels} />
           <Route
             path="/channels/:channelId"
             component={ConnectedSelectedChannel}
@@ -51,7 +51,7 @@ class Routes extends Component {
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
-              <Route exact path="/home" component={UserHome} />
+              <Route path="/home" component={UserHome} />
               <Route
                 path="/favoriteChannels"
                 component={ConnectedFavoriteChannels}
@@ -64,6 +64,7 @@ class Routes extends Component {
               <Route path="/newChannel" component={ConnectedNewChannel} />
               <Route path="/chat" component={ConnectedMessages} />
               <Route path="/editUser/:userId" component={ConnectedEditUser} />
+              <Route component={UserHome} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
