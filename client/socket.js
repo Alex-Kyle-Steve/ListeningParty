@@ -1,6 +1,8 @@
 //front end
 import io from 'socket.io-client'
-import store, {playTrack, getMessage, togglePause} from './store'
+
+import musicPlayerEvent from './music-player'
+import store, {getMessage} from './store'
 
 const socket = io(window.location.origin)
 
@@ -12,12 +14,8 @@ socket.on('connect', () => {
   })
 })
 
-socket.on('owner-played-new-song', uri => {
-  store.dispatch(playTrack(uri))
-})
-
-socket.on('owner-toggled-pause', isPaused => {
-  store.dispatch(togglePause(isPaused))
+socket.on('received-state-change', playerState => {
+  musicPlayerEvent.emit('state-received', playerState)
 })
 
 export default socket
