@@ -1,15 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Tabs,
-  Tab,
-  CardDeck,
-  ListGroup
-} from 'react-bootstrap'
+import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
@@ -29,7 +20,7 @@ export class SelectedChannel extends Component {
     await this.props.fetchSelectedChannel(channelId)
   }
 
-  async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps) {
     //Checks to see if previous state is =/!= to the current state by ID. Needs to be a string (primitive type) and not an object because of types
     if (
       String(prevProps.selectedChannel.id) !== this.props.match.params.channelId
