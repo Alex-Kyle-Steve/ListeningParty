@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import store, {playTrack, togglePause, stopMusic} from './store'
+import store, {playTrack, togglePlay, stopMusic} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -18,7 +18,6 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   const isChannelOwner = selectedChannel.ownerId === user.id
   // if it was triggered by channel owner's player, manage all the listeners
   if (isChannelOwner) {
-    console.log(playerState)
     socket.emit('owner-state-changed', channelId, playerState)
   }
 }
@@ -51,15 +50,19 @@ const getChangedState = async (
  * - scrolling music
  */
 const handleStateReceived = receivedState => {
-  if (!receivedState) return store.dispatch(stopMusic())
+  console.log('handling state received', receivedState)
+  if (!receivedState)
+    return store.getState().player && store.dispatch(stopMusic())
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
   const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = getChangedState(
     paused,
     uri,
     position
   )
+  console.log('Playing song?', shouldChangeTrack ? 'YES' : 'NO')
   if (shouldChangeTrack) store.dispatch(playTrack(uri))
-  if (shouldTogglePlay) store.dispatch(togglePause())
+  console.log('Toggling play?', shouldTogglePlay ? 'YES' : 'NO')
+  if (shouldTogglePlay) store.dispatch(togglePlay())
 }
 
 /**
