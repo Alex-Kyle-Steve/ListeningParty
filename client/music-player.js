@@ -34,10 +34,11 @@ const getChangedState = (
     const shouldChangeTrack =
       !playerState ||
       channelTrackUri !== playerState.track_window.current_track.uri
-    // depending on uri change, player will automatically play
-    const willPause = shouldChangeTrack ? false : playerState.paused
+    // depending on uri change, listener's player will automatically play
+    const isListenerPaused = shouldChangeTrack ? false : playerState.paused
     // should we toggle playback?
-    const shouldTogglePlay = !playerState || isChannelPaused !== willPause
+    const shouldTogglePlay =
+      !playerState || isChannelPaused !== isListenerPaused
     // if we're playing new uri, listener's position will be at 0 mark
     const listenerPosition = shouldTogglePlay ? 0 : playerState.position
     // should we seek through track?
