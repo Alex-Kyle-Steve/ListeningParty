@@ -20,7 +20,9 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
   // <div className="nav">
 
   <Navbar>
-    <Navbar.Brand href="/home">Listening Party</Navbar.Brand>
+    <Navbar.Brand href="/home">
+      <h1>Listening 🎉 Party</h1>
+    </Navbar.Brand>
 
     {isLoggedIn ? (
       <Nav className="mr-auto">

@@ -19,7 +19,11 @@ export class UserHome extends React.Component {
       <div className="user-home-content">
         <Container fluid={true}>
           <Row>
-            <Col className="my-center-align" xs={3}>
+            <Col
+              className="my-center-align"
+              xs={3}
+              style={{overflow: 'scroll', height: '500px'}}
+            >
               <ConnectedOwnedChannels
                 changeChannel={this.props.fetchSelectedChannel}
               />
@@ -28,9 +32,24 @@ export class UserHome extends React.Component {
                 changeChannel={this.props.fetchSelectedChannel}
               />
             </Col>
-            <Col className="custom-center-align" xs={6}>
+
+            <Col
+              className="custom-center-align"
+              xs={6}
+              style={{overflow: 'scroll', height: '1000px'}}
+            >
+              <Row>
+                <Col xs={12}>
+                  <Card border="light">
+                    <Card.Body>
+                      <h2>Discover 🌎 </h2>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>{' '}
               <ConnectedAllChannels />
             </Col>
+
             <Col className="my-center-align" xs={3}>
               <Tabs
                 defaultActiveKey="description"
