@@ -12,6 +12,7 @@ import {
   Container,
   Jumbotron
 } from 'react-bootstrap'
+import {Link} from 'react-router-dom'
 /**
  * COMPONENT
  */
@@ -21,30 +22,38 @@ const AuthForm = props => {
   return (
     <Container>
       <Jumbotron className="custom-center-align">
-        <div>
-          <form onSubmit={handleSubmit} name={name}>
-            <div>
+        <Row>
+          <Col xs={12}>
+            <form onSubmit={handleSubmit} name={name}>
               <label htmlFor="email">
                 <small>Email</small>
               </label>
               <input name="email" type="text" />
-            </div>
-            <div>
+
               <label htmlFor="password">
                 <small>Password</small>
               </label>
               <input name="password" type="password" />
-            </div>
-            <div>
+              <br />
+              <br />
+              {/* <Row> */}
+              {error && error.response && <div> {error.response.data} </div>}
+              {/* </Row> */}
               <Button type="submit">{displayName}</Button>
-            </div>
-            {error && error.response && <div> {error.response.data} </div>}
-          </form>
-          <Button variant="link">
-            {' '}
-            <a href="/auth/spotify">{displayName} with Spotify</a>
-          </Button>
-        </div>
+            </form>
+
+            {/* <Row>
+              <Col xs={3} />
+              <Col xs={6}>or</Col>
+              <Col xs={3} />
+            </Row> */}
+            <hr />
+
+            <a href="/auth/spotify">
+              <Button variant="success">{displayName} with Spotify</Button>
+            </a>
+          </Col>
+        </Row>
       </Jumbotron>
     </Container>
   )
