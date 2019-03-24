@@ -141,31 +141,6 @@ export class SelectedChannel extends Component {
                 <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
                   <ConnectedMessages channel={selectedChannel.name} />
                 </Tab>
-
-                <Tab eventKey="quick-start" title="Connect">
-                  <CardDeck>
-                    <Card border="light">
-                      <Card.Body>
-                        <Card.Title className="link-styling">
-                          <h3>Quick Start Guide</h3>
-                        </Card.Title>
-
-                        <Card.Text>
-                          <ListGroup variant="flush">
-                            <ListGroup.Item>
-                              1. Connect to 'Listening Party Spotify Player'
-                              with your device using the button below
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                              2. Add songs to the cue
-                            </ListGroup.Item>
-                            <ListGroup.Item>3. Enjoy!</ListGroup.Item>
-                          </ListGroup>
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </CardDeck>
-                </Tab>
               </Tabs>
               <Row>
                 <Col xs={12} />
