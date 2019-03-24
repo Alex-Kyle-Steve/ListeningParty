@@ -36,7 +36,7 @@ const getChangedState = (
     // should we change track
     const shouldChangeTrack = channelTrackUri !== listenerTrackUri
     // depending on uri change, listener's player will automatically play
-    const isListenerPaused = shouldChangeTrack ? false : !playerState.paused
+    const isListenerPaused = shouldChangeTrack ? false : playerState.paused
     // should we toggle playback?
     const shouldTogglePlay =
       !playerState || isChannelPaused !== isListenerPaused
