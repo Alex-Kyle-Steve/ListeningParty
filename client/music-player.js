@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import store, {playTrack, togglePause} from './store'
+import store, {playTrack, togglePlay, stopMusic} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -18,30 +18,29 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   const isChannelOwner = selectedChannel.ownerId === user.id
   // if it was triggered by channel owner's player, manage all the listeners
   if (isChannelOwner) {
-    console.log(playerState)
     socket.emit('owner-state-changed', channelId, playerState)
   }
 }
 
 // helper for determining what to update
-const getChangedState = async (
+const getChangedState = (
   isChannelPaused,
   channelTrackUri,
-  channelPosition
-) => {
-  const player = store.getState().player
-  const {
-    paused,
-    track_window: {current_track: {uri}},
-    position
-  } = await player.getCurrentState()
-  const shouldTogglePlay = isChannelPaused === paused
-  const shouldChangeTrack = channelTrackUri === uri
-  const shouldScroll = channelPosition === position
-
-  return {shouldTogglePlay, shouldChangeTrack, shouldScroll}
-}
-
+  channelPosition,
+  myPlayer
+) =>
+  myPlayer.getCurrentState().then(playerState => {
+    const shouldTogglePlay =
+      !playerState || isChannelPaused !== playerState.paused
+    const shouldChangeTrack =
+      !playerState ||
+      channelTrackUri !== playerState.track_window.current_track.uri
+    const shouldScroll =
+      !playerState ||
+      (channelPosition > playerState.position + 3000 ||
+        channelPosition < playerState.position - 3000)
+    return {shouldTogglePlay, shouldChangeTrack, shouldScroll}
+  })
 /**
  * handler for when channel owner's player state changes
  * @param {WebPlaybackState} playerState
@@ -49,14 +48,17 @@ const getChangedState = async (
  * - scrolling music
  */
 const handleStateReceived = receivedState => {
+  if (!receivedState)
+    return store.getState().player && store.dispatch(stopMusic())
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
-  const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = getChangedState(
-    paused,
-    uri,
-    position
+  return getChangedState(paused, uri, position, store.getState().player).then(
+    ({shouldChangeTrack, shouldTogglePlay, shouldScroll}) => {
+      console.log('Playing song?', shouldChangeTrack ? 'YES' : 'NO')
+      if (shouldChangeTrack) store.dispatch(playTrack(uri))
+      console.log('Toggling play?', shouldTogglePlay ? 'YES' : 'NO')
+      if (shouldTogglePlay) store.dispatch(togglePlay())
+    }
   )
-  if (shouldChangeTrack) store.dispatch(playTrack(uri))
-  if (shouldTogglePlay) store.dispatch(togglePause())
 }
 
 /**
