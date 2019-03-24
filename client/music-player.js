@@ -50,6 +50,16 @@ const getChangedState = (
     return {shouldTogglePlay, shouldChangeTrack, shouldSeek}
   })
 
+// promise creator for calling thunks to update the listener's player
+const resolveStateChange = (uri, paused, position) => ({
+  shouldChangeTrack,
+  shouldTogglePlay,
+  shouldSeek
+}) =>
+  Promise.resolve(
+    () => shouldChangeTrack && store.dispatch(playTrack(uri))
+  ).then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
+
 /**
  * handler for when channel owner's player state changes
  * @param {WebPlaybackState} playerState
@@ -64,10 +74,7 @@ const handleStateReceived = receivedState => {
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
   // call the helper promise to determine the needed adjustment
   return getChangedState(paused, uri, position, store.getState().player).then(
-    ({shouldChangeTrack, shouldTogglePlay, shouldSeek}) => {
-      if (shouldChangeTrack) store.dispatch(playTrack(uri))
-      if (shouldTogglePlay) store.dispatch(togglePause(paused))
-    }
+    resolveStateChange(uri, paused, position)
   )
 }
 
