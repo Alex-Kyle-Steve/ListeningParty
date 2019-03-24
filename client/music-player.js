@@ -52,8 +52,8 @@ const getChangedState = (
 
 // promise creator for calling thunks to update the listener's player
 const resolveStateChange = (uri, paused, position) => ({
-  shouldChangeTrack,
   shouldTogglePlay,
+  shouldChangeTrack,
   shouldSeek
 }) =>
   Promise.resolve(
@@ -74,7 +74,8 @@ const handleStateReceived = receivedState => {
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
   // call the helper promise to determine the needed adjustment
   return getChangedState(paused, uri, position, store.getState().player).then(
-    resolveStateChange(uri, paused, position)
+    whatStateToChange =>
+      resolveStateChange(uri, paused, position)(whatStateToChange)
   )
 }
 
