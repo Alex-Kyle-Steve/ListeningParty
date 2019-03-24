@@ -33,7 +33,7 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
         <Nav.Link href="/login" className="link-styling" onClick={handleClick}>
           Logout
         </Nav.Link>
-        <Nav.Link href="newchannel" className="link-styling">
+        <Nav.Link href="/newchannel" className="link-styling">
           Create Channel
         </Nav.Link>
       </Nav>

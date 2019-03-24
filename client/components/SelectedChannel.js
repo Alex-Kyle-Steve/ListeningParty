@@ -20,7 +20,7 @@ export class SelectedChannel extends Component {
     await this.props.fetchSelectedChannel(channelId)
   }
 
-  async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps) {
     //Checks to see if previous state is =/!= to the current state by ID. Needs to be a string (primitive type) and not an object because of types
     if (
       String(prevProps.selectedChannel.id) !== this.props.match.params.channelId
@@ -31,6 +31,7 @@ export class SelectedChannel extends Component {
     }
   }
 
+  //Formats data to pass as props to the playlist table
   formatData() {
     return this.props.selectedChannel.historicalPlayLists.reduce(
       (accumulator, currentValue) => {
@@ -85,6 +86,7 @@ export class SelectedChannel extends Component {
                   </Col>
                 </Row>
               </Card>
+              {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
               <Row>
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
@@ -106,13 +108,13 @@ export class SelectedChannel extends Component {
               </Row>
             </Col>
 
-            {/* Chat */}
+            {/* Chat/Channel Information tabs. */}
             <Col xs={3}>
               <Tabs
                 defaultActiveKey="description"
                 id="uncontrolled-tab-example"
               >
-                <Tab eventKey="description" title="Channel Description">
+                <Tab eventKey="description" title="Channel">
                   <CardDeck>
                     <Card border="light">
                       <Card.Body>
@@ -122,9 +124,6 @@ export class SelectedChannel extends Component {
                             <br /> {selectedChannel.name}{' '}
                           </h3>
                         </Card.Title>
-
-                        {/* </Link> */}
-
                         <Card.Text>{selectedChannel.description}</Card.Text>
                       </Card.Body>
                     </Card>
@@ -134,11 +133,6 @@ export class SelectedChannel extends Component {
                   <ConnectedMessages channel={selectedChannel.name} />
                 </Tab>
               </Tabs>
-              {/* <Row>
-                <Col xs={12}>
-
-                </Col>
-              </Row> */}
               <Row>
                 <Col xs={12} />
               </Row>
