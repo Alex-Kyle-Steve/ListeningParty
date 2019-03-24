@@ -30,10 +30,10 @@ const getChangedState = (
   myPlayer
 ) =>
   myPlayer.getCurrentState().then(playerState => {
-    const listenerTrackUri = playerState.track_window.current_track.uri
     // should we change track
     const shouldChangeTrack =
-      !playerState || channelTrackUri !== listenerTrackUri
+      !playerState ||
+      channelTrackUri !== playerState.track_window.current_track.uri
     // depending on uri change, listener's player will automatically play
     const isListenerPaused = shouldChangeTrack ? false : playerState.paused
     // should we toggle playback?
