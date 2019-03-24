@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const Player = props => {
-  console.log(props)
+  // console.log(props)
   // const backgroundStyles = {
   //   backgroundImage: `url(${props.item.album.images[0].url})`
   // }
