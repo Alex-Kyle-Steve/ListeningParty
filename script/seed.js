@@ -69,53 +69,54 @@ async function seed() {
     }
   ]
   await Channel.bulkCreate(channelArray)
+
   const users = await User.findAll()
-  const channels = await Channel.findAll()
-  await users[1].addFavoriteChannel(channels[1])
-  await users[2].addFavoriteChannel(channels[1])
-  await users[0].addFavoriteChannel(channels[1])
-  await users[1].addFavoriteChannel(channels[2])
-  await users[3].addFavoriteChannel(channels[2])
-  await users[4].addFavoriteChannel(channels[2])
-  await users[0].addFavoriteChannel(channels[2])
-  await users[2].addFavoriteChannel(channels[3])
-  await users[4].addFavoriteChannel(channels[3])
-  await users[2].addFavoriteChannel(channels[4])
-  await users[3].addFavoriteChannel(channels[4])
-  await users[4].addFavoriteChannel(channels[4])
-  await users[1].addFavoriteChannel(channels[5])
-  await users[2].addFavoriteChannel(channels[5])
-  await users[3].addFavoriteChannel(channels[5])
-  await users[0].addFavoriteChannel(channels[5])
-  await users[4].addFavoriteChannel(channels[6])
-  await users[1].addFavoriteChannel(channels[0])
-  await users[0].addFavoriteChannel(channels[0])
+  // const channels = await Channel.findAll()
+  // await users[1].addFavoriteChannel(channels[1])
+  // await users[2].addFavoriteChannel(channels[1])
+  // await users[0].addFavoriteChannel(channels[1])
+  // await users[1].addFavoriteChannel(channels[2])
+  // await users[3].addFavoriteChannel(channels[2])
+  // await users[4].addFavoriteChannel(channels[2])
+  // await users[0].addFavoriteChannel(channels[2])
+  // await users[2].addFavoriteChannel(channels[3])
+  // await users[4].addFavoriteChannel(channels[3])
+  // await users[2].addFavoriteChannel(channels[4])
+  // await users[3].addFavoriteChannel(channels[4])
+  // await users[4].addFavoriteChannel(channels[4])
+  // await users[1].addFavoriteChannel(channels[5])
+  // await users[2].addFavoriteChannel(channels[5])
+  // await users[3].addFavoriteChannel(channels[5])
+  // await users[0].addFavoriteChannel(channels[5])
+  // await users[4].addFavoriteChannel(channels[6])
+  // await users[1].addFavoriteChannel(channels[0])
+  // await users[0].addFavoriteChannel(channels[0])
 
-  const importData = require('../public/data/music.json')
-  let songsArray = importData.map(record => {
-    return {
-      title: record.song.title,
-      artist: record.artist.name,
-      album: record.release.name,
-      releaseYear: record.song.year,
-      length: record.song.duration
-    }
-  })
+  // const importData = require('../public/data/music.json')
+  // let songsArray = importData.map(record => {
+  //   return {
+  //     title: record.song.title,
+  //     artist: record.artist.name,
+  //     album: record.release.name,
+  //     releaseYear: record.song.year,
+  //     length: record.song.duration
+  //   }
+  // })
 
-  await Song.bulkCreate(songsArray)
+  // await Song.bulkCreate(songsArray)
 
-  const randomInt = (low, high) => {
-    return Math.floor(Math.random() * (high - low) + low)
-  }
+  // const randomInt = (low, high) => {
+  //   return Math.floor(Math.random() * (high - low) + low)
+  // }
 
-  let historicalPlayListArray = []
-  for (let i = 1; i < 8; i++) {
-    for (let j = 1; j < 51; j++) {
-      historicalPlayListArray.push({channelId: i, songId: randomInt(1, 10000)})
-    }
-  }
+  // let historicalPlayListArray = []
+  // for (let i = 1; i < 8; i++) {
+  //   for (let j = 1; j < 51; j++) {
+  //     historicalPlayListArray.push({channelId: i, songId: randomInt(1, 10000)})
+  //   }
+  // }
 
-  await HistoricalPlayList.bulkCreate(historicalPlayListArray)
+  // await HistoricalPlayList.bulkCreate(historicalPlayListArray)
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
