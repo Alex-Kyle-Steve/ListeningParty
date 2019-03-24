@@ -51,8 +51,11 @@ const handleStateReceived = receivedState => {
   if (!receivedState)
     return store.getState().player && store.dispatch(stopMusic())
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
-  const chagedStates = Promise.resolve(
-    getChangedState(paused, uri, position, store.getState().player)
+  const chagedStates = getChangedState(
+    paused,
+    uri,
+    position,
+    store.getState().player
   )
   console.log('changed states:', chagedStates)
   const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = chagedStates
