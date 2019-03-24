@@ -60,16 +60,6 @@ const handleStateReceived = receivedState => {
 }
 
 /**
- * handler for when channel owner's player state changes
- * @param {WebPlaybackState} playerState
- */
-const handleStateReceived = receivedState => {
-  const {paused, track_window: {current_track: {uri}}, position} = receivedState
-  store.dispatch(playTrack(uri))
-  store.dispatch(togglePause(paused))
-}
-
-/**
  * handler for joining the channel
  * TODO:
  * - sync current track.
