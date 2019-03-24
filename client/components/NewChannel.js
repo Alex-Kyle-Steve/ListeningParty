@@ -33,33 +33,37 @@ class NewChannel extends Component {
 
   render() {
     return (
-      <div className="form">
-        <Col xs={{span: 12, offset: 6}}>
-          <Form className="marg-top" onSubmit={this.handleSubmit}>
-            <Form.Group as={Row} controlId="formBasicTitle">
-              <Form.Label>Channel Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                onChange={this.handleChange}
-                placeholder="Enter channel name"
-              />
-            </Form.Group>
-            <Form.Group as={Row} controlId="formBasicDescription">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="description"
-                onChange={this.handleChange}
-                placeholder="Enter Description"
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Col>
-      </div>
+      <Container>
+        <Row>
+          <Col xs={3} />
+          <Col xs={6}>
+            <Form className="marg-top" onSubmit={this.handleSubmit}>
+              <Form.Group as={Row} controlId="formBasicTitle">
+                <Form.Label>Channel Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  onChange={this.handleChange}
+                  placeholder="Enter channel name"
+                />
+              </Form.Group>
+              <Form.Group as={Row} controlId="formBasicDescription">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  name="description"
+                  onChange={this.handleChange}
+                  placeholder="Enter Description"
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </Col>
+          <Col xs={3} />
+        </Row>
+      </Container>
     )
   }
 }

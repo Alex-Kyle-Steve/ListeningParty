@@ -19,9 +19,6 @@ export class AllChannels extends Component {
       <Container style={{alignContent: 'center'}}>
         <Row>
           <Row>
-            <h2>Discover 🌎 </h2>
-          </Row>
-          <Row>
             {channels && channels.length ? (
               channels.map(channel => {
                 return (
