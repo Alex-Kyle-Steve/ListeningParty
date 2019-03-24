@@ -16,14 +16,8 @@ module.exports = io => {
       console.log(`${socket.id} left room ${roomNumber}`)
     })
 
-    // owner changed the song
-    socket.on('played-new-song', function(uri, channelId, isPaused = false) {
-      // broadcasts to other listeners in the channel
-      this.broadcast.to(channelId).emit('owner-played-new-song', uri, isPaused)
-    })
-    // owner toggled pause
-    socket.on('toggled-pause', function(isPaused, channelId) {
-      this.broadcast.to(channelId).emit('owner-toggled-pause', isPaused)
+    socket.on('owner-state-changed', function(channelId, playerState) {
+      this.broadcast.to(channelId).emit('received-state-change', playerState)
     })
 
     socket.on('disconnect', () => {

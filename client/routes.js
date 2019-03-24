@@ -27,7 +27,7 @@ class Routes extends Component {
 
   componentDidUpdate() {
     this.props.isWithSpotify &&
-      !this.props.player.instance &&
+      !this.props.player &&
       this.props.loadSpotifyPlayer()
   }
 

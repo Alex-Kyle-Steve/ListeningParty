@@ -1,17 +1,12 @@
 import musicPlayerEvent, {createPlayer, playNewUri} from '../music-player'
-import {setNewTrack} from './'
 
 const SET_PLAYER_INSTANCE = 'SET_PLAYER_INSTANCE'
-const SET_READY = 'SET_READY'
-const SET_PAUSE = 'SET_PAUSE'
 
 // ACTION CREATOR
 export const setPlayerInstance = instance => ({
   type: SET_PLAYER_INSTANCE,
   instance
 })
-export const setReady = isReady => ({type: SET_READY, isReady})
-export const setPause = isPaused => ({type: SET_PAUSE, isPaused})
 // END - ACTION CREATOR
 
 // player listener
@@ -19,7 +14,7 @@ export const setPause = isPaused => ({type: SET_PAUSE, isPaused})
 // THUNK CREATOR
 export const initializePlayerInstance = () => async (dispatch, getState) => {
   // only create player if there is no instance
-  if (getState().player.instance) {
+  if (getState().player) {
     console.error('tried to create player instance when one already exists')
     return
   }
@@ -33,12 +28,10 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
   // listener for when device is ready
   instance.addListener('ready', device => {
     console.log('Connected with Device', device)
-    dispatch(setReady(true))
   })
   // listener for when device is not ready
   instance.addListener('not_ready', device => {
     console.log('Device is not ready for playback', device)
-    dispatch(setReady(false))
   })
   // connect player to the Spotify Connect
   await instance.connect()
@@ -47,52 +40,39 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
 }
 
 /**
- * dispatched by client socket to play new track:
- * - when track changes
- * - when joining channel
+ * dispatched by client socket
+ * plays new song when current_track changes
  * @param {string} uri
  */
-export const playTrack = (uri, isPaused) => (dispatch, getState) =>
-  getState().currentTrack.uri !== uri &&
-  playNewUri({uri, player: getState().player.instance})
-    .then(() => getState().player.instance.getCurrentState())
-    .then(playerState =>
-      dispatch(setNewTrack(playerState.track_window.current_track))
-    )
-    .then(() => isPaused && getState().player.instance.pause())
+export const playTrack = uri => (dispatch, getState) => {
+  const player = getState().player
+  console.log(uri)
+  return player
+    .getCurrentState()
     .then(
-      () =>
-        isPaused !== getState().player.isPaused && dispatch(setPause(isPaused))
+      state =>
+        state.track_window.current_track.uri !== uri &&
+        playNewUri({uri, player})
     )
-
-/**
- * toggle pause and resume of the spotify player when:
- * - owner pauses the song
- * @param {boolean} isPaused
- */
-export const togglePause = isPaused => (dispatch, getState) => {
-  const player = getState().player.instance
-  return isPaused
-    ? player.pause().then(() => {
-        dispatch(setPause(true))
-      })
-    : player.resume().then(() => {
-        dispatch(setPause(false))
-      })
 }
 
 /**
- * initial state of the player store state:
- * - instance: Spotify player object
- * - isReady: boolean determining whether player is ready
- * - isPaused: boolean determining if player is paused
+ * toggle pause and resume of the spotify player when:
+ * - owner pause state changes
+ * @param {boolean} isPaused
  */
-const initialState = {instance: null, isReady: false, isPaused: false}
+export const togglePause = isPaused => (dispatch, getState) => {
+  const player = getState().player
+  console.log(isPaused)
+  return player
+    .getCurrentState()
+    .then(state => state.paused !== isPaused && player.togglePlay())
+    .then(() => {
+      console.log(isPaused ? 'Paused' : 'Playing')
+    })
+}
 
-export default function(state = initialState, action) {
-  if (action.type === SET_PLAYER_INSTANCE)
-    return {...state, instance: action.instance}
-  if (action.type === SET_READY) return {...state, isReady: action.isReady}
-  if (action.type === SET_PAUSE) return {...state, isPaused: action.isPaused}
+export default function(state = null, action) {
+  if (action.type === SET_PLAYER_INSTANCE) return action.instance
   return state
 }

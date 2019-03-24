@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import {setNewTrack, setPause} from './store'
+import store, {playTrack, togglePause} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -10,7 +10,6 @@ const musicPlayerEvent = new EventEmitter()
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
-  console.log('state changed!!!!')
   // get current channel, track and user from the state
   const {
     channel: {selectedChannel},
@@ -24,26 +23,19 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   const isChannelOwner = selectedChannel.ownerId === user.id
   // if it was triggered by channel owner's player, manage all the listeners
   if (isChannelOwner) {
-    // get the owner player's current track
-    const ownerTrack = playerState.track_window.current_track
-    // if owner track has changed
-    if (ownerTrack.id !== currentTrack.id) {
-      socket.emit(
-        'played-new-song',
-        ownerTrack.uri,
-        playerState.paused,
-        channelId
-      )
-      dispatch(setNewTrack(ownerTrack))
-    }
-    // if owner player has toggled play or pause
-    if (playerState.paused !== isPaused) {
-      // broadcast to other channel participants
-      socket.emit('toggled-pause', playerState.paused, channelId)
-      // change owner state
-      dispatch(setPause(playerState.paused))
-    }
+    console.log(playerState)
+    socket.emit('owner-state-changed', channelId, playerState)
   }
+}
+
+/**
+ * handler for when channel owner's player state changes
+ * @param {WebPlaybackState} playerState
+ */
+const handleStateReceived = receivedState => {
+  const {paused, track_window: {current_track: {uri}}, position} = receivedState
+  store.dispatch(playTrack(uri))
+  store.dispatch(togglePause(paused))
 }
 
 /**
@@ -55,6 +47,8 @@ const handleJoinChannel = channelId => {}
 
 // listener for state change in spotify player
 musicPlayerEvent.on('state-changed', handleStateChanged)
+
+musicPlayerEvent.on('state-received', handleStateReceived)
 
 // listener for when user joins a channel
 // allow to catch-up to what's currently playing
@@ -72,6 +66,19 @@ export const createPlayer = () =>
     getOAuthToken: callback => getAccessToken().then(callback)
   })
 
+// returns a helper function for creating fetch call
+const makePlayRequest = (uri, id) => accessToken =>
+  fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({uris: [uri]}),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+    .then(response => response)
+    .catch(console.log)
+
 /**
  * function that makes an html request to web API and changes the track on the player
  * @param {{string, object: {object: {function, string}}}} param0: nested object of uri and the player
@@ -81,17 +88,6 @@ export const createPlayer = () =>
  * - fetch new auth token when expired
  */
 export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
-  getOAuthToken(accessToken =>
-    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({uris: [uri]}),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-      .then(response => response)
-      .catch(console.log)
-  )
+  getOAuthToken(makePlayRequest(uri, id))
 
 export default musicPlayerEvent
