@@ -13,9 +13,10 @@ import {
   ConnectedNewChannel,
   ConnectedEditChannel,
   ConnectedSelectedSong,
-  ConnectedEditUser
+  ConnectedEditUser,
+  ConnectedMessages
 } from './components'
-import {me, initializePlayer} from './store'
+import {me, initializePlayerInstance} from './store'
 /**
  * COMPONENT
  */
@@ -27,7 +28,7 @@ class Routes extends Component {
 
   componentDidUpdate() {
     this.props.isWithSpotify &&
-      !this.props.player._options &&
+      !this.props.player &&
       this.props.loadSpotifyPlayer()
   }
 
@@ -38,30 +39,32 @@ class Routes extends Component {
       <div>
         <Switch>
           {/* Routes placed here are available to all visitors */}
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route
-            path="/favoriteChannels"
-            component={ConnectedFavoriteChannels}
-          />
-          <Route path="/ownedChannels" component={ConnectedOwnedChannels} />
-          <Route exact path="/allChannels" component={ConnectedAllChannels} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/allChannels" component={ConnectedAllChannels} />
           <Route
             path="/channels/:channelId"
             component={ConnectedSelectedChannel}
           />
-          <Route
-            path="/editChannel/:channelId"
-            component={ConnectedEditChannel}
-          />
-          <Route path="/newChannel" component={ConnectedNewChannel} />
           <Route path="/songs/:songId" component={ConnectedSelectedSong} />
 
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
-              <Route exact path="/home" component={UserHome} />
+              <Route path="/home" component={UserHome} />
+              <Route
+                path="/favoriteChannels"
+                component={ConnectedFavoriteChannels}
+              />
+              <Route path="/ownedChannels" component={ConnectedOwnedChannels} />
+              <Route
+                path="/editChannel/:channelId"
+                component={ConnectedEditChannel}
+              />
+              <Route path="/newChannel" component={ConnectedNewChannel} />
+              <Route path="/chat" component={ConnectedMessages} />
               <Route path="/editUser/:userId" component={ConnectedEditUser} />
+              <Route component={UserHome} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
@@ -91,7 +94,7 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     loadSpotifyPlayer() {
-      dispatch(initializePlayer())
+      dispatch(initializePlayerInstance())
     }
   }
 }

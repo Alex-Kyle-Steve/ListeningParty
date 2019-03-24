@@ -32,12 +32,18 @@ form div {
 
 .link-styling {
   text-decoration: none !important;
-  color: black;
+  font-family: Arial, Helvetica, sans-serif !important;
+  color: black !important;
+}
+
+.link-styling-allchannels {
+  text-decoration: none !important;
+  color: white;
 }
 
 .link-styling-quick-info {
   text-decoration: none !important;
-  color: black;
+  color: white;
 }
 
 .currentLink {
@@ -45,10 +51,7 @@ form div {
   background-color: #000000;
 }
 
-a:hover {
-  color: wheat;
-}
-.myNavLink a {
+*/ .myNavLink a {
   margin: 10px;
 }
 
@@ -75,4 +78,66 @@ a:hover {
   background: #010d14;
   border: 0;
   color: #f5ebeb;
+=======
+/* message form */
+
+#new-message-form {
+  position: relative;
+}
+
+#new-message-form .form-control {
+  border-width: 3px 1.5px 3px 3px;
+}
+
+#new-message-form.btn {
+  border-width: 3px;
+}
+
+.media-list {
+  flex: 1 1 auto;
+}
+.text-shadow {
+  text-shadow: 5px 5px 10px black !important;
+}
+.background-color-discover {
+  margin: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+/** Now Playing **/
+.now-playing__name {
+  font-size: 1.5em;
+  margin-bottom: 0.2em;
+}
+.now-playing__artist {
+  margin-bottom: 1em;
+}
+.now-playing__status {
+  margin-bottom: 1em;
+}
+.now-playing__img {
+  float: left;
+  margin-right: 10px;
+  text-align: right;
+  width: 45%;
+}
+.now-playing__img img {
+  max-width: 80vmin;
+  width: 100%;
+}
+.now-playing__side {
+  margin-left: 5%;
+  width: 45%;
+}
+/** Progress **/
+.progress {
+  border: 1px solid #eee;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress__bar {
+  background-color: #eee;
+  height: 4px;
 }

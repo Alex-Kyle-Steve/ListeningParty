@@ -6,18 +6,22 @@ module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    // new uri from the channel owner
-    socket.on('played-new-song', function(uri, channelId) {
-      // broadcasts to other listeners in the channel
-      this.broadcast.to(channelId).emit('recieved-new-song', uri)
+    socket.on('new-message', message => {
+      socket.broadcast.emit('new-message', message)
     })
 
-    //joining a channel
-    socket.on('join-room', roomName => {
-      socket.join(roomName)
-      //will broadcast this message when someone joins the channel
-      socket.to(roomName).emit('Hello', 'test')
-      console.log(`joined ${roomName}`)
+    socket.on('join-room', roomNumber => {
+      socket.join(roomNumber)
+      console.log(`${socket.id} joined room ${roomNumber}`)
+    })
+    // leaving a channel
+    socket.on('leave-room', roomNumber => {
+      socket.leave(roomNumber)
+      console.log(`${socket.id} left room ${roomNumber}`)
+    })
+
+    socket.on('owner-state-changed', function(channelId, playerState) {
+      this.broadcast.to(channelId).emit('received-state-change', playerState)
     })
 
     socket.on('disconnect', () => {

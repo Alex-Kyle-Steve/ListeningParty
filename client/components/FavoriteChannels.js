@@ -43,11 +43,9 @@ export class FavoriteChannels extends Component {
               </ListGroup.Item>
             ))
           ) : (
-            <Col xs={12}>
-              <Card border="light">
-                <Card.Text className="center">No favorite channels</Card.Text>
-              </Card>
-            </Col>
+            <ListGroup.Item style={{border: 'none'}}>
+              No favorite channels
+            </ListGroup.Item>
           )}
         </ListGroup>
       </Container>

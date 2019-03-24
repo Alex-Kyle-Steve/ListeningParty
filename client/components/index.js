@@ -3,10 +3,9 @@
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
-export {default as Navbar} from './navbar'
+export {default as NewNavbar} from './newNav'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
-export {ConnectedDiscover} from './discover-main'
 export {ConnectedFavoriteChannels} from './FavoriteChannels'
 export {ConnectedOwnedChannels} from './OwnedChannels'
 export {ConnectedAllChannels} from './AllChannels'
@@ -19,3 +18,7 @@ export {SpotifyCatalogScrollTable} from './SpotifyCatalogScrollTable'
 export {ConnectedNewChannel} from './NewChannel'
 export {ConnectedEditChannel} from './EditChannel'
 export {ConnectedEditUser} from './EditUser'
+export {ConnectedMessages} from './MessageList'
+export {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
+export {ConnectedChannelLineItemSidebar} from './ChannelLineItemSidebar'
+export {Player} from './Player'

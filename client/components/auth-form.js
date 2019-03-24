@@ -2,7 +2,17 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
+import {
+  Button,
+  Row,
+  Col,
+  Table,
+  Image,
+  Form,
+  Container,
+  Jumbotron
+} from 'react-bootstrap'
+import {Link} from 'react-router-dom'
 /**
  * COMPONENT
  */
@@ -11,28 +21,40 @@ const AuthForm = props => {
 
   return (
     <Container>
-      <div>
-        <form onSubmit={handleSubmit} name={name}>
-          <div>
-            <label htmlFor="email">
-              <small>Email</small>
-            </label>
-            <input name="email" type="text" />
-          </div>
-          <div>
-            <label htmlFor="password">
-              <small>Password</small>
-            </label>
-            <input name="password" type="password" />
-          </div>
+      <Jumbotron className="custom-center-align">
+        <Row>
+          <Col xs={12}>
+            <form onSubmit={handleSubmit} name={name}>
+              <label htmlFor="email">
+                <small>Email</small>
+              </label>
+              <input name="email" type="text" />
 
-          <div>
-            <button type="submit">{displayName}</button>
-          </div>
-          {error && error.response && <div> {error.response.data} </div>}
-        </form>
-        <a href="/auth/spotify">{displayName} with Spotify</a>
-      </div>
+              <label htmlFor="password">
+                <small>Password</small>
+              </label>
+              <input name="password" type="password" />
+              <br />
+              <br />
+              {/* <Row> */}
+              {error && error.response && <div> {error.response.data} </div>}
+              {/* </Row> */}
+              <Button type="submit">{displayName}</Button>
+            </form>
+
+            {/* <Row>
+              <Col xs={3} />
+              <Col xs={6}>or</Col>
+              <Col xs={3} />
+            </Row> */}
+            <hr />
+
+            <a href="/auth/spotify">
+              <Button variant="success">{displayName} with Spotify</Button>
+            </a>
+          </Col>
+        </Row>
+      </Jumbotron>
     </Container>
   )
 }
