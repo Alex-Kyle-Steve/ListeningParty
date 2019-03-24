@@ -12,8 +12,8 @@ socket.on('connect', () => {
   })
 })
 
-socket.on('owner-played-new-song', (uri, isPaused) => {
-  store.dispatch(playTrack(uri, isPaused))
+socket.on('owner-played-new-song', uri => {
+  store.dispatch(playTrack(uri))
 })
 
 socket.on('owner-toggled-pause', isPaused => {
