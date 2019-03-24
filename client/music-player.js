@@ -51,18 +51,14 @@ const handleStateReceived = receivedState => {
   if (!receivedState)
     return store.getState().player && store.dispatch(stopMusic())
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
-  const chagedStates = getChangedState(
-    paused,
-    uri,
-    position,
-    store.getState().player
+  return getChangedState(paused, uri, position, store.getState().player).then(
+    ({shouldChangeTrack, shouldTogglePlay, shouldScroll}) => {
+      console.log('Playing song?', shouldChangeTrack ? 'YES' : 'NO')
+      if (shouldChangeTrack) store.dispatch(playTrack(uri))
+      console.log('Toggling play?', shouldTogglePlay ? 'YES' : 'NO')
+      if (shouldTogglePlay) store.dispatch(togglePlay())
+    }
   )
-  console.log('changed states:', chagedStates)
-  const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = chagedStates
-  console.log('Playing song?', shouldChangeTrack ? 'YES' : 'NO')
-  if (shouldChangeTrack) store.dispatch(playTrack(uri))
-  console.log('Toggling play?', shouldTogglePlay ? 'YES' : 'NO')
-  if (shouldTogglePlay) store.dispatch(togglePlay())
 }
 
 /**
