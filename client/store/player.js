@@ -61,6 +61,13 @@ export const togglePause = () => (dispatch, getState) => {
   })
 }
 
+export const stopMusic = () => (dispatch, getState) => {
+  const player = getState().player
+  return player.pause().then(() => {
+    console.log('paused music')
+  })
+}
+
 export default function(state = null, action) {
   if (action.type === SET_PLAYER_INSTANCE) return action.instance
   return state

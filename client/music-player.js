@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import store, {playTrack, togglePause} from './store'
+import store, {playTrack, togglePause, stopMusic} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -51,6 +51,7 @@ const getChangedState = async (
  * - scrolling music
  */
 const handleStateReceived = receivedState => {
+  if (!receivedState) return store.dispatch(stopMusic())
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
   const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = getChangedState(
     paused,
