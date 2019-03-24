@@ -20,6 +20,18 @@ export class SelectedChannel extends Component {
     await this.props.fetchSelectedChannel(channelId)
   }
 
+  async componentDidUpdate(prevProps) {
+    console.log('prev', prevProps)
+    console.log('this', this.props)
+
+    if (
+      String(prevProps.selectedChannel.id) !==
+      String(this.props.selectedChannel.id)
+    ) {
+      await this.props.fetchSelectedChannel(channelId)
+    }
+  }
+
   formatData() {
     return this.props.selectedChannel.historicalPlayLists.reduce(
       (accumulator, currentValue) => {
@@ -97,9 +109,11 @@ export class SelectedChannel extends Component {
 
             {/* Chat */}
             <Col xs={3}>
-              <ConnectedMessages />
-              <Row>
-                <Col xs={12}>
+              <Tabs
+                defaultActiveKey="description"
+                id="uncontrolled-tab-example"
+              >
+                <Tab eventKey="description" title="Channel Description">
                   <CardDeck>
                     <Card border="light">
                       <Card.Body>
@@ -116,10 +130,18 @@ export class SelectedChannel extends Component {
                       </Card.Body>
                     </Card>
                   </CardDeck>
+                </Tab>
+                <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
+                  <ConnectedMessages channel={selectedChannel.name} />
+                </Tab>
+              </Tabs>
+              {/* <Row>
+                <Col xs={12}>
+
                 </Col>
-              </Row>
+              </Row> */}
               <Row>
-                <Col xs={12}>CHAT HERRE</Col>
+                <Col xs={12} />
               </Row>
             </Col>
           </Row>
