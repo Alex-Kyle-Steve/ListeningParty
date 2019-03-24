@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import store, {playTrack, togglePause} from './store'
+import store, {playTrack, togglePause, seekTrack} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -55,9 +55,9 @@ const resolveStateChange = (uri, paused, position) => ({
   shouldChangeTrack,
   shouldSeek
 }) =>
-  Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri))).then(
-    () => shouldTogglePlay && store.dispatch(togglePause(paused))
-  )
+  Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri)))
+    .then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
+    .then(() => shouldSeek && store.dispatch(seekTrack(position)))
 
 /**
  * handler for when channel owner's player state changes
