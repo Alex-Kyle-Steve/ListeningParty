@@ -10,7 +10,17 @@ class Messages extends Component {
     await this.props.fetchMessages()
   }
 
+  async componentDidUpdate(prevState, prevProps) {
+    if (
+      String(prevState.messages.length) !== String(this.props.messages.length)
+    ) {
+      await this.props.fetchMessages()
+    } else {
+      return 'A'
+    }
+  }
   render() {
+    console.log(this.props.messages)
     const channelId = Number(this.props.selectedChannel.id)
     const messages = this.props.messages
     const filteredMessages = messages.filter(message => {
@@ -34,7 +44,7 @@ class Messages extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    messages: state.message.messages,
+    // messages: state.message.messages,
     selectedChannel: state.channel.selectedChannel
   }
 }

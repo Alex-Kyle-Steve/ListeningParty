@@ -83,7 +83,7 @@ export class SelectedChannel extends Component {
 
             {/* Chat */}
             <Col xs={3}>
-              <ConnectedMessages />
+              <ConnectedMessages messages={this.props.messages} />
             </Col>
           </Row>
         </Container>
@@ -98,7 +98,8 @@ const mapDispatchToProps = dispatch => {
 }
 const mapStateToProps = state => {
   return {
-    selectedChannel: state.channel.selectedChannel
+    selectedChannel: state.channel.selectedChannel,
+    messages: state.message.messages
   }
 }
 export const ConnectedSelectedChannel = connect(
