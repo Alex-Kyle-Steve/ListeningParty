@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Col, ListGroup} from 'react-bootstrap'
+import {Card, Container, Col, ListGroup, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import {fetchOwnedChannels, me} from '../store/user'
@@ -10,12 +10,9 @@ export class OwnedChannels extends Component {
     super()
   }
 
-  handleClick() {
-    // this.props.changeChannel(this.props.channelId)
-  }
   async componentDidMount() {
-    // await this.props.fetchMe()
-    // await this.props.fetchOwnedChannels(this.props.user.id)
+    await this.props.fetchMe()
+    await this.props.fetchOwnedChannels(this.props.user.id)
   }
 
   render() {
@@ -27,11 +24,7 @@ export class OwnedChannels extends Component {
           {ownedChannels && ownedChannels.length ? (
             ownedChannels.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>
-                <Link
-                  to={`/channels/${channel.id}`}
-                  className="link-styling"
-                  // onClick={this.handleClick()}
-                >
+                <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
               </ListGroup.Item>
@@ -42,7 +35,14 @@ export class OwnedChannels extends Component {
                 <Card.Text className="center">
                   No owned channels
                   <br />
-                  Want to create a channel?
+                  <Link
+                    to="/newchannel"
+                    className="create-channel-sidebar-link "
+                  >
+                    <Button variant="primary" size="sm">
+                      Create Channel
+                    </Button>
+                  </Link>
                 </Card.Text>
               </Card>
             </Col>

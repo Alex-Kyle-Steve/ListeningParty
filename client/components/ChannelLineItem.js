@@ -81,7 +81,7 @@ class ChanneLineItem extends Component {
                   </Card.Title>
                 </Link>
               </Card.Title>
-              <Card.Footer>
+              <Card.Text>
                 <Button
                   variant="link"
                   className="link-styling"
@@ -101,7 +101,7 @@ class ChanneLineItem extends Component {
                     Join Channel
                   </Button>
                 </Link>
-              </Card.Footer>
+              </Card.Text>
             </Card.Body>
           </Card>
         </CardDeck>
