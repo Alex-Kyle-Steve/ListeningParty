@@ -11,12 +11,7 @@ const musicPlayerEvent = new EventEmitter()
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
   // get current channel, track and user from the state
-  const {
-    channel: {selectedChannel},
-    user,
-    currentTrack,
-    player: {isPaused}
-  } = getState()
+  const {channel: {selectedChannel}, user} = getState()
   // id of the current channel participating
   const channelId = selectedChannel.id
   // determine if the triggered player is owner's
@@ -31,6 +26,8 @@ const handleStateChanged = (playerState, dispatch, getState) => {
 /**
  * handler for when channel owner's player state changes
  * @param {WebPlaybackState} playerState
+ * TODO:
+ * - scrolling music
  */
 const handleStateReceived = receivedState => {
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
