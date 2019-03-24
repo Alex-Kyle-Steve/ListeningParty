@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import store, {playTrack, togglePause, stopMusic} from './store'
+import store, {playTrack, togglePause} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
