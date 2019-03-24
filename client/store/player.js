@@ -46,9 +46,7 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
  */
 export const playTrack = uri => (dispatch, getState) => {
   const player = getState().player
-  return player
-    .playNewUri({uri, player})
-    .then(() => console.log('playing uri:', uri))
+  return playNewUri({uri, player}).then(() => console.log('playing uri:', uri))
 }
 
 /**
