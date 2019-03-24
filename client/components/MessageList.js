@@ -26,6 +26,7 @@ class Messages extends Component {
     return (
       <div>
         <h4>{this.props.channel} Chat</h4>
+        <hr />
         <div style={{overflow: 'scroll', height: '500px'}}>
           <ul className="media-list">
             {filteredMessages.map(message => (

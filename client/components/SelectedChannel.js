@@ -22,8 +22,6 @@ export class SelectedChannel extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     //Checks to see if previous state is =/!= to the current state by ID. Needs to be a string (primitive type) and not an object because of types
-    console.log(prevProps)
-    console.log('this', this.props)
     if (
       String(prevProps.selectedChannel.id) !== this.props.match.params.channelId
     ) {
