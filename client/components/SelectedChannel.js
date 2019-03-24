@@ -6,6 +6,7 @@ import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
+import {ConnectedMessages} from './MessageList'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
@@ -96,6 +97,7 @@ export class SelectedChannel extends Component {
 
             {/* Chat */}
             <Col xs={3}>
+              <ConnectedMessages />
               <Row>
                 <Col xs={12}>
                   <CardDeck>
@@ -133,7 +135,8 @@ const mapDispatchToProps = dispatch => {
 }
 const mapStateToProps = state => {
   return {
-    selectedChannel: state.channel.selectedChannel
+    selectedChannel: state.channel.selectedChannel,
+    messages: state.message.messages
   }
 }
 export const ConnectedSelectedChannel = connect(
