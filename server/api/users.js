@@ -48,7 +48,7 @@ router.post('/:userId/favorites/:channelId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     const channel = await Channel.findById(req.params.channelId)
-    user.addChannel(channel, {as: 'favoriteChannel'})
+    user.addFavoriteChannel(channel)
     res.json('Favorite channel added to user')
   } catch (err) {
     next(err)
@@ -58,7 +58,7 @@ router.delete('/:userId/favorites/:channelId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     const channel = await Channel.findById(req.params.channelId)
-    user.removeChannel(channel, {as: 'favoriteChannel'})
+    user.removeFavoriteChannel(channel)
     res.json('Favorite channel removed from user')
   } catch (err) {
     next(err)

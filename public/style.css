@@ -66,3 +66,13 @@ a:hover {
   max-height: 50% !important;
   max-width: 50% !important;
 }
+
+.list-btn {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  font-size: 12px;
+  background: #010d14;
+  border: 0;
+  color: #f5ebeb;
+}

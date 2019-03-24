@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Container, ListGroup, Button, Modal} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import {addFavoriteChannel, me} from '../store/user'
 
 class ChanneLineItem extends Component {
   constructor(props, context) {
     super(props, context)
     this.handleShow = this.handleShow.bind(this)
     this.handleClose = this.handleClose.bind(this)
-
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
       show: false
     }
@@ -23,6 +24,13 @@ class ChanneLineItem extends Component {
       show: true
     })
   }
+
+  async handleClick(event) {
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    await this.props.addFavoriteChannel(this.props.user.id, channelId)
+  }
+
   render() {
     return (
       <Container>
@@ -41,6 +49,9 @@ class ChanneLineItem extends Component {
           >
             quick info
           </Button>
+          <button type="button" className="list-btn" onClick={this.handleClick}>
+            +
+          </button>
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>{this.props.channel.name}</Modal.Title>
@@ -67,9 +78,19 @@ class ChanneLineItem extends Component {
 
 const mapStateToProps = state => {
   return {
-    allChannels: state.channel.allChannels
+    allChannels: state.channel.allChannels,
+    user: state.user
   }
 }
-export const ConnectedChannelLineItem = connect(mapStateToProps, null)(
-  ChanneLineItem
-)
+const mapDispatchToProps = dispatch => {
+  return {
+    addFavoriteChannel: (userId, channelId) =>
+      dispatch(addFavoriteChannel(userId, channelId)),
+    fetchMe: () => dispatch(me())
+  }
+}
+
+export const ConnectedChannelLineItem = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChanneLineItem)

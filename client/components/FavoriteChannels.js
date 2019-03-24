@@ -7,6 +7,7 @@ import {fetchFavoriteChannels, removeFavoriteChannel, me} from '../store/user'
 export class FavoriteChannels extends Component {
   constructor() {
     super()
+    this.handleClick = this.handleClick.bind(this)
   }
 
   async componentDidMount() {
@@ -14,14 +15,9 @@ export class FavoriteChannels extends Component {
     await this.props.fetchFavoriteChannels(this.props.user.id)
   }
   async handleClick(event) {
-    console.log(
-      'Inside FavoriteChannels component, removeFavorite event.target:\n',
-      event.target
-    )
-    await this.props.removeFavoriteChannel(
-      this.props.user.id,
-      event.target.parent.name
-    )
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    await this.props.removeFavoriteChannel(this.props.user.id, channelId)
   }
 
   render() {
@@ -37,7 +33,13 @@ export class FavoriteChannels extends Component {
                 <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
-                <button type="button" onClick={this.handleClick} />
+                <button
+                  type="button"
+                  className="list-btn"
+                  onClick={this.handleClick}
+                >
+                  x
+                </button>
               </ListGroup.Item>
             ))
           ) : (
