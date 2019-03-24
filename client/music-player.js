@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 import axios from 'axios'
 import socket from './socket'
-import store, {playTrack, togglePlay, stopMusic} from './store'
+import store, {playTrack, togglePause} from './store'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -49,14 +49,14 @@ const getChangedState = (
  */
 const handleStateReceived = receivedState => {
   if (!receivedState)
-    return store.getState().player && store.dispatch(stopMusic())
+    return store.getState().player && store.dispatch(togglePause(true))
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
   return getChangedState(paused, uri, position, store.getState().player).then(
     ({shouldChangeTrack, shouldTogglePlay, shouldScroll}) => {
       console.log('Playing song?', shouldChangeTrack ? 'YES' : 'NO')
       if (shouldChangeTrack) store.dispatch(playTrack(uri))
       console.log('Toggling play?', shouldTogglePlay ? 'YES' : 'NO')
-      if (shouldTogglePlay) store.dispatch(togglePlay())
+      if (shouldTogglePlay) store.dispatch(togglePause(paused))
     }
   )
 }

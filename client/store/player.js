@@ -54,18 +54,15 @@ export const playTrack = uri => (dispatch, getState) => {
  * - owner pause state changes
  * @param {boolean} isPaused
  */
-export const togglePlay = () => (dispatch, getState) => {
+export const togglePause = isPaused => (dispatch, getState) => {
   const player = getState().player
-  return player.togglePlay().then(() => {
-    console.log('toggled play')
-  })
-}
-
-export const stopMusic = () => (dispatch, getState) => {
-  const player = getState().player
-  return player.pause().then(() => {
-    console.log('paused music')
-  })
+  return isPaused
+    ? player.pause().then(() => {
+        console.log('pausing track')
+      })
+    : player.resume().then(() => {
+        console.log('resuming track')
+      })
 }
 
 export default function(state = null, action) {
