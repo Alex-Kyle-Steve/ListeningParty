@@ -20,15 +20,16 @@ export class SelectedChannel extends Component {
     await this.props.fetchSelectedChannel(channelId)
   }
 
-  async componentDidUpdate(prevProps) {
-    console.log('prev', prevProps)
+  async componentDidUpdate(prevProps, prevState) {
+    //Checks to see if previous state is =/!= to the current state by ID. Needs to be a string (primitive type) and not an object because of types
+    console.log(prevProps)
     console.log('this', this.props)
-
     if (
-      String(prevProps.selectedChannel.id) !==
-      String(this.props.selectedChannel.id)
+      String(prevProps.selectedChannel.id) !== this.props.match.params.channelId
     ) {
-      await this.props.fetchSelectedChannel(channelId)
+      await this.props.fetchSelectedChannel(
+        Number(this.props.match.params.channelId)
+      )
     }
   }
 
