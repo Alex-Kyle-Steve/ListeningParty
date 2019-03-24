@@ -70,7 +70,7 @@ async function seed() {
   ]
   await Channel.bulkCreate(channelArray)
 
-  // const users = await User.findAll()
+  const users = await User.findAll()
   // const channels = await Channel.findAll()
   // await users[1].addFavoriteChannel(channels[1])
   // await users[2].addFavoriteChannel(channels[1])
