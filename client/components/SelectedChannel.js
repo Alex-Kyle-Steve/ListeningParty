@@ -1,6 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Tabs,
+  Tab,
+  CardDeck,
+  ListGroup
+} from 'react-bootstrap'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
@@ -31,6 +40,7 @@ export class SelectedChannel extends Component {
     }
   }
 
+  //Formats data to pass as props to the playlist table
   formatData() {
     return this.props.selectedChannel.historicalPlayLists.reduce(
       (accumulator, currentValue) => {
@@ -85,6 +95,7 @@ export class SelectedChannel extends Component {
                   </Col>
                 </Row>
               </Card>
+              {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
               <Row>
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
@@ -106,13 +117,13 @@ export class SelectedChannel extends Component {
               </Row>
             </Col>
 
-            {/* Chat */}
+            {/* Chat/Channel Information tabs. */}
             <Col xs={3}>
               <Tabs
                 defaultActiveKey="description"
                 id="uncontrolled-tab-example"
               >
-                <Tab eventKey="description" title="Channel Description">
+                <Tab eventKey="description" title="Channel">
                   <CardDeck>
                     <Card border="light">
                       <Card.Body>
@@ -122,9 +133,6 @@ export class SelectedChannel extends Component {
                             <br /> {selectedChannel.name}{' '}
                           </h3>
                         </Card.Title>
-
-                        {/* </Link> */}
-
                         <Card.Text>{selectedChannel.description}</Card.Text>
                       </Card.Body>
                     </Card>
@@ -133,12 +141,32 @@ export class SelectedChannel extends Component {
                 <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
                   <ConnectedMessages channel={selectedChannel.name} />
                 </Tab>
-              </Tabs>
-              {/* <Row>
-                <Col xs={12}>
 
-                </Col>
-              </Row> */}
+                <Tab eventKey="quick-start" title="Connect">
+                  <CardDeck>
+                    <Card border="light">
+                      <Card.Body>
+                        <Card.Title className="link-styling">
+                          <h3>Quick Start Guide</h3>
+                        </Card.Title>
+
+                        <Card.Text>
+                          <ListGroup variant="flush">
+                            <ListGroup.Item>
+                              1. Connect to 'Listening Party Spotify Player'
+                              with your device using the button below
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                              2. Add songs to the cue
+                            </ListGroup.Item>
+                            <ListGroup.Item>3. Enjoy!</ListGroup.Item>
+                          </ListGroup>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </CardDeck>
+                </Tab>
+              </Tabs>
               <Row>
                 <Col xs={12} />
               </Row>
