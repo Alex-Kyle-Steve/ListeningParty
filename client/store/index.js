@@ -6,9 +6,16 @@ import user from './user'
 import channel from './channel'
 import player from './player'
 import song from './song'
+import currentTrack from './currentTrack'
 import message from './message'
-
-const reducer = combineReducers({user, channel, player, song, message})
+const reducer = combineReducers({
+  user,
+  channel,
+  player,
+  song,
+  currentTrack,
+  message
+})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -22,3 +29,4 @@ export * from './channel'
 export * from './player'
 export * from './song'
 export * from './message'
+export * from './currentTrack'

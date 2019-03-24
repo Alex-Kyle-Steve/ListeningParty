@@ -10,18 +10,24 @@ module.exports = io => {
       socket.broadcast.emit('new-message', message)
     })
 
-    // new uri from the channel owner
-    socket.on('played-new-song', function(uri, channelId) {
-      // broadcasts to other listeners in the channel
-      this.broadcast.to(channelId).emit('recieved-new-song', uri)
+    socket.on('join-room', roomNumber => {
+      socket.join(roomNumber)
+      console.log(`${socket.id} joined room ${roomNumber}`)
+    })
+    // leaving a channel
+    socket.on('leave-room', roomNumber => {
+      socket.leave(roomNumber)
+      console.log(`${socket.id} left room ${roomNumber}`)
     })
 
-    //joining a channel
-    socket.on('join-room', roomName => {
-      socket.join(roomName)
-      //will broadcast this message when someone joins the channel
-      socket.to(roomName).emit('Hello', 'test')
-      console.log(`joined ${roomName}`)
+    // owner changed the song
+    socket.on('played-new-song', function(uri, channelId, isPaused = false) {
+      // broadcasts to other listeners in the channel
+      this.broadcast.to(channelId).emit('owner-played-new-song', uri, isPaused)
+    })
+    // owner toggled pause
+    socket.on('toggled-pause', function(isPaused, channelId) {
+      this.broadcast.to(channelId).emit('owner-toggled-pause', isPaused)
     })
 
     socket.on('disconnect', () => {
