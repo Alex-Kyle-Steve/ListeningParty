@@ -23,26 +23,24 @@ const handleStateChanged = (playerState, dispatch, getState) => {
 }
 
 // helper for determining what to update
-const getChangedState = async (
+const getChangedState = (
   isChannelPaused,
   channelTrackUri,
-  channelPosition
-) => {
-  const player = store.getState().player
-  const playerState = await player.getCurrentState()
-  const shouldTogglePlay =
-    !playerState || isChannelPaused !== playerState.paused
-  const shouldChangeTrack =
-    !playerState ||
-    channelTrackUri !== playerState.track_window.current_track.uri
-  const shouldScroll =
-    !playerState ||
-    channelPosition > playerState.position + 3000 ||
-    channelPosition < playerState.position - 3000
-
-  return {shouldTogglePlay, shouldChangeTrack, shouldScroll}
-}
-
+  channelPosition,
+  myPlayer
+) =>
+  myPlayer.getCurrentState().then(playerState => {
+    const shouldTogglePlay =
+      !playerState || isChannelPaused !== playerState.paused
+    const shouldChangeTrack =
+      !playerState ||
+      channelTrackUri !== playerState.track_window.current_track.uri
+    const shouldScroll =
+      !playerState ||
+      (channelPosition > playerState.position + 3000 ||
+        channelPosition < playerState.position - 3000)
+    return {shouldTogglePlay, shouldChangeTrack, shouldScroll}
+  })
 /**
  * handler for when channel owner's player state changes
  * @param {WebPlaybackState} playerState
@@ -50,15 +48,17 @@ const getChangedState = async (
  * - scrolling music
  */
 const handleStateReceived = receivedState => {
-  console.log('handling state received', receivedState)
   if (!receivedState)
     return store.getState().player && store.dispatch(stopMusic())
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
-  const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = getChangedState(
+  const chagedStates = getChangedState(
     paused,
     uri,
-    position
+    position,
+    store.getState().player
   )
+  console.log('changed states:', chagedStates)
+  const {shouldTogglePlay, shouldChangeTrack, shouldScroll} = chagedStates
   console.log('Playing song?', shouldChangeTrack ? 'YES' : 'NO')
   if (shouldChangeTrack) store.dispatch(playTrack(uri))
   console.log('Toggling play?', shouldTogglePlay ? 'YES' : 'NO')
