@@ -30,17 +30,18 @@ const getChangedState = (
   myPlayer
 ) =>
   myPlayer.getCurrentState().then(playerState => {
+    if (!playerState)
+      return {shouldTogglePlay: true, shouldChangeTrack: true, shouldSeek: true}
     const listenerTrackUri = playerState.track_window.current_track.uri
     // should we change track
-    const shouldChangeTrack =
-      !playerState || channelTrackUri !== listenerTrackUri
+    const shouldChangeTrack = channelTrackUri !== listenerTrackUri
     // depending on uri change, listener's player will automatically play
-    const isListenerPaused = shouldChangeTrack ? false : playerState.paused
+    const isListenerPaused = shouldChangeTrack ? false : !playerState.paused
     // should we toggle playback?
     const shouldTogglePlay =
       !playerState || isChannelPaused !== isListenerPaused
     // if we're playing new uri, listener's position will be at 0 mark
-    const listenerPosition = shouldTogglePlay ? 0 : playerState.position
+    const listenerPosition = shouldChangeTrack ? 0 : playerState.position
     // should we seek through track?
     // apply 3 second frame to account for latency
     const shouldSeek =
