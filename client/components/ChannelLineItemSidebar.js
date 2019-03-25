@@ -25,10 +25,6 @@ class ChannelLineItemSidebar extends Component {
     })
   }
   async handleClick(event) {
-    console.log(
-      'Inside ChannelLineItemSidebar component, handleClick event.target.parentNode.firstChild',
-      event.target.parentNode.firstChild
-    )
     const href = event.target.parentNode.firstChild.href
     const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
     await this.props.addFavoriteChannel(this.props.user.id, channelId)
