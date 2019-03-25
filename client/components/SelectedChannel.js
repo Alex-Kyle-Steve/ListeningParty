@@ -94,7 +94,15 @@ export class SelectedChannel extends Component {
               <Card border="light">
                 {selectedChannel.ownerId !== this.props.user.id &&
                 this.state.joined === false ? (
-                  <Button onClick={this.joinChannel}>Start Listening</Button>
+                  <Row>
+                    <Col xs={4} />
+                    <Col xs={4}>
+                      <Button onClick={this.joinChannel}>
+                        Start Listening
+                      </Button>
+                    </Col>
+                    <Col xs={4} />
+                  </Row>
                 ) : selectedChannel.ownerId === this.props.user.id ? (
                   <Player />
                 ) : (

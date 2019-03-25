@@ -48,37 +48,39 @@ export class Player extends Component {
                   <Card.Text>Soft Sounds from Another Planet</Card.Text>
                 </Col>
               </Row>
+              <Row>
+                <div id="player-container">
+                  <div id="player-controls">
+                    <div className="row center">
+                      <i className="fa fa-step-backward">
+                        <img src="/back.png" />
+                      </i>
+                      {this.state.togglePlay === false ? (
+                        <i
+                          onClick={this.togglePlayButton}
+                          className="fa fa-pause-circle"
+                        >
+                          <img src="/play.png" />
+                        </i>
+                      ) : (
+                        <i
+                          onClick={this.togglePlayButton}
+                          className="fa fa-pause-circle"
+                        >
+                          <img src="/pause.png" />
+                        </i>
+                      )}
+
+                      <i className="fa fa-step-forward">
+                        <img src="/forward.png" />
+                      </i>
+                    </div>
+                  </div>
+                </div>
+              </Row>
             </Col>
           </Row>
         </Card>
-        <div id="player-container">
-          <div id="player-controls">
-            <div className="row center">
-              <i className="fa fa-step-backward">
-                <img src="/back.png" />
-              </i>
-              {this.state.togglePlay === false ? (
-                <i
-                  onClick={this.togglePlayButton}
-                  className="fa fa-pause-circle"
-                >
-                  <img src="/play.png" />
-                </i>
-              ) : (
-                <i
-                  onClick={this.togglePlayButton}
-                  className="fa fa-pause-circle"
-                >
-                  <img src="/pause.png" />
-                </i>
-              )}
-
-              <i className="fa fa-step-forward">
-                <img src="/forward.png" />
-              </i>
-            </div>
-          </div>
-        </div>
       </div>
     )
   }
