@@ -14,6 +14,7 @@ import {Player} from './Player'
 export class SelectedChannel extends Component {
   componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
+    // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
   }
@@ -29,14 +30,18 @@ export class SelectedChannel extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('selectedChannel componentDidUpdate')
+    // get previous and current channel ID
     const prevCh = prevProps.match.params.channelId
     const currCh = this.props.match.params.channelId
     // if channel changed
     if (prevCh !== currCh) {
+      // leave previous room
       socket.emit('leave-room', prevCh)
+      // join current room
       socket.emit('join-room', currCh)
+      // get the new channel and set it on state as SelectedChannel
       this.props.fetchSelectedChannel(currCh)
+      // stop listening if you were listening before
       if (this.props.isListening) this.props.stopListening()
     }
   }
