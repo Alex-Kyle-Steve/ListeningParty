@@ -6,7 +6,12 @@ export default function Message(props) {
   return (
     <li className="media">
       <div className="media-body">
-        <strong>{message.user.spotifyId}: </strong> {message.content}
+        <strong>
+          {message.user.firstName
+            ? message.user.firstName
+            : message.user.spotifyId}:{' '}
+        </strong>{' '}
+        {message.content}
       </div>
     </li>
   )
