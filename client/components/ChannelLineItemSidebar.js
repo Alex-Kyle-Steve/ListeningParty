@@ -51,7 +51,7 @@ class ChannelLineItemSidebar extends Component {
           Quick Info
         </Button>
         <button type="button" className="list-btn" onClick={this.handleClick}>
-          x
+          +
         </button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
