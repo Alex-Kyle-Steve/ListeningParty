@@ -141,3 +141,13 @@ i.fa:hover {
 #player-controls i:nth-child(2) {
   font-size: 3em;
 }
+
+/** Channel Buttons **/
+.channel-btn {
+  height: 18px;
+  font-size: 8pt;
+  border-radius: 9px;
+  border-width: 0;
+  background: #010d14;
+  color: #eee;
+}

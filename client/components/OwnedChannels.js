@@ -3,15 +3,28 @@ import {connect} from 'react-redux'
 import {Card, Container, Col, ListGroup, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
-import {fetchOwnedChannels, me} from '../store/user'
+import {deleteChannel, fetchOwnedChannels, me} from '../store/'
+import history from '../history'
 
 export class OwnedChannels extends Component {
   constructor() {
     super()
+    this.deleteChannel = this.deleteChannel.bind(this)
   }
 
   async componentDidMount() {
     await this.props.fetchMe()
+    await this.props.fetchOwnedChannels(this.props.user.id)
+  }
+  editChannel(event) {
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    history.push(`/editChannel/${channelId}`)
+  }
+  async deleteChannel(event) {
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    await this.props.deleteChannel(channelId)
     await this.props.fetchOwnedChannels(this.props.user.id)
   }
 
@@ -27,6 +40,21 @@ export class OwnedChannels extends Component {
                 <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
+                <button
+                  type="button"
+                  onClick={this.editChannel}
+                  className="channel-btn"
+                >
+                  Edit
+                </button>
+                {'  '}
+                <button
+                  type="button"
+                  onClick={this.deleteChannel}
+                  className="channel-btn"
+                >
+                  Delete
+                </button>
               </ListGroup.Item>
             ))
           ) : (
@@ -55,6 +83,7 @@ export class OwnedChannels extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchOwnedChannels: userId => dispatch(fetchOwnedChannels(userId)),
+    deleteChannel: channelId => dispatch(deleteChannel(channelId)),
     fetchMe: () => dispatch(me())
   }
 }

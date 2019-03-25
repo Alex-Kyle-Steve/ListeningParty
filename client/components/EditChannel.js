@@ -39,7 +39,7 @@ class EditChannel extends Component {
   render() {
     return (
       <div className="form">
-        <Col xs={{span: 12, offset: 6}}>
+        <Col xs={{span: 4, offset: 1}}>
           <Form className="marg-top" onSubmit={this.handleSubmit}>
             <Form.Group as={Row} controlId="formBasicTitle">
               <Form.Label>Channel Name</Form.Label>

@@ -83,9 +83,8 @@ export const updateChannel = (channelId, channelData) => async dispatch => {
   }
 }
 export const deleteChannel = channelId => async dispatch => {
-  let res
   try {
-    res = await axios.delete(`/api/channels/${channelId}`)
+    await axios.delete(`/api/channels/${channelId}`)
     await dispatch(fetchChannels())
     dispatch(removeSelectedChannel())
   } catch (err) {
