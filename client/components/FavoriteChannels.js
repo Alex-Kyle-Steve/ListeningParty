@@ -35,10 +35,10 @@ export class FavoriteChannels extends Component {
                 </Link>
                 <button
                   type="button"
-                  className="list-btn"
+                  className="list-btn-fav"
                   onClick={this.handleClick}
                 >
-                  x
+                  X
                 </button>
               </ListGroup.Item>
             ))
