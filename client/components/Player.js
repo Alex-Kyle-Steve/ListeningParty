@@ -30,7 +30,7 @@ export class Player extends Component {
     //TODO:
     //Plug in logic to actually "join" the channel
     this.setState({
-      listening: !this.state.listening
+      listening: !this.state.joined
     })
   }
 
@@ -62,7 +62,7 @@ export class Player extends Component {
               </Row>
               <Row className="justify-content-md-center">
                 {selectedChannel.ownerId !== user.id &&
-                this.state.joined === false ? (
+                this.state.listening === false ? (
                   <Row>
                     <Button onClick={this.toggleListening}>
                       Start Listening
