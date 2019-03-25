@@ -11,7 +11,9 @@ class Messages extends Component {
   }
 
   async componentDidUpdate(prevState) {
-    if (prevState.messages.length !== this.props.messages.length) {
+    if (
+      String(prevState.messages.length) !== String(this.props.messages.length)
+    ) {
       await this.props.fetchMessages()
     }
   }

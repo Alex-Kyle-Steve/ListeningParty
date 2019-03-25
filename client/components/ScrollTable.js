@@ -12,13 +12,8 @@ import {
   Jumbotron
 } from 'react-bootstrap'
 export class ScrollTable extends React.Component {
-  formatData() {
-    return this.props.playList.reduce((accumulator, currentValue) => {
-      accumulator.push(currentValue.song)
-      return accumulator
-    }, [])
-  }
-
+  //TODO:
+  // plug in data from selected Channels to the data property on BootstrapTable
   render() {
     return (
       <div>
@@ -28,7 +23,7 @@ export class ScrollTable extends React.Component {
             scrollTop="Top"
             maxHeight="400px"
             bordered={false}
-            data={this.formatData()}
+            // data={this.formatData()}
             hover
           >
             <TableHeaderColumn dataField="artist">Artist</TableHeaderColumn>

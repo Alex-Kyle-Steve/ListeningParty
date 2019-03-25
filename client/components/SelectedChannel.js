@@ -1,6 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Tabs,
+  Tab,
+  CardDeck,
+  Button
+} from 'react-bootstrap'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
@@ -13,11 +22,34 @@ import {Player} from './Player'
 export class SelectedChannel extends Component {
   constructor() {
     super()
+    this.state = {
+      joined: false
+    }
+    this.joinChannel = this.joinChannel.bind(this)
   }
   async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
     socket.emit('join-room', channelId)
     await this.props.fetchSelectedChannel(channelId)
+  }
+  //TODO:
+  //Create componentDidUpdate(){} hook in order to update the table
+
+  // Formats data to pass as props to the playlist table. Needs to be an array of objects in the format of:
+  // {
+  // artist: str,
+  // song: str,
+  // album: str,
+  // }
+
+  formatData() {
+    return this.props.selectedChannel.historicalPlayLists.reduce(
+      (accumulator, currentValue) => {
+        accumulator.push(currentValue.song)
+        return accumulator
+      },
+      []
+    )
   }
 
   async componentDidUpdate(prevProps) {
@@ -28,18 +60,18 @@ export class SelectedChannel extends Component {
       await this.props.fetchSelectedChannel(
         Number(this.props.match.params.channelId)
       )
+      this.setState({
+        joined: false
+      })
     }
   }
 
-  //Formats data to pass as props to the playlist table
-  formatData() {
-    return this.props.selectedChannel.historicalPlayLists.reduce(
-      (accumulator, currentValue) => {
-        accumulator.push(currentValue.song)
-        return accumulator
-      },
-      []
-    )
+  joinChannel() {
+    //TODO:
+    //Plug in logic to actually "join" the channel
+    this.setState({
+      joined: true
+    })
   }
 
   render() {
@@ -64,6 +96,7 @@ export class SelectedChannel extends Component {
                     <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
                   </Col>
                   <Col xs={6}>
+                    {/* Current Song Information */}
                     <Row>
                       <Col xs={12}>
                         <Card.Title>Song Information</Card.Title>
@@ -80,7 +113,19 @@ export class SelectedChannel extends Component {
                     </Row>
                     <Row>
                       <Col xs={12}>
-                        <Player />
+                        {/*
+                      TODO: Plug in player
+                      {} */}
+                        {selectedChannel.ownerId !== this.props.user.id &&
+                        this.state.joined === false ? (
+                          <Button onClick={this.joinChannel}>
+                            Join Channel
+                          </Button>
+                        ) : selectedChannel.ownerId === this.props.user.id ? (
+                          <Player />
+                        ) : (
+                          'Time stamp info'
+                        )}
                       </Col>
                     </Row>
                   </Col>
@@ -93,9 +138,13 @@ export class SelectedChannel extends Component {
                     {selectedChannel.description ? (
                       this.props.selectedChannel.historicalPlayLists !==
                       historicalPlayList ? (
-                        <ScrollTable playList={historicalPlayList} />
+                        <ScrollTable
+                        // playList={historicalPlayList}
+                        />
                       ) : (
-                        <ScrollTable playList={historicalPlayList} />
+                        <ScrollTable
+                        // playList={historicalPlayList}
+                        />
                       )
                     ) : (
                       ''
@@ -107,7 +156,6 @@ export class SelectedChannel extends Component {
                 </Tabs>
               </Row>
             </Col>
-
             {/* Chat/Channel Information tabs. */}
             <Col xs={3}>
               <Tabs
@@ -151,7 +199,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
-    messages: state.message.messages
+    messages: state.message.messages,
+    user: state.user
   }
 }
 export const ConnectedSelectedChannel = connect(

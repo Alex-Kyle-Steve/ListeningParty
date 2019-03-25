@@ -18,6 +18,7 @@ export class AllChannelsSidebar extends Component {
     return (
       <Container>
         <h4>All Channels</h4>
+
         <ListGroup>
           {channels && channels.length ? (
             channels.map(channel => {
