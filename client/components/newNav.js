@@ -27,15 +27,17 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
     {isLoggedIn ? (
       <Nav className="mr-auto">
         {/* The navbar will show these links after you log in */}
-        <Nav.Link className="link-styling" href="/home">
-          Home
-        </Nav.Link>
-        <Nav.Link href="/login" className="link-styling" onClick={handleClick}>
-          Logout
-        </Nav.Link>
-        <Nav.Link href="/newchannel" className="link-styling">
-          Create Channel
-        </Nav.Link>
+        <Link to="/home">
+          <Nav.Item className="link-styling">Home</Nav.Item>
+        </Link>
+        <Link to="/login">
+          <Nav.Item className="link-styling" onClick={handleClick}>
+            Logout
+          </Nav.Item>
+        </Link>
+        <Link to="/newchannel">
+          <Nav.Item className="link-styling">Create Channel</Nav.Item>
+        </Link>
       </Nav>
     ) : (
       <Nav className="mr-auto">

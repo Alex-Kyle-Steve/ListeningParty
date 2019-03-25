@@ -3,7 +3,8 @@ export class Controller extends Component {
   constructor() {
     super()
     this.state = {
-      togglePlay: false
+      togglePlay: false,
+      sliderValue: 0
     }
     this.togglePlayButton = this.togglePlayButton.bind(this)
   }
@@ -13,11 +14,23 @@ export class Controller extends Component {
       togglePlay: !this.state.togglePlay
     })
   }
+
+  onInput() {
+    //TODO:
+    //Create function that increments the sliderValue as a function of the duration of the song.
+    //Have dynamic scrubbing
+    var input = document.getElementById('myRange')
+    var currentVal = input.value
+    this.setState({
+      sliderValue: currentVal
+    })
+  }
+
   render() {
     return (
       <div id="player-container">
         <div id="player-controls">
-          <div className="row center">
+          <div className="row right">
             <i className="fa fa-step-backward">
               <img src="/back.png" />
             </i>
@@ -34,13 +47,12 @@ export class Controller extends Component {
               <img src="/forward.png" />
             </i>
           </div>
-        </div>
-        <div>
           <input
             type="range"
             min="1"
             max="100"
-            value="50"
+            onInput={this.onInput.bind(this)}
+            defaultValue="0"
             className="slider"
             id="myRange"
           />

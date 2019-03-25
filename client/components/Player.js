@@ -20,12 +20,6 @@ export class Player extends Component {
     this.toggleListening = this.toggleListening.bind(this)
   }
 
-  togglePlayButton() {
-    this.setState({
-      togglePlay: !this.state.togglePlay
-    })
-  }
-
   toggleListening() {
     //TODO:
     //Plug in logic to actually "join" the channel
