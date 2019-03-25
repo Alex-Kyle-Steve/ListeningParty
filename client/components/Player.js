@@ -59,7 +59,7 @@ export class Player extends Component {
                 {selectedChannel.ownerId !== user.id &&
                 isListening === false ? (
                   <Row>
-                    <Button onClick={this.props.startListening}>
+                    <Button variant="link" onClick={this.props.startListening}>
                       Start Listening
                     </Button>
                   </Row>
@@ -67,7 +67,7 @@ export class Player extends Component {
                   <Controller togglePlay={() => this.togglePlay} />
                 ) : (
                   <Row>
-                    <Button onClick={this.props.stopListening}>
+                    <Button variant="link" onClick={this.props.stopListening}>
                       Stop Listening
                     </Button>
                   </Row>

@@ -73,7 +73,7 @@ export class OwnedChannels extends Component {
                     to="/newchannel"
                     className="create-channel-sidebar-link "
                   >
-                    <Button variant="primary" size="sm">
+                    <Button variant="link" size="sm">
                       Create Channel
                     </Button>
                   </Link>

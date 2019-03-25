@@ -129,7 +129,7 @@ export class SelectedChannel extends Component {
                         </Card.Text>
                         <Button
                           size="sm"
-                          variant="primary"
+                          variant="link"
                           onClick={this.handleClick}
                         >
                           Add To Favorites
