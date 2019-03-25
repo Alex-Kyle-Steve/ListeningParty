@@ -16,7 +16,7 @@ import {
   Nav
 } from 'react-bootstrap'
 
-const NewNavbar = ({handleClick, isLoggedIn}) => (
+const NewNavbar = ({userId, handleClick, isLoggedIn}) => (
   // <div className="nav">
 
   <Navbar>
@@ -35,6 +35,9 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
         </Nav.Link>
         <Nav.Link href="/newchannel" className="link-styling">
           Create Channel
+        </Nav.Link>
+        <Nav.Link href={`/editUser/${userId}`} className="link-styling">
+          Edit Profile
         </Nav.Link>
       </Nav>
     ) : (
@@ -55,7 +58,8 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    userId: state.id
   }
 }
 

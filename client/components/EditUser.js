@@ -18,7 +18,7 @@ class EditUser extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
   async componentDidMount() {
-    await this.props.me()
+    // await this.props.me()
     this.setState({
       email: this.props.user.email,
       firstName: this.props.user.firstName,
@@ -43,7 +43,7 @@ class EditUser extends Component {
   render() {
     return (
       <div className="form">
-        <Col xs={{span: 12, offset: 6}}>
+        <Col xs={{span: 4, offset: 1}}>
           <Form className="marg-top" onSubmit={this.handleSubmit}>
             <Form.Group as={Row} controlId="formBasicTitle">
               <Form.Label>eMail</Form.Label>
