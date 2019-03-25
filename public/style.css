@@ -137,4 +137,8 @@ form div {
 .channel-btn {
   height: 18px;
   font-size: 8pt;
+  border-radius: 9px;
+  border-width: 0;
+  background: #010d14;
+  color: #eee;
 }

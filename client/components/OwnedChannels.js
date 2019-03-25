@@ -47,6 +47,7 @@ export class OwnedChannels extends Component {
                 >
                   Edit
                 </button>
+                {'  '}
                 <button
                   type="button"
                   onClick={this.deleteChannel}
