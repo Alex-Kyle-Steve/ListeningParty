@@ -19,6 +19,7 @@ import {ConnectedMessages} from './MessageList'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
+import {ListenerPlayer} from './ListenerPlayer'
 export class SelectedChannel extends Component {
   constructor() {
     super()
@@ -93,11 +94,11 @@ export class SelectedChannel extends Component {
               <Card border="light">
                 {selectedChannel.ownerId !== this.props.user.id &&
                 this.state.joined === false ? (
-                  <Button onClick={this.joinChannel}>Join Channel</Button>
+                  <Button onClick={this.joinChannel}>Start Listening</Button>
                 ) : selectedChannel.ownerId === this.props.user.id ? (
                   <Player />
                 ) : (
-                  'Time stamp info'
+                  <ListenerPlayer />
                 )}
                 {/* <Row>
                   <Col xs={6}>
