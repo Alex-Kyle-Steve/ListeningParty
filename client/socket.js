@@ -15,17 +15,20 @@ socket.on('connect', () => {
 })
 
 socket.on('received-state-change', playerState => {
-  console.log('received state from owner')
   musicPlayerEvent.emit('state-received', playerState)
 })
 
 socket.on('new-listener', function(listenerId) {
-  return store
-    .getState()
-    .player.getCurrentState()
-    .then(playerState =>
-      this.broadcast.to(listenerId).emit('received-state-change', playerState)
-    )
+  const {channel: {selectedChannel}, user, player} = store.getState()
+  const isOwner = selectedChannel.ownerId === user.id
+  return (
+    isOwner &&
+    player
+      .getCurrentState()
+      .then(playerState =>
+        socket.emit('owner-state-changed', listenerId, playerState)
+      )
+  )
 })
 
 socket.on('sync-to-channel')

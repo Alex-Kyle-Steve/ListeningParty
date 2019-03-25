@@ -21,7 +21,7 @@ module.exports = io => {
       console.log(`${socket.id} left room ${roomNumber}`)
     })
 
-    socket.on('request-channel-state', (channelId, listenerId) => {
+    socket.on('request-channel-state', function(channelId, listenerId) {
       this.broadcast.to(channelId).emit('new-listener', listenerId)
     })
 
