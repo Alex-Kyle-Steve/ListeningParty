@@ -12,13 +12,15 @@ import {
 } from 'react-bootstrap'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
-import {fetchSelectedChannel} from '../store/channel'
+import {fetchSelectedChannel, startListening, stopListening} from '../store'
+
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedMessages} from './MessageList'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
+
 export class SelectedChannel extends Component {
   constructor() {
     super()
@@ -78,6 +80,9 @@ export class SelectedChannel extends Component {
               <Player
                 selectedChannel={selectedChannel}
                 user={this.props.user}
+                isListening={this.props.isListening}
+                startListening={this.props.startListening}
+                stopListening={this.props.stopListening}
               />
               <Row>
                 <Card border="light" />
@@ -137,16 +142,20 @@ export class SelectedChannel extends Component {
     )
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchSelectedChannel: channelId => dispatch(fetchSelectedChannel(channelId))
-  }
-}
 const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
     messages: state.message.messages,
-    user: state.user
+    user: state.user,
+    isListening: state.playerState.isListening
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchSelectedChannel: channelId =>
+      dispatch(fetchSelectedChannel(channelId)),
+    startListening: () => dispatch(startListening()),
+    stopListening: () => dispatch(stopListening())
   }
 }
 export const ConnectedSelectedChannel = connect(
