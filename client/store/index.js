@@ -6,14 +6,14 @@ import user from './user'
 import channel from './channel'
 import player from './player'
 import song from './song'
-import currentTrack from './currentTrack'
+import playerState from './playerState'
 import message from './message'
 const reducer = combineReducers({
   user,
   channel,
   player,
+  playerState,
   song,
-  currentTrack,
   message
 })
 
@@ -29,4 +29,4 @@ export * from './channel'
 export * from './player'
 export * from './song'
 export * from './message'
-export * from './currentTrack'
+export * from './playerState'

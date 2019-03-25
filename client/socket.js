@@ -18,4 +18,19 @@ socket.on('received-state-change', playerState => {
   musicPlayerEvent.emit('state-received', playerState)
 })
 
+socket.on('new-listener', function(listenerId) {
+  const {channel: {selectedChannel}, user, player} = store.getState()
+  const isOwner = selectedChannel.ownerId === user.id
+  return (
+    isOwner &&
+    player
+      .getCurrentState()
+      .then(playerState =>
+        socket.emit('owner-state-changed', listenerId, playerState)
+      )
+  )
+})
+
+socket.on('sync-to-channel')
+
 export default socket

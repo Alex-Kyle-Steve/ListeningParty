@@ -14,12 +14,18 @@ module.exports = io => {
       socket.join(roomNumber)
       console.log(`${socket.id} joined room ${roomNumber}`)
     })
+
     // leaving a channel
     socket.on('leave-room', roomNumber => {
       socket.leave(roomNumber)
       console.log(`${socket.id} left room ${roomNumber}`)
     })
 
+    socket.on('request-channel-state', function(channelId, listenerId) {
+      this.broadcast.to(channelId).emit('new-listener', listenerId)
+    })
+
+    // when channel owner emits a state-change event
     socket.on('owner-state-changed', function(channelId, playerState) {
       this.broadcast.to(channelId).emit('received-state-change', playerState)
     })

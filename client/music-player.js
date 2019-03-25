@@ -22,6 +22,9 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   }
 }
 
+// listener for state change in spotify player
+musicPlayerEvent.on('state-changed', handleStateChanged)
+
 // helper for determining what to update
 const getChangedState = (
   isChannelPaused,
@@ -58,14 +61,15 @@ const resolveStateChange = (uri, paused, position) => ({
   Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri)))
     .then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
     .then(() => shouldSeek && store.dispatch(seekTrack(position)))
-
 /**
  * handler for when channel owner's player state changes
+ * subscribed to listening players only when listener requests
+ * check store/playerState/isListening.js
  * @param {WebPlaybackState} playerState
  * TODO:
  * - seek music
  */
-const handleStateReceived = receivedState => {
+export const handleStateReceived = receivedState => {
   // if received state is null, and our player is active, pause it just in case
   if (!receivedState)
     return store.getState().player && store.dispatch(togglePause(true))
@@ -78,22 +82,23 @@ const handleStateReceived = receivedState => {
   )
 }
 
-/**
- * handler for joining the channel
- * TODO:
- * - sync current track.
- */
-const handleJoinChannel = channelId => {}
+export const handleStartListening = channelId => {
+  // subscribe listening
+  musicPlayerEvent.on('state-received', handleStateReceived)
+  socket.emit('request-channel-state', channelId, socket.id)
+}
 
-// listener for state change in spotify player
-musicPlayerEvent.on('state-changed', handleStateChanged)
+export const handleStopListening = channelId => {
+  // unsubscribe listening
+  musicPlayerEvent.off('state-received', handleStateReceived)
+}
 
-// listener for state received from the channel owner
-musicPlayerEvent.on('state-received', handleStateReceived)
+musicPlayerEvent.on('start-listening', handleStartListening)
+musicPlayerEvent.on('stop-listening', handleStopListening)
 
-// listener for when user joins a channel
-// allow to catch-up to what's currently playing
-musicPlayerEvent.on('joined-channel', handleJoinChannel)
+export default musicPlayerEvent
+
+// ***** SPOTIFY WEBPLAYBACK SDK ***** //
 
 // grants access token from user session. only handles successful request
 // - TODO: refreshing token, handling error
@@ -130,5 +135,3 @@ const makePlayRequest = (uri, id) => accessToken =>
  */
 export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
   getOAuthToken(makePlayRequest(uri, id))
-
-export default musicPlayerEvent
