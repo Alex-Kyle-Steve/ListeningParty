@@ -63,13 +63,21 @@ class ChannelLineItemSidebar extends Component {
           </Modal.Header>
           <Modal.Body>{this.props.channel.description}</Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={this.handleClose}>
+            <Button
+              variant="link"
+              className="link-styling"
+              onClick={this.handleClose}
+            >
               Close
             </Button>
 
             <Link to={`/channels/${this.props.channel.id}`}>
               {' '}
-              <Button variant="success" onClick={this.handleClose}>
+              <Button
+                variant="link"
+                className="link-styling"
+                onClick={this.handleClose}
+              >
                 Join Channel
               </Button>{' '}
             </Link>

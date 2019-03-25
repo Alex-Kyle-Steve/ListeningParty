@@ -88,8 +88,13 @@ form div {
   vertical-align: center;
 }
 
-.favorite-channel-sidebar-button {
+.favorite-channel-sidebar-button2 {
   font-size: 7pt !important;
+  color: lightgray;
+}
+
+.favorite-channel-sidebar-button {
+  font-size: 10pt !important;
   color: lightgray;
 }
 

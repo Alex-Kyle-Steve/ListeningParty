@@ -35,7 +35,7 @@ export class FavoriteChannels extends Component {
                 </Link>
                 <Button
                   variant="link"
-                  className="favorite-channel-sidebar-button"
+                  className="favorite-channel-sidebar-button2"
                   onClick={this.handleClick}
                 >
                   X
