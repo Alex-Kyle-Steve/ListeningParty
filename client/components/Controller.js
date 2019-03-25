@@ -15,16 +15,18 @@ export class Controller extends Component {
     })
   }
 
-  onInput() {
+  onInput(currentPosition, songLength) {
     //TODO:
     //Create function that increments the sliderValue as a function of the duration of the song.
     //Have dynamic scrubbing
-    var input = document.getElementById('myRange')
-    var currentVal = input.value
-    this.setState({
-      sliderValue: currentVal
-    })
+    var input = document.getElementById('myRange').step
+    while (currentPosition < songLength) {
+      this.onInput(currentPosition)
+      currentPosition++
+    }
+    console.log(input.value)
   }
+  //currentPosition and songLength are values in Milliseconds
 
   render() {
     return (
@@ -52,7 +54,7 @@ export class Controller extends Component {
             min="1"
             max="100"
             onInput={this.onInput.bind(this)}
-            defaultValue="0"
+            defaultValue={0}
             className="slider"
             id="myRange"
           />
