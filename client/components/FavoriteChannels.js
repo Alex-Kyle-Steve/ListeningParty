@@ -2,16 +2,22 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Card, Container, Row, Col, ListGroup} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-import {fetchFavoriteChannels, me} from '../store/user'
+import {fetchFavoriteChannels, removeFavoriteChannel, me} from '../store/user'
 
 export class FavoriteChannels extends Component {
   constructor() {
     super()
+    this.handleClick = this.handleClick.bind(this)
   }
 
   async componentDidMount() {
     await this.props.fetchMe()
     await this.props.fetchFavoriteChannels(this.props.user.id)
+  }
+  async handleClick(event) {
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    await this.props.removeFavoriteChannel(this.props.user.id, channelId)
   }
 
   render() {
@@ -27,6 +33,13 @@ export class FavoriteChannels extends Component {
                 <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
+                <button
+                  type="button"
+                  className="list-btn"
+                  onClick={this.handleClick}
+                >
+                  x
+                </button>
               </ListGroup.Item>
             ))
           ) : (
@@ -42,6 +55,8 @@ export class FavoriteChannels extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchFavoriteChannels: userId => dispatch(fetchFavoriteChannels(userId)),
+    removeFavoriteChannel: (userId, channelId) =>
+      dispatch(removeFavoriteChannel(userId, channelId)),
     fetchMe: () => dispatch(me())
   }
 }
