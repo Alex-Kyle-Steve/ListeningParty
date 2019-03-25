@@ -9,14 +9,14 @@ import {
   CardDeck,
   Button
 } from 'react-bootstrap'
+import {Controller} from '.'
 export class Player extends Component {
   constructor() {
     super()
     this.state = {
-      togglePlay: false,
       listening: false
     }
-    this.togglePlayButton = this.togglePlayButton.bind(this)
+
     this.toggleListening = this.toggleListening.bind(this)
   }
 
@@ -69,36 +69,13 @@ export class Player extends Component {
                     </Button>
                   </Row>
                 ) : selectedChannel.ownerId === user.id ? (
-                  <div id="player-container">
-                    <div id="player-controls">
-                      <div className="row center">
-                        <i className="fa fa-step-backward">
-                          <img src="/back.png" />
-                        </i>
-                        {this.state.togglePlay === false ? (
-                          <i
-                            onClick={this.togglePlayButton}
-                            className="fa fa-pause-circle"
-                          >
-                            <img src="/play.png" />
-                          </i>
-                        ) : (
-                          <i
-                            onClick={this.togglePlayButton}
-                            className="fa fa-pause-circle"
-                          >
-                            <img src="/pause.png" />
-                          </i>
-                        )}
-
-                        <i className="fa fa-step-forward">
-                          <img src="/forward.png" />
-                        </i>
-                      </div>
-                    </div>
-                  </div>
+                  <Controller togglePlay={() => this.togglePlay} />
                 ) : (
-                  <Button onClick={this.toggleListening}>Stop Listening</Button>
+                  <Row>
+                    <Button onClick={this.toggleListening}>
+                      Stop Listening
+                    </Button>
+                  </Row>
                 )}
               </Row>
             </Col>
