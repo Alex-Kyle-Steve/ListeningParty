@@ -74,30 +74,23 @@ export class SelectedChannel extends Component {
               <ConnectedAllChannelsSidebar />
             </Col>
             {/* Music info/Player */}
-
             <Col xs={6}>
               <Player
                 selectedChannel={selectedChannel}
                 user={this.props.user}
               />
-            </Col>
-
-            <Col xs={3}>
-              <Card border="light" />
-              {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
               <Row>
+                <Card border="light" />
+                {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
+
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
                     {selectedChannel.description ? (
                       this.props.selectedChannel.historicalPlayLists !==
                       historicalPlayList ? (
-                        <ScrollTable
-                        // playList={historicalPlayList}
-                        />
+                        <ScrollTable playList={historicalPlayList} />
                       ) : (
-                        <ScrollTable
-                        // playList={historicalPlayList}
-                        />
+                        <ScrollTable playList={historicalPlayList} />
                       )
                     ) : (
                       ''
