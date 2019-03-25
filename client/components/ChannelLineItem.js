@@ -76,7 +76,7 @@ class ChanneLineItem extends Component {
     return (
       <Container>
         <CardDeck>
-          <Card>
+          <Card border="light">
             <Card.Img
               variant="top"
               src={this.state.images[Math.floor(Math.random() * 22) + 5]}
@@ -84,7 +84,6 @@ class ChanneLineItem extends Component {
             />
             <Card.Body>
               <Card.Title>
-                {' '}
                 <Link to={`/channels/${this.props.channel.id}`}>
                   <Card.Title className="link-styling">
                     {this.props.channel.name}{' '}
@@ -92,42 +91,25 @@ class ChanneLineItem extends Component {
                 </Link>
               </Card.Title>
               <Card.Text>
-                <Row>
-                  <Col xs={6}>
-                    <Button
-                      variant="link"
-                      className="link-styling"
-                      onClick={this.handleShow}
-                      size="sm"
-                    >
-                      Quick Info
-                    </Button>
-                  </Col>
-                  <Col xs={6}>
-                    <Link to={`channels/${this.props.channel.id}`}>
-                      <Button
-                        variant="link"
-                        className="link-styling"
-                        onClick={this.handleClose}
-                        size="sm"
-                      >
-                        Join Channel
-                      </Button>
-                    </Link>
-                  </Col>
-                </Row>
-                <Row span={6}>
-                  <Col xs={12}>
-                    <Button
-                      size="sm"
-                      variant="Link"
-                      className="link-styling "
-                      onClick={this.handleClick}
-                    >
-                      Add to Favorites
-                    </Button>
-                  </Col>
-                </Row>
+                <Button
+                  variant="link"
+                  className="link-styling"
+                  onClick={this.handleShow}
+                  size="sm"
+                >
+                  Quick Info
+                </Button>
+
+                <Link to={`channels/${this.props.channel.id}`}>
+                  <Button
+                    variant="link"
+                    className="link-styling"
+                    onClick={this.handleClose}
+                    size="sm"
+                  >
+                    Join Channel
+                  </Button>
+                </Link>
               </Card.Text>
             </Card.Body>
           </Card>

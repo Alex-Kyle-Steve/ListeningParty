@@ -45,16 +45,15 @@ export class OwnedChannels extends Component {
             ownedChannels.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>
                 <Link to={`/channels/${channel.id}`} className="link-styling">
-                  {channel.name}{' '}
+                  {channel.name}
                 </Link>
                 <Button
-                  variant="Link"
+                  variant="link"
                   onClick={this.editChannel}
                   className="favorite-channel-sidebar-button"
                 >
                   Edit
                 </Button>
-                {'  '}
                 <Button
                   variant="link"
                   onClick={this.deleteChannel}

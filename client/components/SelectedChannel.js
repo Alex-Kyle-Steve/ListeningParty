@@ -1,6 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Tabs,
+  Tab,
+  CardDeck,
+  Button
+} from 'react-bootstrap'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel, startListening, stopListening} from '../store'
@@ -10,6 +19,7 @@ import {ConnectedMessages} from './MessageList'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
+import {addFavoriteChannel, me} from '../store/user'
 
 export class SelectedChannel extends Component {
   componentDidMount() {
@@ -114,7 +124,16 @@ export class SelectedChannel extends Component {
                             {selectedChannel.name}{' '}
                           </h3>
                         </Card.Title>
-                        <Card.Text>{selectedChannel.description}</Card.Text>
+                        <Card.Text>
+                          <Row> {selectedChannel.description}</Row>
+                        </Card.Text>
+                        <Button
+                          size="sm"
+                          variant="primary"
+                          onClick={this.handleClick}
+                        >
+                          Add To Favorites
+                        </Button>
                       </Card.Body>
                     </Card>
                   </CardDeck>
@@ -148,7 +167,10 @@ const mapDispatchToProps = dispatch => {
     fetchSelectedChannel: channelId =>
       dispatch(fetchSelectedChannel(channelId)),
     startListening: () => dispatch(startListening()),
-    stopListening: () => dispatch(stopListening())
+    stopListening: () => dispatch(stopListening()),
+    addFavoriteChannel: (userId, channelId) =>
+      dispatch(addFavoriteChannel(userId, channelId)),
+    fetchMe: () => dispatch(me())
   }
 }
 
