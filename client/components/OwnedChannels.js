@@ -64,22 +64,16 @@ export class OwnedChannels extends Component {
               </ListGroup.Item>
             ))
           ) : (
-            <Col xs={12}>
-              <Card border="light">
-                <Card.Text className="center">
-                  No owned channels
-                  <br />
-                  <Link
-                    to="/newchannel"
-                    className="create-channel-sidebar-link "
-                  >
-                    <Button variant="link" size="sm">
-                      Create Channel
-                    </Button>
-                  </Link>
-                </Card.Text>
-              </Card>
-            </Col>
+            <ListGroup>
+              <ListGroup.Item style={{border: 'none'}}>
+                No owned channels
+              </ListGroup.Item>
+              <Link to="/newchannel" className="create-channel-sidebar-link ">
+                <ListGroup.Item style={{border: 'none'}}>
+                  Want to Create a Channel?
+                </ListGroup.Item>
+              </Link>
+            </ListGroup>
           )}
         </ListGroup>
       </Container>
