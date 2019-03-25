@@ -4,6 +4,7 @@ import {Card, Container, Col, ListGroup, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import {fetchOwnedChannels, me} from '../store/user'
+import history from '../history'
 
 export class OwnedChannels extends Component {
   constructor() {
@@ -14,7 +15,11 @@ export class OwnedChannels extends Component {
     await this.props.fetchMe()
     await this.props.fetchOwnedChannels(this.props.user.id)
   }
-  editChannel(event) {}
+  editChannel(event) {
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    history.push(`/editChannel/${channelId}`)
+  }
   render() {
     const ownedChannels = this.props.ownedChannels
     return (
@@ -27,7 +32,11 @@ export class OwnedChannels extends Component {
                 <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
-                <button type="button" onClick={this.editChannel}>
+                <button
+                  type="button"
+                  onClick={this.editChannel}
+                  className="channel-btn"
+                >
                   Edit
                 </button>
               </ListGroup.Item>

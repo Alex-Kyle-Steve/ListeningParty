@@ -132,3 +132,9 @@ form div {
   background-color: #eee;
   height: 4px;
 }
+
+/** Channel Buttons **/
+.channel-btn {
+  height: 18px;
+  font-size: 8pt;
+}
