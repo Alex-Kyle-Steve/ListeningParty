@@ -1,35 +1,87 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Tabs,
+  Tab,
+  CardDeck,
+  Button
+} from 'react-bootstrap'
+import {Controller} from '.'
+export class Player extends Component {
+  constructor() {
+    super()
+    this.state = {
+      listening: false
+    }
 
-export const Player = props => {
-  // console.log(props)
-  // const backgroundStyles = {
-  //   backgroundImage: `url(${props.item.album.images[0].url})`
-  // }
+    this.toggleListening = this.toggleListening.bind(this)
+  }
 
-  // const progressBarStyles = {
-  //   width: props.progress_ms * 100 / props.item.duration_ms + '%'
-  // }
+  togglePlayButton() {
+    this.setState({
+      togglePlay: !this.state.togglePlay
+    })
+  }
 
-  return (
-    <div className="App">
-      {/* <div className="main-wrapper">
-        <div className="now-playing__img">
-          <img src={props.item.album.images[0].url} />
-        </div>
-        <div className="now-playing__side">
-          <div className="now-playing__name">{props.item.name}</div>
-          <div className="now-playing__artist">
-            {props.item.artists[0].name}
-          </div>
-          <div className="now-playing__status">
-            {props.is_playing ? 'Playing' : 'Paused'}
-          </div>
-          <div className="progress">
-            <div className="progress__bar" style={progressBarStyles} />
-          </div>
-        </div>
-        <div className="background" style={backgroundStyles} />{' '}
-      </div> */}
-    </div>
-  )
+  toggleListening() {
+    //TODO:
+    //Plug in logic to actually "join" the channel
+    this.setState({
+      listening: !this.state.listening
+    })
+  }
+
+  render() {
+    const selectedChannel = this.props.selectedChannel
+    const user = this.props.user
+    return (
+      <div>
+        <Card border="light">
+          <Row>
+            <Col xs={6}>
+              <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
+            </Col>
+            <Col xs={6}>
+              {/* Current Song Information */}
+              <Row>
+                <Col xs={12}>
+                  <Card.Title>Song Information</Card.Title>
+                </Col>
+                <Col xs={12}>
+                  <Card.Text>Road Head</Card.Text>
+                </Col>
+                <Col xs={12}>
+                  <Card.Text>Japanese Breakfast</Card.Text>
+                </Col>
+                <Col xs={12}>
+                  <Card.Text>Soft Sounds from Another Planet</Card.Text>
+                </Col>
+              </Row>
+              <Row className="justify-content-md-center">
+                {selectedChannel.ownerId !== user.id &&
+                this.state.listening === false ? (
+                  <Row>
+                    <Button onClick={this.toggleListening}>
+                      Start Listening
+                    </Button>
+                  </Row>
+                ) : selectedChannel.ownerId === user.id ? (
+                  <Controller togglePlay={() => this.togglePlay} />
+                ) : (
+                  <Row>
+                    <Button onClick={this.toggleListening}>
+                      Stop Listening
+                    </Button>
+                  </Row>
+                )}
+              </Row>
+            </Col>
+          </Row>
+        </Card>
+      </div>
+    )
+  }
 }

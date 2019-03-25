@@ -1,6 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Tabs,
+  Tab,
+  CardDeck,
+  Button
+} from 'react-bootstrap'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel} from '../store/channel'
@@ -19,6 +28,25 @@ export class SelectedChannel extends Component {
     socket.emit('join-room', channelId)
     await this.props.fetchSelectedChannel(channelId)
   }
+  //TODO:
+  //Create componentDidUpdate(){} hook in order to update the table
+
+  // Formats data to pass as props to the playlist table. Needs to be an array of objects in the format of:
+  // {
+  // artist: str,
+  // song: str,
+  // album: str,
+  // }
+
+  formatData() {
+    return this.props.selectedChannel.historicalPlayLists.reduce(
+      (accumulator, currentValue) => {
+        accumulator.push(currentValue.song)
+        return accumulator
+      },
+      []
+    )
+  }
 
   async componentDidUpdate(prevProps) {
     //Checks to see if previous state is =/!= to the current state by ID. Needs to be a string (primitive type) and not an object because of types
@@ -29,17 +57,6 @@ export class SelectedChannel extends Component {
         Number(this.props.match.params.channelId)
       )
     }
-  }
-
-  //Formats data to pass as props to the playlist table
-  formatData() {
-    return this.props.selectedChannel.historicalPlayLists.reduce(
-      (accumulator, currentValue) => {
-        accumulator.push(currentValue.song)
-        return accumulator
-      },
-      []
-    )
   }
 
   render() {
@@ -58,36 +75,14 @@ export class SelectedChannel extends Component {
             </Col>
             {/* Music info/Player */}
             <Col xs={6}>
-              <Card border="light">
-                <Row>
-                  <Col xs={6}>
-                    <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
-                  </Col>
-                  <Col xs={6}>
-                    <Row>
-                      <Col xs={12}>
-                        <Card.Title>Song Information</Card.Title>
-                      </Col>
-                      <Col xs={12}>
-                        <Card.Text>Road Head</Card.Text>
-                      </Col>
-                      <Col xs={12}>
-                        <Card.Text>Japanese Breakfast</Card.Text>
-                      </Col>
-                      <Col xs={12}>
-                        <Card.Text>Soft Sounds from Another Planet</Card.Text>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={12}>
-                        <Player />
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </Card>
-              {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
+              <Player
+                selectedChannel={selectedChannel}
+                user={this.props.user}
+              />
               <Row>
+                <Card border="light" />
+                {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
+
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
                     {selectedChannel.description ? (
@@ -107,7 +102,6 @@ export class SelectedChannel extends Component {
                 </Tabs>
               </Row>
             </Col>
-
             {/* Chat/Channel Information tabs. */}
             <Col xs={3}>
               <Tabs
@@ -151,7 +145,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
-    messages: state.message.messages
+    messages: state.message.messages,
+    user: state.user
   }
 }
 export const ConnectedSelectedChannel = connect(
