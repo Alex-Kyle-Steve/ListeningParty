@@ -30,11 +30,20 @@ export class Controller extends Component {
                 <img src="/pause.png" />
               </i>
             )}
-
             <i className="fa fa-step-forward">
               <img src="/forward.png" />
             </i>
           </div>
+        </div>
+        <div>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            className="slider"
+            id="myRange"
+          />
         </div>
       </div>
     )
