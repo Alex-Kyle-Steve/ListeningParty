@@ -3,12 +3,13 @@ import {connect} from 'react-redux'
 import {Card, Container, Col, ListGroup, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
-import {fetchOwnedChannels, me} from '../store/user'
+import {deleteChannel, fetchOwnedChannels, me} from '../store/'
 import history from '../history'
 
 export class OwnedChannels extends Component {
   constructor() {
     super()
+    this.deleteChannel = this.deleteChannel.bind(this)
   }
 
   async componentDidMount() {
@@ -20,6 +21,13 @@ export class OwnedChannels extends Component {
     const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
     history.push(`/editChannel/${channelId}`)
   }
+  async deleteChannel(event) {
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    await this.props.deleteChannel(channelId)
+    await this.props.fetchOwnedChannels(this.props.user.id)
+  }
+
   render() {
     const ownedChannels = this.props.ownedChannels
     return (
@@ -38,6 +46,13 @@ export class OwnedChannels extends Component {
                   className="channel-btn"
                 >
                   Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={this.deleteChannel}
+                  className="channel-btn"
+                >
+                  Delete
                 </button>
               </ListGroup.Item>
             ))
@@ -67,6 +82,7 @@ export class OwnedChannels extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchOwnedChannels: userId => dispatch(fetchOwnedChannels(userId)),
+    deleteChannel: channelId => dispatch(deleteChannel(channelId)),
     fetchMe: () => dispatch(me())
   }
 }
