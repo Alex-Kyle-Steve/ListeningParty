@@ -19,14 +19,9 @@ import {ConnectedMessages} from './MessageList'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
-import {ListenerPlayer} from './ListenerPlayer'
 export class SelectedChannel extends Component {
   constructor() {
     super()
-    this.state = {
-      joined: false
-    }
-    this.joinChannel = this.joinChannel.bind(this)
   }
   async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
@@ -61,18 +56,7 @@ export class SelectedChannel extends Component {
       await this.props.fetchSelectedChannel(
         Number(this.props.match.params.channelId)
       )
-      this.setState({
-        joined: false
-      })
     }
-  }
-
-  joinChannel() {
-    //TODO:
-    //Plug in logic to actually "join" the channel
-    this.setState({
-      joined: true
-    })
   }
 
   render() {
@@ -90,25 +74,16 @@ export class SelectedChannel extends Component {
               <ConnectedAllChannelsSidebar />
             </Col>
             {/* Music info/Player */}
+
             <Col xs={6}>
-              <Card border="light">
-                {selectedChannel.ownerId !== this.props.user.id &&
-                this.state.joined === false ? (
-                  <Row>
-                    <Col xs={4} />
-                    <Col xs={4}>
-                      <Button onClick={this.joinChannel}>
-                        Start Listening
-                      </Button>
-                    </Col>
-                    <Col xs={4} />
-                  </Row>
-                ) : selectedChannel.ownerId === this.props.user.id ? (
-                  <Player />
-                ) : (
-                  <ListenerPlayer />
-                )}
-              </Card>
+              <Player
+                selectedChannel={selectedChannel}
+                user={this.props.user}
+              />
+            </Col>
+
+            <Col xs={3}>
+              <Card border="light" />
               {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
               <Row>
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
