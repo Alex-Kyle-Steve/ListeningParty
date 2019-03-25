@@ -13,6 +13,8 @@ class Messages extends Component {
   async componentDidUpdate(prevState) {
     if (prevState.messages.length !== this.props.messages.length) {
       await this.props.fetchMessages()
+      const scrollList = document.getElementById('message-list')
+      scrollList.scrollTop += scrollList.scrollHeight
     }
   }
 
@@ -27,7 +29,7 @@ class Messages extends Component {
       <div>
         <h4>{this.props.channel} Chat</h4>
         <hr />
-        <div style={{overflow: 'scroll', height: '500px'}}>
+        <div style={{overflow: 'scroll', height: '500px'}} id="message-list">
           <ul className="media-list">
             {filteredMessages.map(message => (
               <Message message={message} key={message.id} />
