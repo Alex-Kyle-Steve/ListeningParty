@@ -1,19 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Tabs,
-  Tab,
-  CardDeck,
-  Button
-} from 'react-bootstrap'
+import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
 import {ScrollTable} from './ScrollTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel, startListening, stopListening} from '../store'
-
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedMessages} from './MessageList'
@@ -22,23 +12,12 @@ import socket from '../socket'
 import {Player} from './Player'
 
 export class SelectedChannel extends Component {
-  constructor() {
-    super()
-  }
-  async componentDidMount() {
+  componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
+    // join room when first render
     socket.emit('join-room', channelId)
-    await this.props.fetchSelectedChannel(channelId)
+    this.props.fetchSelectedChannel(channelId)
   }
-  //TODO:
-  //Create componentDidUpdate(){} hook in order to update the table
-
-  // Formats data to pass as props to the playlist table. Needs to be an array of objects in the format of:
-  // {
-  // artist: str,
-  // song: str,
-  // album: str,
-  // }
 
   formatData() {
     return this.props.selectedChannel.historicalPlayLists.reduce(
@@ -50,15 +29,26 @@ export class SelectedChannel extends Component {
     )
   }
 
-  async componentDidUpdate(prevProps) {
-    //Checks to see if previous state is =/!= to the current state by ID. Needs to be a string (primitive type) and not an object because of types
-    if (
-      String(prevProps.selectedChannel.id) !== this.props.match.params.channelId
-    ) {
-      await this.props.fetchSelectedChannel(
-        Number(this.props.match.params.channelId)
-      )
+  componentDidUpdate(prevProps) {
+    // get previous and current channel ID
+    const prevCh = prevProps.match.params.channelId
+    const currCh = this.props.match.params.channelId
+    // if channel changed
+    if (prevCh !== currCh) {
+      // leave previous room
+      socket.emit('leave-room', prevCh)
+      // join current room
+      socket.emit('join-room', currCh)
+      // get the new channel and set it on state as SelectedChannel
+      this.props.fetchSelectedChannel(currCh)
+      // stop listening if you were listening before
+      if (this.props.isListening) this.props.stopListening()
     }
+  }
+
+  componentWillUnmount() {
+    const currCh = this.props.match.params.channelId
+    socket.emit('leave-room', currCh)
   }
 
   render() {
@@ -120,7 +110,8 @@ export class SelectedChannel extends Component {
                         <Card.Title className="link-styling">
                           <h3>
                             Current Channel:
-                            <br /> {selectedChannel.name}{' '}
+                            <br />
+                            {selectedChannel.name}{' '}
                           </h3>
                         </Card.Title>
                         <Card.Text>{selectedChannel.description}</Card.Text>
@@ -142,6 +133,7 @@ export class SelectedChannel extends Component {
     )
   }
 }
+
 const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
@@ -150,6 +142,7 @@ const mapStateToProps = state => {
     isListening: state.playerState.isListening
   }
 }
+
 const mapDispatchToProps = dispatch => {
   return {
     fetchSelectedChannel: channelId =>
@@ -158,6 +151,7 @@ const mapDispatchToProps = dispatch => {
     stopListening: () => dispatch(stopListening())
   }
 }
+
 export const ConnectedSelectedChannel = connect(
   mapStateToProps,
   mapDispatchToProps

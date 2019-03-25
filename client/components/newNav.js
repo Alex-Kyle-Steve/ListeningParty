@@ -27,9 +27,9 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
     {isLoggedIn ? (
       <Nav className="mr-auto">
         {/* The navbar will show these links after you log in */}
-        <Nav.Link className="link-styling" href="/home">
+        <Link className="link-styling" to="/home">
           Home
-        </Nav.Link>
+        </Link>
         <Nav.Link href="/login" className="link-styling" onClick={handleClick}>
           Logout
         </Nav.Link>

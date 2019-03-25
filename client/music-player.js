@@ -82,13 +82,18 @@ export const handleStateReceived = receivedState => {
   )
 }
 
+// when listener clicks the 'start listening' button
 export const handleStartListening = channelId => {
   // subscribe listening
   musicPlayerEvent.on('state-received', handleStateReceived)
+  // update listener player with channel-owner's state
   socket.emit('request-channel-state', channelId, socket.id)
 }
 
+// when listener clicks the 'stop listening' button
 export const handleStopListening = channelId => {
+  // pauses track
+  store.dispatch(togglePause(true))
   // unsubscribe listening
   musicPlayerEvent.removeListener('state-received', handleStateReceived)
 }
