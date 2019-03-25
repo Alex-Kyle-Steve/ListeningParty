@@ -14,7 +14,7 @@ export class OwnedChannels extends Component {
     await this.props.fetchMe()
     await this.props.fetchOwnedChannels(this.props.user.id)
   }
-
+  editChannel(event) {}
   render() {
     const ownedChannels = this.props.ownedChannels
     return (
@@ -27,6 +27,9 @@ export class OwnedChannels extends Component {
                 <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
+                <button type="button" onClick={this.editChannel}>
+                  Edit
+                </button>
               </ListGroup.Item>
             ))
           ) : (
