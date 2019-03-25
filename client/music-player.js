@@ -90,7 +90,7 @@ export const handleStartListening = channelId => {
 
 export const handleStopListening = channelId => {
   // unsubscribe listening
-  musicPlayerEvent.off('state-received', handleStateReceived)
+  musicPlayerEvent.removeListener('state-received', handleStateReceived)
 }
 
 musicPlayerEvent.on('start-listening', handleStartListening)
