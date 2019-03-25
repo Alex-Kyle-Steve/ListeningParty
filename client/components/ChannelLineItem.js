@@ -65,7 +65,7 @@ class ChanneLineItem extends Component {
   }
 
   async handleClick(event) {
-    const href = event.target.parentNode.firstChild.href
+    const href = event.target.parentNode.childNodes[1].href
     const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
     await this.props.addFavoriteChannel(this.props.user.id, channelId)
   }
@@ -73,35 +73,6 @@ class ChanneLineItem extends Component {
   render() {
     return (
       <Container>
-        <ListGroup.Item key={this.props.channel.id} style={{border: 'none'}}>
-          <Link
-            to={`/channels/${this.props.channel.id}`}
-            className="link-styling-quick-info"
-          >
-            {this.props.channel.name}{' '}
-          </Link>
-          <Button
-            variant="link"
-            className="link-styling"
-            onClick={this.handleShow}
-            size="sm"
-          >
-            quick info
-          </Button>
-          <button type="button" className="list-btn" onClick={this.handleClick}>
-            +
-          </button>
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>{this.props.channel.name}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{this.props.channel.description}</Modal.Body>
-            <Modal.Footer>
-              <Button variant="danger" onClick={this.handleClose}>
-                Close
-              </Button>
-
-              <Link to={`channels/${this.props.channel.id}`}>
         <CardDeck>
           <Card>
             <Card.Img
@@ -117,6 +88,13 @@ class ChanneLineItem extends Component {
                     {this.props.channel.name}{' '}
                   </Card.Title>
                 </Link>
+                <button
+                  type="button"
+                  className="list-btn"
+                  onClick={this.handleClick}
+                >
+                  +
+                </button>
               </Card.Title>
               <Card.Text>
                 <Button
