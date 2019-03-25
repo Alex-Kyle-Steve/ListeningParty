@@ -91,12 +91,20 @@ export class SelectedChannel extends Component {
             {/* Music info/Player */}
             <Col xs={6}>
               <Card border="light">
-                <Row>
+                {selectedChannel.ownerId !== this.props.user.id &&
+                this.state.joined === false ? (
+                  <Button onClick={this.joinChannel}>Join Channel</Button>
+                ) : selectedChannel.ownerId === this.props.user.id ? (
+                  <Player />
+                ) : (
+                  'Time stamp info'
+                )}
+                {/* <Row>
                   <Col xs={6}>
                     <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
                   </Col>
                   <Col xs={6}>
-                    {/* Current Song Information */}
+
                     <Row>
                       <Col xs={12}>
                         <Card.Title>Song Information</Card.Title>
@@ -113,23 +121,12 @@ export class SelectedChannel extends Component {
                     </Row>
                     <Row>
                       <Col xs={12}>
-                        {/*
-                      TODO: Plug in player
-                      {} */}
-                        {selectedChannel.ownerId !== this.props.user.id &&
-                        this.state.joined === false ? (
-                          <Button onClick={this.joinChannel}>
-                            Join Channel
-                          </Button>
-                        ) : selectedChannel.ownerId === this.props.user.id ? (
-                          <Player />
-                        ) : (
-                          'Time stamp info'
-                        )}
+
+
                       </Col>
                     </Row>
                   </Col>
-                </Row>
+                </Row> */}
               </Card>
               {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
               <Row>
