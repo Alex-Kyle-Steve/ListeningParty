@@ -120,7 +120,10 @@ export class SelectedChannel extends Component {
                   </CardDeck>
                 </Tab>
                 <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
-                  <ConnectedMessages channel={selectedChannel.name} />
+                  <ConnectedMessages
+                    channel={selectedChannel.name}
+                    user={this.props.user}
+                  />
                 </Tab>
               </Tabs>
               <Row>
@@ -137,7 +140,6 @@ export class SelectedChannel extends Component {
 const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
-    messages: state.message.messages,
     user: state.user,
     isListening: state.playerState.isListening
   }

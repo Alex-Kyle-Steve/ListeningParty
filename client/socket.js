@@ -8,10 +8,10 @@ const socket = io(window.location.origin)
 
 socket.on('connect', () => {
   console.log('Socket Connected!')
+})
 
-  socket.on('new-message', message => {
-    store.dispatch(getMessage(message))
-  })
+socket.on('new-message', message => {
+  store.dispatch(getMessage(message))
 })
 
 socket.on('received-state-change', playerState => {

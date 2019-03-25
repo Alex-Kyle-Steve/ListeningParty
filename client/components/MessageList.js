@@ -2,21 +2,22 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Message from './Message'
 import NewMessageEntry from './NewMessageEntry'
-import {fetchMessages, me} from '../store'
+import {fetchMessages} from '../store'
 
 class Messages extends Component {
   async componentDidMount() {
+    console.log('MESSAGES Mounted')
     const channelId = this.props.selectedChannel.id
-    await this.props.fetchMe()
     await this.props.fetchMessages(channelId)
   }
 
   async componentDidUpdate(prevState) {
+    console.log('MESSAGES Updated')
     if (
       String(prevState.messages.length) !== String(this.props.messages.length)
     ) {
       const channelId = this.props.selectedChannel.id
-      await this.props.fetchMessages(channelId)
+      //await this.props.fetchMessages(channelId)
       const scrollList = document.getElementById('message-list')
       scrollList.scrollTop += scrollList.scrollHeight
     }
@@ -45,7 +46,6 @@ class Messages extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
     messages: state.message.messages,
     selectedChannel: state.channel.selectedChannel
   }
@@ -53,8 +53,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchMessages: channelId => dispatch(fetchMessages(channelId)),
-    fetchMe: () => dispatch(me())
+    fetchMessages: channelId => dispatch(fetchMessages(channelId))
   }
 }
 
