@@ -82,6 +82,24 @@ export const handleStateReceived = receivedState => {
   )
 }
 
+export const handleStartListening = channelId => {
+  // subscribe listening
+  musicPlayerEvent.on('state-received', handleStateReceived)
+  socket.emit('request-channel-state', channelId, socket.id)
+}
+
+export const handleStopListening = channelId => {
+  // unsubscribe listening
+  musicPlayerEvent.off('state-received', handleStateReceived)
+}
+
+musicPlayerEvent.on('start-listening', handleStartListening)
+musicPlayerEvent.on('stop-listening', handleStopListening)
+
+export default musicPlayerEvent
+
+// ***** SPOTIFY WEBPLAYBACK SDK ***** //
+
 // grants access token from user session. only handles successful request
 // - TODO: refreshing token, handling error
 export const getAccessToken = () =>
@@ -117,5 +135,3 @@ const makePlayRequest = (uri, id) => accessToken =>
  */
 export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
   getOAuthToken(makePlayRequest(uri, id))
-
-export default musicPlayerEvent

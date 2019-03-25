@@ -15,7 +15,19 @@ socket.on('connect', () => {
 })
 
 socket.on('received-state-change', playerState => {
+  console.log('received state from owner')
   musicPlayerEvent.emit('state-received', playerState)
 })
+
+socket.on('new-listener', function(listenerId) {
+  return store
+    .getState()
+    .player.getCurrentState()
+    .then(playerState =>
+      this.broadcast.to(listenerId).emit('received-state-change', playerState)
+    )
+})
+
+socket.on('sync-to-channel')
 
 export default socket

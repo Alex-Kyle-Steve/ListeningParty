@@ -7,13 +7,15 @@ export const setListening = isListening => ({
   isListening
 })
 
-export const startListening = () => dispatch => {
-  musicPlayerEvent.on('state-received', handleStateReceived)
+export const startListening = () => (dispatch, getState) => {
+  const currentChannelId = getState().selectedChannel.id
+  musicPlayerEvent.emit('start-listening', currentChannelId)
   dispatch(setListening(true))
 }
 
-export const stopListening = () => dispatch => {
-  musicPlayerEvent.off('state-received', handleStateReceived)
+export const stopListening = () => (dispatch, getState) => {
+  const currentChannelId = getState().selectedChannel.id
+  musicPlayerEvent.emit('stop-listening', currentChannelId)
   dispatch(setListening(false))
 }
 
