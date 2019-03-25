@@ -30,7 +30,7 @@ export class Player extends Component {
     //TODO:
     //Plug in logic to actually "join" the channel
     this.setState({
-      listening: !this.state.joined
+      listening: !this.state.listening
     })
   }
 
