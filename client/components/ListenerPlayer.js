@@ -33,6 +33,9 @@ export const ListenerPlayer = props => {
               <Card.Text>Soft Sounds from Another Planet</Card.Text>
             </Col>
           </Row>
+          <Row>
+            <Button>Stop Listening</Button>
+          </Row>
         </Col>
       </Row>
     </Card>

@@ -100,34 +100,6 @@ export class SelectedChannel extends Component {
                 ) : (
                   <ListenerPlayer />
                 )}
-                {/* <Row>
-                  <Col xs={6}>
-                    <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
-                  </Col>
-                  <Col xs={6}>
-
-                    <Row>
-                      <Col xs={12}>
-                        <Card.Title>Song Information</Card.Title>
-                      </Col>
-                      <Col xs={12}>
-                        <Card.Text>Road Head</Card.Text>
-                      </Col>
-                      <Col xs={12}>
-                        <Card.Text>Japanese Breakfast</Card.Text>
-                      </Col>
-                      <Col xs={12}>
-                        <Card.Text>Soft Sounds from Another Planet</Card.Text>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={12}>
-
-
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row> */}
               </Card>
               {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
               <Row>
