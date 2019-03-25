@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const user = await User.findById(req.body.userId)
-    const newMessage = Message.create(req.body)
+    const newMessage = await Message.create(req.body)
     newMessage.user = user
     res.json(newMessage)
   } catch (err) {

@@ -34,10 +34,11 @@ export const writeMessage = content => {
 /**
  * THUNK CREATORS
  */
-export const fetchMessages = () => {
+export const fetchMessages = channelId => {
   return async dispatch => {
-    const response = await axios.get('/api/messages')
+    const response = await axios.get(`/api/channels/${channelId}/messages`)
     const messages = response.data
+    console.log(messages)
     const action = getMessages(messages)
     dispatch(action)
   }

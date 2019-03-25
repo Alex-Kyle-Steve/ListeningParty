@@ -6,7 +6,7 @@ export default function Message(props) {
   return (
     <li className="media">
       <div className="media-body">
-        <strong>{message.user.spotifyId}: </strong> {message.content}
+        <strong>{'name placeholder'}: </strong> {message.content}
       </div>
     </li>
   )
