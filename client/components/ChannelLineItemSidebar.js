@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Container, ListGroup, Button, Modal} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import {addFavoriteChannel, me} from '../store/user'
 
 class ChannelLineItemSidebar extends Component {
   constructor(props, context) {
     super(props, context)
     this.handleShow = this.handleShow.bind(this)
     this.handleClose = this.handleClose.bind(this)
-
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
       show: false
     }
@@ -22,6 +23,11 @@ class ChannelLineItemSidebar extends Component {
     this.setState({
       show: true
     })
+  }
+  async handleClick(event) {
+    const href = event.target.parentNode.firstChild.href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    await this.props.addFavoriteChannel(this.props.user.id, channelId)
   }
   render() {
     return (
@@ -44,7 +50,13 @@ class ChannelLineItemSidebar extends Component {
         >
           Quick Info
         </Button>
-
+        <Button
+          variant="link"
+          className="favorite-channel-sidebar-button"
+          onClick={this.handleClick}
+        >
+          +
+        </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.channel.name}</Modal.Title>
@@ -70,9 +82,18 @@ class ChannelLineItemSidebar extends Component {
 
 const mapStateToProps = state => {
   return {
-    allChannels: state.channel.allChannels
+    allChannels: state.channel.allChannels,
+    user: state.user
   }
 }
-export const ConnectedChannelLineItemSidebar = connect(mapStateToProps, null)(
-  ChannelLineItemSidebar
-)
+const mapDispatchToProps = dispatch => {
+  return {
+    addFavoriteChannel: (userId, channelId) =>
+      dispatch(addFavoriteChannel(userId, channelId)),
+    fetchMe: () => dispatch(me())
+  }
+}
+export const ConnectedChannelLineItemSidebar = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChannelLineItemSidebar)

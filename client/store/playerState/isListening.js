@@ -1,4 +1,4 @@
-import musicPlayerEvent, {handleStateReceived} from '../../music-player'
+import musicPlayerEvent from '../../music-player'
 
 const SET_LISTENING = 'SET_LISTENING'
 

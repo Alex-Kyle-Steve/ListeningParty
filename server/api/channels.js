@@ -31,7 +31,7 @@ router.put('/:channelId', async (req, res, next) => {
 })
 router.delete('/:channelId', async (req, res, next) => {
   try {
-    const toDelete = await channelId.findById(req.params.channelId)
+    const toDelete = await Channel.findById(req.params.channelId)
     await toDelete.destroy()
     res.status(200).send('Successfully deleted Channel')
   } catch (err) {

@@ -31,6 +31,7 @@ export class Player extends Component {
   render() {
     const selectedChannel = this.props.selectedChannel
     const user = this.props.user
+    const isListening = this.props.isListening
     return (
       <div>
         <Card border="light">
@@ -56,9 +57,9 @@ export class Player extends Component {
               </Row>
               <Row className="justify-content-md-center">
                 {selectedChannel.ownerId !== user.id &&
-                this.state.listening === false ? (
+                isListening === false ? (
                   <Row>
-                    <Button onClick={this.toggleListening}>
+                    <Button onClick={this.props.startListening}>
                       Start Listening
                     </Button>
                   </Row>
@@ -66,7 +67,7 @@ export class Player extends Component {
                   <Controller togglePlay={() => this.togglePlay} />
                 ) : (
                   <Row>
-                    <Button onClick={this.toggleListening}>
+                    <Button onClick={this.props.stopListening}>
                       Stop Listening
                     </Button>
                   </Row>

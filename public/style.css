@@ -36,11 +36,6 @@ form div {
   color: black !important;
 }
 
-.link-styling-allchannels {
-  text-decoration: none !important;
-  color: white;
-}
-
 .link-styling-quick-info {
   text-decoration: none !important;
   color: white;
@@ -71,14 +66,33 @@ form div {
 }
 
 .list-btn {
-  height: 17px;
-  width: 17px;
-  border-radius: 50%;
-  font-size: 12px;
+  height: 18px;
+  width: 18px;
+  border-radius: 9px;
+  font-size: 10pt;
   background: #010d14;
   border: 0;
   color: #f5ebeb;
+  text-align: center;
+  vertical-align: center;
 }
+.list-btn-fav {
+  height: 18px;
+  width: 18px;
+  border-radius: 9px;
+  font-size: 6pt;
+  background: #010d14;
+  border: 0;
+  color: #f5ebeb;
+  text-align: center;
+  vertical-align: center;
+}
+
+.favorite-channel-sidebar-button {
+  font-size: 7pt !important;
+  color: lightgray;
+}
+
 /* message form */
 
 #new-message-form {

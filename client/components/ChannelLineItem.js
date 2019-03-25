@@ -6,16 +6,19 @@ import {
   Button,
   Modal,
   Card,
-  CardDeck
+  CardDeck,
+  Col,
+  Row
 } from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import {addFavoriteChannel, me} from '../store/user'
 
 class ChanneLineItem extends Component {
   constructor(props, context) {
     super(props, context)
     this.handleShow = this.handleShow.bind(this)
     this.handleClose = this.handleClose.bind(this)
-
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
       show: false,
       images: [
@@ -62,6 +65,13 @@ class ChanneLineItem extends Component {
       show: true
     })
   }
+
+  async handleClick(event) {
+    const href = event.target.parentNode.childNodes[1].href
+    const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
+    await this.props.addFavoriteChannel(this.props.user.id, channelId)
+  }
+
   render() {
     return (
       <Container>
@@ -82,30 +92,46 @@ class ChanneLineItem extends Component {
                 </Link>
               </Card.Title>
               <Card.Text>
-                <Button
-                  variant="link"
-                  className="link-styling"
-                  onClick={this.handleShow}
-                  size="sm"
-                >
-                  Quick Info
-                </Button>
-                <Link to={`channels/${this.props.channel.id}`}>
-                  {' '}
-                  <Button
-                    variant="link"
-                    className="link-styling"
-                    onClick={this.handleClose}
-                    size="sm"
-                  >
-                    Join Channel
-                  </Button>
-                </Link>
+                <Row>
+                  <Col xs={6}>
+                    <Button
+                      variant="link"
+                      className="link-styling"
+                      onClick={this.handleShow}
+                      size="sm"
+                    >
+                      Quick Info
+                    </Button>
+                  </Col>
+                  <Col xs={6}>
+                    <Link to={`channels/${this.props.channel.id}`}>
+                      <Button
+                        variant="link"
+                        className="link-styling"
+                        onClick={this.handleClose}
+                        size="sm"
+                      >
+                        Join Channel
+                      </Button>
+                    </Link>
+                  </Col>
+                </Row>
+                <Row span={6}>
+                  <Col xs={12}>
+                    <Button
+                      size="sm"
+                      variant="Link"
+                      className="link-styling "
+                      onClick={this.handleClick}
+                    >
+                      Add to Favorites
+                    </Button>
+                  </Col>
+                </Row>
               </Card.Text>
             </Card.Body>
           </Card>
         </CardDeck>
-        {/* <ListGroup.Item key={this.props.channel.id} style={{border: 'none'}}> */}
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.channel.name}</Modal.Title>
@@ -124,8 +150,6 @@ class ChanneLineItem extends Component {
             </Link>
           </Modal.Footer>
         </Modal>
-        {/* </ListGroup.Item> */}
-        {/* </Card> */}
       </Container>
     )
   }
@@ -133,9 +157,19 @@ class ChanneLineItem extends Component {
 
 const mapStateToProps = state => {
   return {
-    allChannels: state.channel.allChannels
+    allChannels: state.channel.allChannels,
+    user: state.user
   }
 }
-export const ConnectedChannelLineItem = connect(mapStateToProps, null)(
-  ChanneLineItem
-)
+const mapDispatchToProps = dispatch => {
+  return {
+    addFavoriteChannel: (userId, channelId) =>
+      dispatch(addFavoriteChannel(userId, channelId)),
+    fetchMe: () => dispatch(me())
+  }
+}
+
+export const ConnectedChannelLineItem = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChanneLineItem)
