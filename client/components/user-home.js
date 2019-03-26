@@ -71,9 +71,9 @@ export class UserHome extends React.Component {
                     </Card>
                   </CardDeck>
                 </Tab>
-                <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
+                {/* <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
                   <ConnectedMessages channel="Home" />
-                </Tab>
+                </Tab> */}
               </Tabs>
             </Col>
           </Row>

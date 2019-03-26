@@ -6,13 +6,11 @@ import {fetchMessages} from '../store'
 
 class Messages extends Component {
   async componentDidMount() {
-    console.log('MESSAGES Mounted')
     const channelId = this.props.selectedChannel.id
     await this.props.fetchMessages(channelId)
   }
 
   async componentDidUpdate(prevState) {
-    console.log('MESSAGES Updated')
     if (
       String(prevState.messages.length) !== String(this.props.messages.length)
     ) {

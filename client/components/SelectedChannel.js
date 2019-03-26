@@ -12,11 +12,11 @@ import socket from '../socket'
 import {Player} from './Player'
 
 export class SelectedChannel extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
     // join room when first render
     socket.emit('join-room', channelId)
-    this.props.fetchSelectedChannel(channelId)
+    await this.props.fetchSelectedChannel(channelId)
   }
 
   formatData() {
@@ -29,7 +29,7 @@ export class SelectedChannel extends Component {
     )
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     // get previous and current channel ID
     const prevCh = prevProps.match.params.channelId
     const currCh = this.props.match.params.channelId
@@ -40,7 +40,7 @@ export class SelectedChannel extends Component {
       // join current room
       socket.emit('join-room', currCh)
       // get the new channel and set it on state as SelectedChannel
-      this.props.fetchSelectedChannel(currCh)
+      await this.props.fetchSelectedChannel(currCh)
       // stop listening if you were listening before
       if (this.props.isListening) this.props.stopListening()
     }
@@ -98,38 +98,46 @@ export class SelectedChannel extends Component {
               </Row>
             </Col>
             {/* Chat/Channel Information tabs. */}
-            <Col xs={3}>
-              <Tabs
-                defaultActiveKey="description"
-                id="uncontrolled-tab-example"
-              >
-                <Tab eventKey="description" title="Channel">
-                  <CardDeck>
-                    <Card border="light">
-                      <Card.Body>
-                        <Card.Title className="link-styling">
-                          <h3>
-                            Current Channel:
-                            <br />
-                            {selectedChannel.name}{' '}
-                          </h3>
-                        </Card.Title>
-                        <Card.Text>{selectedChannel.description}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </CardDeck>
-                </Tab>
-                <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
-                  <ConnectedMessages
-                    channel={selectedChannel.name}
-                    user={this.props.user}
-                  />
-                </Tab>
-              </Tabs>
-              <Row>
-                <Col xs={12} />
-              </Row>
-            </Col>
+            {this.props.selectedChannel.id ? (
+              <Col xs={3}>
+                <Tabs
+                  defaultActiveKey="description"
+                  id="uncontrolled-tab-example"
+                >
+                  <Tab eventKey="description" title="Channel">
+                    <CardDeck>
+                      <Card border="light">
+                        <Card.Body>
+                          <Card.Title className="link-styling">
+                            <h3>
+                              Current Channel:
+                              <br />
+                              {selectedChannel.name}{' '}
+                            </h3>
+                          </Card.Title>
+                          <Card.Text>{selectedChannel.description}</Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </CardDeck>
+                  </Tab>
+                  <Tab
+                    eventKey="chat"
+                    title="Chat"
+                    style={{maxHeight: '1000px'}}
+                  >
+                    <ConnectedMessages
+                      channel={selectedChannel.name}
+                      user={this.props.user}
+                    />
+                  </Tab>
+                </Tabs>
+                <Row>
+                  <Col xs={12} />
+                </Row>
+              </Col>
+            ) : (
+              ''
+            )}
           </Row>
         </Container>
       </div>

@@ -27,22 +27,22 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.param('channelId', (req, res, next, id) =>
-  Channel.findById(id, {
-    include: [
-      {model: User, as: 'owner'},
-      {model: Message, include: [{model: User}]},
-      {model: HistoricalPlayList, include: [{model: Song}]}
-    ],
-    order: [[HistoricalPlayList, 'id', 'DESC']]
-  })
-    .then(channel => {
-      req.selectedChannel = channel
-      next()
-      return null
+router.param('channelId', async (req, res, next) => {
+  try {
+    const channel = await Channel.findById(req.params.channelId, {
+      include: [
+        {model: User, as: 'owner'},
+        {model: Message, include: [{model: User}]},
+        {model: HistoricalPlayList, include: [{model: Song}]}
+      ],
+      order: [[HistoricalPlayList, 'id', 'DESC']]
     })
-    .catch(next)
-)
+    req.selectedChannel = channel
+    next()
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.put('/:channelId', async (req, res, next) => {
   try {
@@ -70,6 +70,5 @@ router.get('/:channelId', (req, res, next) => {
 })
 
 router.get('/:channelId/messages', (req, res, next) => {
-  console.log('THE SELECTED CHANNEL: ', req.selectedChannel)
   res.json(req.selectedChannel.messages)
 })

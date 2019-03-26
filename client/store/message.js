@@ -38,18 +38,16 @@ export const fetchMessages = channelId => {
   return async dispatch => {
     const response = await axios.get(`/api/channels/${channelId}/messages`)
     const messages = response.data
-    console.log(messages)
-    const action = getMessages(messages)
-    dispatch(action)
+    dispatch(getMessages(messages))
   }
 }
 
-export const postMessage = message => {
+export const postMessage = (message, user) => {
   return async dispatch => {
     const response = await axios.post('/api/messages', message)
     const newMessage = response.data
-    const action = getMessage(newMessage)
-    dispatch(action)
+    newMessage.user = user
+    dispatch(getMessage(newMessage))
     socket.emit('new-message', newMessage)
   }
 }

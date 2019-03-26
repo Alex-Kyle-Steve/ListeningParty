@@ -13,14 +13,16 @@ class NewMessageEntry extends Component {
     this.props.writeMessage(evt.target.value)
   }
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault()
-
-    this.props.postMessage({
-      userId: this.props.user.id,
-      content: this.props.newMessageEntry,
-      channelId: this.props.selectedChannel.id
-    })
+    await this.props.postMessage(
+      {
+        userId: this.props.user.id,
+        content: this.props.newMessageEntry,
+        channelId: this.props.selectedChannel.id
+      },
+      this.props.user
+    )
     this.props.writeMessage('')
   }
 
@@ -57,7 +59,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postMessage: message => dispatch(postMessage(message)),
+    postMessage: (message, user) => dispatch(postMessage(message, user)),
     writeMessage: string => dispatch(writeMessage(string))
   }
 }
