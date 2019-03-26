@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {Button, Row, Col, Form, Container} from 'react-bootstrap'
-import {SpotifyCatalogScrollTable} from './SpotifyCatalogScrollTable'
+import {TrackScrollTable} from './TrackScrollTable'
 import {addNewTrack} from '../store'
+
 class SpotifyCatalogSearch extends Component {
   constructor() {
     super()
@@ -13,6 +14,34 @@ class SpotifyCatalogSearch extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.renderButton = this.renderButton.bind(this)
+  }
+
+  formatData(trackItems) {
+    return trackItems.reduce((accumulator, currentValue) => {
+      accumulator.push({
+        album: currentValue.album.name,
+        artist: currentValue.album.artists[0].name,
+        title: currentValue.name,
+        uri: currentValue.uri
+      })
+      return accumulator
+    }, [])
+  }
+
+  //Adds an "Add" Button to the table
+  renderButton(_, song) {
+    const addTrack = this.props.addTrack
+    return (
+      <Button
+        variant="primary"
+        onClick={() => {
+          addTrack(song)
+        }}
+      >
+        Add
+      </Button>
+    )
   }
 
   handleSubmit(event) {
@@ -36,6 +65,7 @@ class SpotifyCatalogSearch extends Component {
   }
 
   render() {
+    const trackItems = this.state.res.tracks && this.state.res.tracks.items
     return (
       <Container>
         <Row>
@@ -64,9 +94,9 @@ class SpotifyCatalogSearch extends Component {
             {this.state.res.tracks ? (
               <div>
                 <h5>Search Results</h5>
-                <SpotifyCatalogScrollTable
-                  tracks={this.state.res.tracks}
-                  addTrack={this.props.addTrack}
+                <TrackScrollTable
+                  tracks={this.formatData(trackItems)}
+                  dataFormat={this.renderButton}
                 />
               </div>
             ) : (

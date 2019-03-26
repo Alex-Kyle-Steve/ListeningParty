@@ -25,6 +25,7 @@ import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
 import {addFavoriteChannel} from '../store/user'
+import {TrackScrollTable} from './TrackScrollTable'
 
 export class SelectedChannel extends Component {
   componentDidMount() {
@@ -47,6 +48,7 @@ export class SelectedChannel extends Component {
       socket.emit('join-room', currCh)
       // get the new channel and set it on state as SelectedChannel
       this.props.fetchSelectedChannel(currCh)
+      this.props.fetchPlaylist(currCh)
       // stop listening if you were listening before
       if (this.props.isListening) this.props.stopListening()
     }
@@ -86,7 +88,7 @@ export class SelectedChannel extends Component {
                 <Card border="light" />
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
-                    <Playlist playlist={this.props.playlist} />
+                    <TrackScrollTable tracks={this.props.playlist} />
                   </Tab>
                   <Tab eventKey="search" title="Search">
                     <ConnectedSpotifyCatalogSearch />
