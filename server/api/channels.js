@@ -41,11 +41,7 @@ router.delete('/:channelId', async (req, res, next) => {
 router.get('/:channelId', async (req, res, next) => {
   try {
     const selectedChannel = await Channel.findById(req.params.channelId, {
-      include: [
-        {model: User, as: 'owner'},
-        {model: HistoricalPlayList, include: [{model: Song}]}
-      ],
-      order: [[HistoricalPlayList, 'id', 'DESC']]
+      include: [{model: User, as: 'owner'}]
     })
     res.json(selectedChannel)
   } catch (err) {
