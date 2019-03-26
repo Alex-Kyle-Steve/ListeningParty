@@ -47,27 +47,26 @@ export class Player extends Component {
                   <Card.Text>Soft Sounds from Another Planet</Card.Text>
                 </Col>
               </Row>
-              <Row className="justify-content-md-center">
-                {selectedChannel.ownerId !== user.id &&
-                isListening === false ? (
-                  <Row>
-                    <Button variant="link" onClick={this.props.startListening}>
-                      Start Listening
-                    </Button>
-                  </Row>
-                ) : selectedChannel.ownerId === user.id ? (
-                  <ConnectedController
-                    user={user}
-                    // togglePlay={() => this.togglePlay}
-                  />
-                ) : (
-                  <Row>
-                    <Button variant="link" onClick={this.props.stopListening}>
-                      Stop Listening
-                    </Button>
-                  </Row>
-                )}
-              </Row>
+              {/* <Row className="justify-content-md-center"> */}
+              {selectedChannel.ownerId !== user.id && isListening === false ? (
+                <Row>
+                  <Button variant="link" onClick={this.props.startListening}>
+                    Start Listening
+                  </Button>
+                </Row>
+              ) : selectedChannel.ownerId === user.id ? (
+                <ConnectedController
+                  user={user}
+                  // togglePlay={() => this.togglePlay}
+                />
+              ) : (
+                <Row>
+                  <Button variant="link" onClick={this.props.stopListening}>
+                    Stop Listening
+                  </Button>
+                </Row>
+              )}
+              {/* </Row> */}
             </Col>
           </Row>
         </Card>

@@ -66,13 +66,13 @@ export class SelectedChannel extends Component {
         <Container fluid={true}>
           <Row>
             {/* Channel Bar */}
-            <Col xs={3}>
+            <Col xs={12} s={12} md={3} l={3} lg={3}>
               <ConnectedOwnedChannels channelId={channelId} />
               <ConnectedFavoriteChannels />
               <ConnectedAllChannelsSidebar />
             </Col>
             {/* Music info/Player */}
-            <Col xs={6}>
+            <Col xs={12} s={12} md={6} l={6} lg={6}>
               <Player
                 selectedChannel={selectedChannel}
                 user={this.props.user}
@@ -99,7 +99,7 @@ export class SelectedChannel extends Component {
 
             {/* ////////////////////////////////////////////////////////////////////////// */}
 
-            <Col xs={3}>
+            <Col xs={12} s={12} md={3} l={3} lg={3}>
               <Tabs
                 defaultActiveKey="description"
                 id="uncontrolled-tab-example"
