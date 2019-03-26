@@ -35,13 +35,9 @@ export class Controller extends Component {
 
   render() {
     return (
-      // <div id="player-container">
-      //   <div id="player-controls">
-      //     <div className="row right">
       <Col xs={{span: 12}}>
         <br />
         <br />
-
         <Row>
           <Col
             xs={{offset: 1, span: 11}}
@@ -86,7 +82,6 @@ export class Controller extends Component {
             lg={{span: 8, offset: 0}}
             xl={{span: 12, offset: 0}}
           >
-            {/* </div> */}
             <input
               type="range"
               min="1"
@@ -99,8 +94,6 @@ export class Controller extends Component {
           </Col>
         </Row>
       </Col>
-      //   </div>
-      // </div>
     )
   }
 }

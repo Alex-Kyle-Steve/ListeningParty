@@ -74,6 +74,7 @@ export class SelectedChannel extends Component {
             {/* Music info/Player */}
             <Col xs={12} s={12} md={6} l={6} lg={6}>
               <Player
+                currentTrack={this.props.currentTrack}
                 selectedChannel={selectedChannel}
                 user={this.props.user}
                 isListening={this.props.isListening}
@@ -149,7 +150,8 @@ const mapStateToProps = state => {
     user: state.user,
     // playerState
     isListening: state.playerState.isListening,
-    playlist: state.playerState.playlist
+    playlist: state.playerState.playlist,
+    currentTrack: state.currentTrack
   }
 }
 

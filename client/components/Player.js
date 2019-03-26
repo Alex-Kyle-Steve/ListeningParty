@@ -6,20 +6,9 @@ export class Player extends Component {
   constructor() {
     super()
     this.state = {
-      listening: false
+      togglePlay: false
     }
-
-    this.toggleListening = this.toggleListening.bind(this)
   }
-
-  toggleListening() {
-    //TODO:
-    //Plug in logic to actually "join" the channel
-    this.setState({
-      listening: !this.state.listening
-    })
-  }
-
   render() {
     const selectedChannel = this.props.selectedChannel
     const user = this.props.user
@@ -36,10 +25,10 @@ export class Player extends Component {
               <Row>
                 <Col xs={12}>
                   <Card.Title className="player-track-info-text-header">
-                    Song Information
+                    <strong>Current Song</strong>
                   </Card.Title>
                 </Col>
-                <hr />
+
                 <Col xs={12}>
                   <hr />
                   <Card.Text className="player-track-info-text">
@@ -62,22 +51,60 @@ export class Player extends Component {
               {/* <Row className="justify-content-md-center"> */}
               {selectedChannel.ownerId !== user.id && isListening === false ? (
                 <Row>
-                  <Button variant="link" onClick={this.props.startListening}>
-                    Start Listening
-                  </Button>
+                  <Col xs={{offset: 5}}>
+                    <i
+                      onClick={() => {
+                        this.setState({togglePlay: true})
+
+                        this.props.startListening()
+                      }}
+                      className="fa fa-pause-circle"
+                    >
+                      <img src="/play.png" />
+                    </i>
+                  </Col>
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    defaultValue={0}
+                    className="slider"
+                    id="myRange"
+                  />
                 </Row>
               ) : selectedChannel.ownerId === user.id ? (
                 <Row>
                   <ConnectedController
                     user={user}
+                    selectedChannel={selectedChannel}
                     // togglePlay={() => this.togglePlay}
                   />
                 </Row>
               ) : (
                 <Row>
-                  <Button variant="link" onClick={this.props.stopListening}>
+                  <Col xs={{offset: 5}}>
+                    <i
+                      onClick={() => {
+                        this.props.stopListening()
+                        this.setState({togglePlay: false})
+                      }}
+                      className="fa fa-pause-circle"
+                    >
+                      <img src="/pause.png" />
+                    </i>
+                  </Col>
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    defaultValue={0}
+                    className="slider"
+                    id="myRange"
+                  />
+
+                  {/* <Button variant="link" onClick={this.props.stopListening}>
                     Stop Listening
-                  </Button>
+                  </Button> */}
                 </Row>
               )}
               {/* </Row> */}
