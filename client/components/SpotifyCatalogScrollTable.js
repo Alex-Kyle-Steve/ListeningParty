@@ -5,10 +5,12 @@ export class SpotifyCatalogScrollTable extends Component {
   formatData() {
     let songObj = {}
     return this.props.tracks.items.reduce((accumulator, currentValue) => {
+      console.log(currentValue)
       songObj = {
         album: currentValue.album.name,
         artist: currentValue.album.artists[0].name,
-        song: currentValue.name
+        song: currentValue.name,
+        uri: currentValue.uri
       }
       accumulator.push(songObj)
       songObj = {}
@@ -17,7 +19,8 @@ export class SpotifyCatalogScrollTable extends Component {
   }
 
   //Adds an "Add" Button to the table
-  showButton() {
+  showButton(_, data) {
+    const uri = data.uri
     return <Button variant="primary">Add</Button>
   }
   render() {

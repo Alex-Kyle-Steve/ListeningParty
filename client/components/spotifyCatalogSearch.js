@@ -75,13 +75,13 @@ class SpotifyCatalogSearch extends Component {
     )
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {}
-}
 const mapStateToProps = state => {
   return {
     user: state.user
   }
+}
+const mapDispatchToProps = dispatch => {
+  return {}
 }
 export const ConnectedSpotifyCatalogSearch = connect(
   mapStateToProps,

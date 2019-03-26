@@ -10,7 +10,7 @@ import {
   CardDeck,
   Button
 } from 'react-bootstrap'
-import {ScrollTable} from './ScrollTable'
+import Playlist from './Playlist'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel, startListening, stopListening} from '../store'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
@@ -19,7 +19,7 @@ import {ConnectedMessages} from './MessageList'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
-import {addFavoriteChannel, me} from '../store/user'
+import {addFavoriteChannel} from '../store/user'
 
 export class SelectedChannel extends Component {
   componentDidMount() {
@@ -27,16 +27,6 @@ export class SelectedChannel extends Component {
     // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
-  }
-
-  formatData() {
-    return this.props.selectedChannel.historicalPlayLists.reduce(
-      (accumulator, currentValue) => {
-        accumulator.push(currentValue.song)
-        return accumulator
-      },
-      []
-    )
   }
 
   componentDidUpdate(prevProps) {
@@ -84,22 +74,14 @@ export class SelectedChannel extends Component {
                 startListening={this.props.startListening}
                 stopListening={this.props.stopListening}
               />
+
+              {/* //////////////////////////////////////////////////////////////////////// */}
+
               <Row>
                 <Card border="light" />
-                {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
-
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
-                    {selectedChannel.description ? (
-                      this.props.selectedChannel.historicalPlayLists !==
-                      historicalPlayList ? (
-                        <ScrollTable playList={historicalPlayList} />
-                      ) : (
-                        <ScrollTable playList={historicalPlayList} />
-                      )
-                    ) : (
-                      ''
-                    )}
+                    <Playlist playlist={this.props.playlist} />
                   </Tab>
                   <Tab eventKey="search" title="Search">
                     <ConnectedSpotifyCatalogSearch />
@@ -108,6 +90,9 @@ export class SelectedChannel extends Component {
               </Row>
             </Col>
             {/* Chat/Channel Information tabs. */}
+
+            {/* ////////////////////////////////////////////////////////////////////////// */}
+
             <Col xs={3}>
               <Tabs
                 defaultActiveKey="description"
@@ -124,9 +109,7 @@ export class SelectedChannel extends Component {
                             {selectedChannel.name}{' '}
                           </h3>
                         </Card.Title>
-                        <Card.Text>
-                          <Row> {selectedChannel.description}</Row>
-                        </Card.Text>
+                        <Card.Text>{selectedChannel.description}</Card.Text>
                         <Button
                           size="sm"
                           variant="link"
@@ -158,7 +141,9 @@ const mapStateToProps = state => {
     selectedChannel: state.channel.selectedChannel,
     messages: state.message.messages,
     user: state.user,
-    isListening: state.playerState.isListening
+    // playerState
+    isListening: state.playerState.isListening,
+    playlist: state.playerState.playlist
   }
 }
 
@@ -169,8 +154,7 @@ const mapDispatchToProps = dispatch => {
     startListening: () => dispatch(startListening()),
     stopListening: () => dispatch(stopListening()),
     addFavoriteChannel: (userId, channelId) =>
-      dispatch(addFavoriteChannel(userId, channelId)),
-    fetchMe: () => dispatch(me())
+      dispatch(addFavoriteChannel(userId, channelId))
   }
 }
 
