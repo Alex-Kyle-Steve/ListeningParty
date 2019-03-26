@@ -124,9 +124,7 @@ export class SelectedChannel extends Component {
                             {selectedChannel.name}{' '}
                           </h3>
                         </Card.Title>
-                        <Card.Text>
-                          <Row> {selectedChannel.description}</Row>
-                        </Card.Text>
+                        <Card.Text>{selectedChannel.description}</Card.Text>
                         <Button
                           size="sm"
                           variant="link"
