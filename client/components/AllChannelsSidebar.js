@@ -5,9 +5,6 @@ import {fetchChannels} from '../store/channel'
 import {ConnectedChannelLineItemSidebar} from './ChannelLineItemSidebar'
 
 export class AllChannelsSidebar extends Component {
-  constructor(props, context) {
-    super(props, context)
-  }
   async componentDidMount() {
     await this.props.fetchChannels()
   }
