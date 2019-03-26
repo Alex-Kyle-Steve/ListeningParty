@@ -69,7 +69,8 @@ router.get('/:channelId/playlist', (req, res, next) =>
       Song.findAll({
         where: {
           [Op.or]: [...chPlaylist]
-        }
+        },
+        attributes: ['title', 'album', 'artist', 'id', 'uri']
       })
         // we need to reorder them before returning
         .then(playlist =>
