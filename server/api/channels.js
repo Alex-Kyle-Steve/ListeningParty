@@ -63,27 +63,28 @@ const trackMapReducer = (accu, curr) => {
  * */
 router.get('/:channelId/playlist', (req, res, next) =>
   // get channel's playlist: an array of trackId
-  Channel.findById(req.params.channelId, {attributes: ['playlist']}).then(
-    // find all song associated with the channel by their id
-    chPlaylist =>
-      Song.findAll({
-        where: {
-          [Op.or]: [...chPlaylist]
-        },
-        attributes: ['title', 'album', 'artist', 'id', 'uri']
-      })
-        // we need to reorder them before returning
-        .then(playlist =>
-          // create map of track: reduces the playlist array to object of key/value
-          ({playlist, trackMap: playlist.reduce(trackMapReducer, {})})
-        )
-        .then(({playlist, trackMap}) =>
-          // map through the playlist again to sort the track in order
-          playlist.map(trackId => trackMap[trackId])
-        )
-        // send the ordered track
-        .then(orderedTrack => res.json(orderedTrack))
-  )
+  Channel.findById(req.params.channelId, {attributes: ['playlist']})
+    .then(
+      // find all song associated with the channel by their id
+      ({playlist}) =>
+        Song.findAll({
+          where: {
+            [Op.or]: [...playlist]
+          },
+          attributes: ['title', 'album', 'artist', 'id', 'uri']
+        })
+    )
+    // we need to reorder them before returning
+    .then(playlist =>
+      // create map of track: reduces the playlist array to object of key/value
+      ({playlist, trackMap: playlist.reduce(trackMapReducer, {})})
+    )
+    .then(({playlist, trackMap}) =>
+      // map through the playlist again to sort the track in order
+      playlist.map(trackId => trackMap[trackId])
+    )
+    // send the ordered track
+    .then(orderedTrack => res.json(orderedTrack))
 )
 
 // update playlist

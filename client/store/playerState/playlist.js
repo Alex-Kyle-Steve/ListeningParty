@@ -15,7 +15,7 @@ const addTrack = trackData => ({
 export const fetchChannelPlaylist = channelId => dispatch =>
   axios
     .get(`/api/channels/${channelId}/playlist`)
-    .then(playlist => dispatch(setPlaylist(playlist)))
+    .then(({data}) => dispatch(setPlaylist(data)))
 
 export const addNewTrack = newTrack => (dispatch, getState) =>
   axios

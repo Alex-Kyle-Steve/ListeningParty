@@ -10,7 +10,7 @@ import {
   CardDeck,
   Button
 } from 'react-bootstrap'
-import Playlist from './Playlist'
+import {Playlist} from './Playlist'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {
   fetchSelectedChannel,
@@ -32,7 +32,7 @@ export class SelectedChannel extends Component {
     // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
-    this.props.fetchChannelPlaylist(channelId)
+    this.props.fetchPlaylist(channelId)
   }
 
   componentDidUpdate(prevProps) {

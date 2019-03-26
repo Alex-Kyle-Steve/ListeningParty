@@ -1,5 +1,5 @@
 import React from 'react'
 
-export default function(props) {
-  return <div />
+export const Track = props => {
+  return <div>{props.track.title}</div>
 }

@@ -9,7 +9,6 @@ export class SpotifyCatalogScrollTable extends Component {
   formatData() {
     let songObj = {}
     return this.props.tracks.items.reduce((accumulator, currentValue) => {
-      console.log(currentValue)
       songObj = {
         album: currentValue.album.name,
         artist: currentValue.album.artists[0].name,
@@ -29,7 +28,6 @@ export class SpotifyCatalogScrollTable extends Component {
       <Button
         variant="primary"
         onClick={() => {
-          console.log('adding song:', song)
           addTrack(song)
         }}
       >
