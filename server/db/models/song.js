@@ -18,7 +18,8 @@ const Song = db.define('song', {
     }
   },
   track: Sequelize.INTEGER,
-  albumArt: Sequelize.BLOB
+  albumArt: Sequelize.BLOB,
+  uri: Sequelize.STRING
 })
 
 module.exports = Song

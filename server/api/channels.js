@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Channel, HistoricalPlayList, Song} = require('../db/models')
+const {User, Channel, Song} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -20,6 +20,7 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
 router.put('/:channelId', async (req, res, next) => {
   try {
     const editedChannel = await Channel.findById(req.params.channelId)
@@ -48,3 +49,14 @@ router.get('/:channelId', async (req, res, next) => {
     next(err)
   }
 })
+
+// get the playlist associated with the channel
+router.get('/:channelId/playlist', (req, res, next) =>
+  // get channel's playlist: an array of trackId
+  Channel.findById(req.params.channelId, {attributes: ['playlist']}).then(
+    // map through that array and find the song by its id
+    chPlaylist =>
+      // return the found track and create a mapped array of track
+      chPlaylist.map(trackId => Song.findById(trackId).then(track => track))
+  )
+)
