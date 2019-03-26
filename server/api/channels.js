@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User, Channel, Song} = require('../db/models')
+const Op = require('sequelize').Op
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -50,13 +51,36 @@ router.get('/:channelId', async (req, res, next) => {
   }
 })
 
-// get the playlist associated with the channel
+// reducer passed into the below get request
+const trackMapReducer = (accu, curr) => {
+  // trackId is the key and value is the whole track
+  return Object.assign(accu, {[curr.id]: curr})
+}
+
+/**
+ * GET REQUEST:
+ * - get the playlist associated with the channel as array of track
+ * */
 router.get('/:channelId/playlist', (req, res, next) =>
   // get channel's playlist: an array of trackId
   Channel.findById(req.params.channelId, {attributes: ['playlist']}).then(
-    // map through that array and find the song by its id
+    // find all song associated with the channel by their id
     chPlaylist =>
-      // return the found track and create a mapped array of track
-      chPlaylist.map(trackId => Song.findById(trackId).then(track => track))
+      Song.findAll({
+        where: {
+          [Op.or]: [...chPlaylist]
+        }
+      })
+        // we need to reorder them before returning
+        .then(playlist =>
+          // create map of track: reduces the playlist array to object of key/value
+          ({playlist, trackMap: playlist.reduce(trackMapReducer, {})})
+        )
+        .then(({playlist, trackMap}) =>
+          // map through the playlist again to sort the track in order
+          playlist.map(trackId => trackMap[trackId])
+        )
+        // send the ordered track
+        .then(orderedTrack => res.json(orderedTrack))
   )
 )
