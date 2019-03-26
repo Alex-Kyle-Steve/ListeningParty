@@ -12,7 +12,12 @@ import {
 } from 'react-bootstrap'
 import Playlist from './Playlist'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
-import {fetchSelectedChannel, startListening, stopListening} from '../store'
+import {
+  fetchSelectedChannel,
+  startListening,
+  stopListening,
+  fetchChannelPlaylist
+} from '../store'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedMessages} from './MessageList'
@@ -27,6 +32,7 @@ export class SelectedChannel extends Component {
     // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
+    this.props.fetchChannelPlaylist(channelId)
   }
 
   componentDidUpdate(prevProps) {
@@ -153,7 +159,8 @@ const mapDispatchToProps = dispatch => {
     startListening: () => dispatch(startListening()),
     stopListening: () => dispatch(stopListening()),
     addFavoriteChannel: (userId, channelId) =>
-      dispatch(addFavoriteChannel(userId, channelId))
+      dispatch(addFavoriteChannel(userId, channelId)),
+    fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId))
   }
 }
 
