@@ -10,9 +10,13 @@ module.exports = io => {
       socket.broadcast.emit('new-message', message)
     })
 
-    socket.on('join-room', roomNumber => {
+    socket.on('request', (song, user, channelId) => {
+      socket.to(channelId).emit('request', song, user)
+    })
+
+    socket.on('join-room', (roomNumber, userID) => {
       socket.join(roomNumber)
-      console.log(`${socket.id} joined room ${roomNumber}`)
+      console.log(`${socket.id} userId ${userID} joined room ${roomNumber}`)
     })
 
     // leaving a channel

@@ -4,6 +4,7 @@ import axios from 'axios'
 import {Button, Row, Col, Form, Container} from 'react-bootstrap'
 import {TrackScrollTable} from './TrackScrollTable'
 import {addNewTrack} from '../store'
+import socket from '../socket'
 
 class SpotifyCatalogSearch extends Component {
   constructor() {
@@ -15,6 +16,7 @@ class SpotifyCatalogSearch extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderButton = this.renderButton.bind(this)
+    this.requestButton = this.requestButton.bind(this)
   }
 
   formatData(trackItems) {
@@ -43,7 +45,22 @@ class SpotifyCatalogSearch extends Component {
       </Button>
     )
   }
-
+  requestButton(_, song) {
+    const requestTrack = this.props.addTrack
+    return (
+      <Button
+        variant="primary"
+        onClick={() => {
+          this.requestTrack(song)
+        }}
+      >
+        Request
+      </Button>
+    )
+  }
+  requestTrack(song) {
+    socket.emit('request', song, this.props.user, this.props.selectedChannel.id)
+  }
   handleSubmit(event) {
     event.preventDefault()
     axios({
@@ -94,10 +111,17 @@ class SpotifyCatalogSearch extends Component {
             {this.state.res.tracks ? (
               <div>
                 <h5>Search Results</h5>
-                <TrackScrollTable
-                  tracks={this.formatData(trackItems)}
-                  dataFormat={this.renderButton}
-                />
+                {this.props.selectedChannel.ownerId === this.props.user.id ? (
+                  <TrackScrollTable
+                    tracks={this.formatData(trackItems)}
+                    dataFormat={this.renderButton}
+                  />
+                ) : (
+                  <TrackScrollTable
+                    tracks={this.formatData(trackItems)}
+                    dataFormat={this.requestButton}
+                  />
+                )}
               </div>
             ) : (
               ''
@@ -110,12 +134,14 @@ class SpotifyCatalogSearch extends Component {
 }
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    selectedChannel: state.channel.selectedChannel
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    addTrack: trackData => dispatch(addNewTrack(trackData))
+    addTrack: trackData => dispatch(addNewTrack(trackData)),
+    requestTrack: trackData => dispatch(requestNewTrack(trackData))
   }
 }
 export const ConnectedSpotifyCatalogSearch = connect(
