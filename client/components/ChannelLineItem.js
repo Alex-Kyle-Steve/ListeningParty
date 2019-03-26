@@ -1,15 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  Container,
-  ListGroup,
-  Button,
-  Modal,
-  Card,
-  CardDeck,
-  Col,
-  Row
-} from 'react-bootstrap'
+import {Container, Button, Modal, Card, CardDeck} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import {addFavoriteChannel, me} from '../store/user'
 
@@ -20,39 +11,7 @@ class ChanneLineItem extends Component {
     this.handleClose = this.handleClose.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.state = {
-      show: false,
-      images: [
-        'https://picsum.photos/300/300?blur?image=4',
-        'https://picsum.photos/300/300?blur?image=1',
-        'https://picsum.photos/300/300?blur?image=2',
-        'https://picsum.photos/300/300?blur?image=3',
-        'https://picsum.photos/300/300?blur?image=6',
-        'https://picsum.photos/300/300?blur?image=7',
-        'https://picsum.photos/300/300?blur?image=8',
-        'https://picsum.photos/300/300?blur?image=9',
-        'https://picsum.photos/300/300?blur?image=10',
-        'https://picsum.photos/300/300?image=1',
-        'https://picsum.photos/300/300?image=2',
-        'https://picsum.photos/300/300?image=3',
-        'https://picsum.photos/300/300?image=4',
-        'https://picsum.photos/300/300?image=5',
-        'https://picsum.photos/300/300?image=6',
-        'https://picsum.photos/300/300?image=7',
-        'https://picsum.photos/300/300?image=8',
-        'https://picsum.photos/300/300?image=9',
-        'https://picsum.photos/300/300?image=10',
-        'https://picsum.photos/300/300?image=11',
-        'https://picsum.photos/300/300?image=12',
-        'https://picsum.photos/300/300?image=13',
-        'https://picsum.photos/300/300?image=14',
-        'https://picsum.photos/300/300?image=15',
-        'https://picsum.photos/300/300?image=16',
-        'https://picsum.photos/300/300?image=17',
-        'https://picsum.photos/300/300?image=18',
-        'https://picsum.photos/300/300?image=19',
-        'https://picsum.photos/300/300?image=20',
-        'https://picsum.photos/300/300?image=21'
-      ]
+      show: false
     }
   }
 
@@ -77,11 +36,7 @@ class ChanneLineItem extends Component {
       <Container>
         <CardDeck>
           <Card border="light">
-            <Card.Img
-              variant="top"
-              src={this.state.images[Math.floor(Math.random() * 22) + 5]}
-              alt={this.state.images[Math.floor(Math.random() * 10) + 1]}
-            />
+            <Card.Img variant="top" src={this.props.channel.imageURL} />
             <Card.Body>
               <Card.Title>
                 <Link to={`/channels/${this.props.channel.id}`}>

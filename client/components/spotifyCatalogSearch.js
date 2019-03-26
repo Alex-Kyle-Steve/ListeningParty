@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
-import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
+import {Button, Row, Col, Form, Container} from 'react-bootstrap'
 import {SpotifyCatalogScrollTable} from './SpotifyCatalogScrollTable'
 class SpotifyCatalogSearch extends Component {
   constructor() {
@@ -75,15 +75,12 @@ class SpotifyCatalogSearch extends Component {
     )
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {}
-}
+
 const mapStateToProps = state => {
   return {
     user: state.user
   }
 }
-export const ConnectedSpotifyCatalogSearch = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SpotifyCatalogSearch)
+export const ConnectedSpotifyCatalogSearch = connect(mapStateToProps, null)(
+  SpotifyCatalogSearch
+)

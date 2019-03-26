@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Container, ListGroup, Button, Modal} from 'react-bootstrap'
+import {ListGroup, Button, Modal} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import {addFavoriteChannel, me} from '../store/user'
 

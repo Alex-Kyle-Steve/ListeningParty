@@ -10,7 +10,7 @@ import {
   CardDeck,
   Button
 } from 'react-bootstrap'
-import {ScrollTable} from './ScrollTable'
+import {PlaylistTable} from './PlaylistTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {fetchSelectedChannel, startListening, stopListening} from '../store'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
@@ -90,15 +90,12 @@ export class SelectedChannel extends Component {
 
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
-                    {selectedChannel.description ? (
-                      this.props.selectedChannel.historicalPlayLists !==
+                    {selectedChannel.description &&
+                    selectedChannel.historicalPlayLists !==
                       historicalPlayList ? (
-                        <ScrollTable playList={historicalPlayList} />
-                      ) : (
-                        <ScrollTable playList={historicalPlayList} />
-                      )
+                      <PlaylistTable playList={historicalPlayList} />
                     ) : (
-                      ''
+                      <PlaylistTable playList={historicalPlayList} />
                     )}
                   </Tab>
                   <Tab eventKey="search" title="Search">
