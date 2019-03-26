@@ -4,7 +4,10 @@ const db = require('../db')
 const Channel = db.define('channel', {
   name: Sequelize.STRING,
   description: Sequelize.TEXT,
-  imageURL: Sequelize.STRING
+  imageURL: {
+    type: Sequelize.STRING,
+    defaultValue: 'https://picsum.photos/300/300/?random'
+  }
 })
 
 module.exports = Channel
