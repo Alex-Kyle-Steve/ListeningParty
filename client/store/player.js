@@ -57,9 +57,7 @@ export const playTrack = uri => (dispatch, getState) => {
 export const togglePause = isPaused => (dispatch, getState) => {
   const player = getState().player
   return isPaused
-    ? player.pause().then(() => {
-        console.log('pausing track')
-      })
+    ? player.pause().then(() => console.log('pausing track'))
     : player.resume().then(() => {
         console.log('resuming track')
       })
@@ -67,9 +65,9 @@ export const togglePause = isPaused => (dispatch, getState) => {
 
 export const seekTrack = newPosition => (dispatch, getState) => {
   const player = getState().player
-  return player.seek(newPosition).then(() => {
-    console.log(`changed to position ${newPosition}`)
-  })
+  return player
+    .seek(newPosition)
+    .then(() => console.log(`changed to position ${newPosition}`))
 }
 
 export default function(state = null, action) {
