@@ -27,7 +27,7 @@ import {addFavoriteChannel} from '../store/user'
 import {TrackScrollTable} from './TrackScrollTable'
 
 export class SelectedChannel extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
     // join room when first render
     socket.emit('join-room', channelId)
@@ -35,7 +35,7 @@ export class SelectedChannel extends Component {
     this.props.fetchPlaylist(channelId)
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     // get previous and current channel ID
     const prevCh = prevProps.match.params.channelId
     const currCh = this.props.match.params.channelId
@@ -73,6 +73,7 @@ export class SelectedChannel extends Component {
             </Col>
             {/* Music info/Player */}
             <Col xs={6}>
+              {/* //////////////////////////////////////////////////////////////////////// */}
               <Player
                 selectedChannel={selectedChannel}
                 user={this.props.user}
@@ -80,9 +81,6 @@ export class SelectedChannel extends Component {
                 startListening={this.props.startListening}
                 stopListening={this.props.stopListening}
               />
-
-              {/* //////////////////////////////////////////////////////////////////////// */}
-
               <Row>
                 <Card border="light" />
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
@@ -94,40 +92,50 @@ export class SelectedChannel extends Component {
                   </Tab>
                 </Tabs>
               </Row>
+              {/* //////////////////////////////////////////////////////////////////////// */}
             </Col>
-            {/* Chat/Channel Information tabs. */}
-
-            {/* ////////////////////////////////////////////////////////////////////////// */}
-
-            <Col xs={3}>
-              <Tabs
-                defaultActiveKey="description"
-                id="uncontrolled-tab-example"
-              >
-                <Tab eventKey="description" title="Channel">
-                  <CardDeck>
-                    <Card border="light">
-                      <Card.Body>
-                        <Card.Title className="link-styling">
-                          <h3>
-                            Current Channel:
-                            <br />
-                            {selectedChannel.name}{' '}
-                          </h3>
-                        </Card.Title>
-                        <Card.Text>{selectedChannel.description}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </CardDeck>
-                </Tab>
-                <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
-                  <ConnectedMessages channel={selectedChannel.name} />
-                </Tab>
-              </Tabs>
-              <Row>
-                <Col xs={12} />
-              </Row>
-            </Col>
+            {this.props.selectedChannel.id && (
+              <Col xs={3}>
+                <Tabs
+                  defaultActiveKey="description"
+                  id="uncontrolled-tab-example"
+                >
+                  <Tab eventKey="description" title="Channel">
+                    <CardDeck>
+                      <Card border="light">
+                        <Card.Body>
+                          <Card.Title className="link-styling">
+                            <h3>
+                              Current Channel:
+                              <br />
+                              {selectedChannel.name}{' '}
+                            </h3>
+                          </Card.Title>
+                          <Card.Text>{selectedChannel.description}</Card.Text>
+                          <Button
+                            size="sm"
+                            variant="link"
+                            onClick={this.handleClick}
+                          >
+                            Add To Favorites
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    </CardDeck>
+                  </Tab>
+                  <Tab
+                    eventKey="chat"
+                    title="Chat"
+                    style={{maxHeight: '1000px'}}
+                  >
+                    <ConnectedMessages channel={selectedChannel.name} />
+                  </Tab>
+                </Tabs>
+                <Row>
+                  <Col xs={12} />
+                </Row>
+              </Col>
+            )}
           </Row>
         </Container>
       </div>
@@ -138,7 +146,6 @@ export class SelectedChannel extends Component {
 const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
-    messages: state.message.messages,
     user: state.user,
     // playerState
     isListening: state.playerState.isListening,

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {getMessages} from '.'
 
 /**
  * ACTION TYPES
@@ -57,6 +58,7 @@ export const fetchSelectedChannel = channelId => async dispatch => {
   try {
     res = await axios.get(`/api/channels/${channelId}`)
     dispatch(getSelectedChannel(res.data))
+    dispatch(getMessages(res.data.messages))
   } catch (err) {
     console.error(err)
   }

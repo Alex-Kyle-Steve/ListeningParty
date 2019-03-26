@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Channel, Song} = require('../db/models')
+const {User, Channel, Song, Message} = require('../db/models')
 const Op = require('sequelize').Op
 module.exports = router
 
@@ -23,10 +23,24 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.param('channelId', async (req, res, next) => {
+  try {
+    const channel = await Channel.findById(req.params.channelId, {
+      include: [
+        {model: User, as: 'owner'},
+        {model: Message, include: [{model: User}]}
+      ]
+    })
+    req.selectedChannel = channel
+    next()
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.put('/:channelId', async (req, res, next) => {
   try {
-    const editedChannel = await Channel.findById(req.params.channelId)
-    const updatedChannel = await editedChannel.update(req.body)
+    const updatedChannel = await req.selectedChannel.update(req.body)
     res.json(updatedChannel)
   } catch (err) {
     next(err)
@@ -34,22 +48,23 @@ router.put('/:channelId', async (req, res, next) => {
 })
 router.delete('/:channelId', async (req, res, next) => {
   try {
-    const toDelete = await Channel.findById(req.params.channelId)
-    await toDelete.destroy()
+    await req.selectedChannel.destroy()
     res.status(200).send('Successfully deleted Channel')
   } catch (err) {
     next(err)
   }
 })
-router.get('/:channelId', async (req, res, next) => {
+
+router.get('/:channelId', (req, res, next) => {
   try {
-    const selectedChannel = await Channel.findById(req.params.channelId, {
-      include: [{model: User, as: 'owner'}]
-    })
-    res.json(selectedChannel)
+    res.json(req.selectedChannel)
   } catch (err) {
     next(err)
   }
+})
+
+router.get('/:channelId/messages', (req, res, next) => {
+  res.json(req.selectedChannel.messages)
 })
 
 // reducer passed into the below get request

@@ -8,10 +8,11 @@ const socket = io(window.location.origin)
 
 socket.on('connect', () => {
   console.log('Socket Connected!')
+})
 
-  socket.on('new-message', message => {
+socket.on('new-message', message => {
+  if (store.getState().channel.selectedChannel.id === message.channelId)
     store.dispatch(getMessage(message))
-  })
 })
 
 socket.on('received-state-change', playerState => {

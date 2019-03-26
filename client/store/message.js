@@ -5,8 +5,7 @@ import socket from '../socket'
  * INITIAL STATE
  */
 const initialState = {
-  messages: [],
-  newMessageEntry: ''
+  messages: []
 }
 
 /**
@@ -14,7 +13,6 @@ const initialState = {
  */
 const GET_MESSAGE = 'GET_MESSAGE'
 const GET_MESSAGES = 'GET_MESSAGES'
-const WRITE_MESSAGE = 'WRITE_MESSAGE'
 
 /**
  * ACTION CREATORS
@@ -27,28 +25,23 @@ export const getMessages = messages => {
   return {type: GET_MESSAGES, messages}
 }
 
-export const writeMessage = content => {
-  return {type: WRITE_MESSAGE, content}
-}
-
 /**
  * THUNK CREATORS
  */
-export const fetchMessages = () => {
+export const fetchMessages = channelId => {
   return async dispatch => {
-    const response = await axios.get('/api/messages')
+    const response = await axios.get(`/api/channels/${channelId}/messages`)
     const messages = response.data
-    const action = getMessages(messages)
-    dispatch(action)
+    dispatch(getMessages(messages))
   }
 }
 
-export const postMessage = message => {
+export const postMessage = (message, user) => {
   return async dispatch => {
     const response = await axios.post('/api/messages', message)
     const newMessage = response.data
-    const action = getMessage(newMessage)
-    dispatch(action)
+    newMessage.user = user
+    dispatch(getMessage(newMessage))
     socket.emit('new-message', newMessage)
   }
 }
@@ -67,11 +60,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         messages: [...state.messages, action.message]
-      }
-    case WRITE_MESSAGE:
-      return {
-        ...state,
-        newMessageEntry: action.content
       }
     default:
       return state
