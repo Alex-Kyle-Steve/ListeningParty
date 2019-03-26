@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
-import {Button, Row, Col, Table, Image, Form, Container} from 'react-bootstrap'
+import {Button, Row, Col, Form, Container} from 'react-bootstrap'
 import {SpotifyCatalogScrollTable} from './SpotifyCatalogScrollTable'
+import {addNewTrack} from '../store'
 class SpotifyCatalogSearch extends Component {
   constructor() {
     super()
@@ -63,7 +64,10 @@ class SpotifyCatalogSearch extends Component {
             {this.state.res.tracks ? (
               <div>
                 <h5>Search Results</h5>
-                <SpotifyCatalogScrollTable tracks={this.state.res.tracks} />
+                <SpotifyCatalogScrollTable
+                  tracks={this.state.res.tracks}
+                  addTrack={this.props.addTrack}
+                />
               </div>
             ) : (
               ''
@@ -80,7 +84,9 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+    addTrack: trackData => dispatch(addNewTrack(trackData))
+  }
 }
 export const ConnectedSpotifyCatalogSearch = connect(
   mapStateToProps,
