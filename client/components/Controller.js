@@ -46,7 +46,7 @@ export class Controller extends Component {
               <i
                 onClick={() => {
                   this.setState({togglePlay: true})
-                  this.props.togglePause(false)
+                  this.props.togglePlay(false)
                 }}
                 className="fa fa-pause-circle"
               >
@@ -56,7 +56,7 @@ export class Controller extends Component {
               <i
                 onClick={() => {
                   this.setState({togglePlay: false})
-                  this.props.togglePause(true)
+                  this.props.togglePlay(true)
                 }}
                 className="fa fa-pause-circle"
               >
@@ -82,8 +82,6 @@ export class Controller extends Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => {}
-
 const mapStateToProps = state => {
   return {
     currentTrack: state.currentTrack,
@@ -94,8 +92,10 @@ const mapStateToProps = state => {
 
 const mapDisPatchToProps = dispatch => {
   return {
-    togglePlay: shouldPause => dispatch(togglePause(false))
+    togglePlay: shouldPause => dispatch(togglePause(shouldPause))
   }
 }
 
-export const ConnectedController = connect(mapStateToProps, null)(Controller)
+export const ConnectedController = connect(mapStateToProps, mapDisPatchToProps)(
+  Controller
+)
