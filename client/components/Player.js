@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Card, Row, Col, Button} from 'react-bootstrap'
-import {Controller} from '.'
+import {ConnectedController} from '.'
+
 export class Player extends Component {
   constructor() {
     super()
@@ -55,7 +56,10 @@ export class Player extends Component {
                     </Button>
                   </Row>
                 ) : selectedChannel.ownerId === user.id ? (
-                  <Controller togglePlay={() => this.togglePlay} />
+                  <ConnectedController
+                    user={user}
+                    // togglePlay={() => this.togglePlay}
+                  />
                 ) : (
                   <Row>
                     <Button variant="link" onClick={this.props.stopListening}>
