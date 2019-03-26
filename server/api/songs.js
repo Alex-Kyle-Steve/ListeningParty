@@ -18,3 +18,10 @@ router.get('/:songId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/', ({body: {title, artist, album, uri}}, res, next) =>
+  Song.findOrCreate({
+    where: {uri},
+    defaults: {title, artist, album, uri}
+  }).then(created => res.send(created[0]))
+)

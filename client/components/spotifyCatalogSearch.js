@@ -8,8 +8,7 @@ class SpotifyCatalogSearch extends Component {
     super()
     this.state = {
       query: '',
-      res: {},
-      show: false
+      res: {}
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)

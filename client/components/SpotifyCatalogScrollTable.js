@@ -9,7 +9,7 @@ export class SpotifyCatalogScrollTable extends Component {
       songObj = {
         album: currentValue.album.name,
         artist: currentValue.album.artists[0].name,
-        song: currentValue.name,
+        title: currentValue.name,
         uri: currentValue.uri
       }
       accumulator.push(songObj)
@@ -19,10 +19,14 @@ export class SpotifyCatalogScrollTable extends Component {
   }
 
   //Adds an "Add" Button to the table
-  showButton(_, data) {
-    const uri = data.uri
-    return <Button variant="primary">Add</Button>
+  showButton(_, song) {
+    return (
+      <Button variant="primary" onClick={() => {}}>
+        Add
+      </Button>
+    )
   }
+
   render() {
     return (
       <div>
@@ -35,8 +39,8 @@ export class SpotifyCatalogScrollTable extends Component {
             hover
           >
             <TableHeaderColumn dataField="artist">Artist</TableHeaderColumn>
-            <TableHeaderColumn dataField="song" isKey>
-              Song
+            <TableHeaderColumn dataField="title" isKey>
+              Title
             </TableHeaderColumn>
             <TableHeaderColumn dataField="album">Album</TableHeaderColumn>
             <TableHeaderColumn dataFormat={this.showButton}>
