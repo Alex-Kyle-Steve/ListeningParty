@@ -9,11 +9,6 @@ export class Controller extends Component {
       togglePlay: false,
       sliderValue: 0
     }
-    this.togglePlay = this.togglePlay.bind(this)
-    this.togglePause = this.togglePause.bind(this)
-    this.toggleSkip = this.toggleSkip.bind(this)
-    this.togglePrev = this.togglePrev.bind(this)
-    this.seekTrack = this.seekTrack.bind(this)
   }
 
   // async toggleSkip() {
