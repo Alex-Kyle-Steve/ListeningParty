@@ -34,6 +34,7 @@ export class Controller extends Component {
   //currentPosition and songLength are values in Milliseconds
 
   render() {
+    console.log(this.props)
     return (
       <Col xs={{span: 12}}>
         <br />
