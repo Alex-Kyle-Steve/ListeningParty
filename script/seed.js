@@ -36,37 +36,43 @@ async function seed() {
       name: 'Chicago Blues',
       description: 'Lots of text describing the Chicago Blues Channel',
       ownerId: 3,
-      imageURL: 'https://picsum.photos/300/300?image=21'
+      imageURL:
+        'http://www.experiencehendrixtour.com/images/venue_il_chicago.jpg'
     },
     {
       name: 'Smooth Jazz',
       description: 'Lots of text describing the Smooth Jazz Channel',
       ownerId: 2,
-      imageURL: 'https://picsum.photos/300/300?image=20'
+      imageURL:
+        'https://lastfm-img2.akamaized.net/i/u/300x300/fe6b4fb54ed64405a80d430ac1259177.jpg'
     },
     {
       name: 'Hip Hop',
       description: 'Lots of text describing the Hip Hop Channel',
       ownerId: 4,
-      imageURL: 'https://picsum.photos/300/300?image=3'
+      imageURL:
+        'https://images.sk-static.com/images/media/profile_images/artists/552177/huge_avatar'
     },
     {
       name: 'Modern Pop',
       description: 'Lots of text describing the Modern Pop Channel',
       ownerId: 1,
-      imageURL: 'https://picsum.photos/300/300?image=1'
+      imageURL:
+        'https://a2-images.myspacecdn.com/images03/17/213d558a3adb4d1a9827f09d75ad4b19/300x300.jpg'
     },
     {
       name: 'Oldies',
       description: 'Lots of text describing the Oldies Channel',
       ownerId: 3,
-      imageURL: 'https://picsum.photos/300/300?image=9'
+      imageURL:
+        'https://s3.amazonaws.com/gigsalad_media/s/surfinsafariband/5acfddf504039_300_sq'
     },
     {
       name: 'Rap',
       description: 'Lots of text describing the Rap Channel',
       ownerId: 4,
-      imageURL: 'https://picsum.photos/300/300?blur?image=2'
+      imageURL:
+        'https://i2.wp.com/thewestcoastlist.com/wp-content/uploads/2017/04/21-savage-tickets_05-02-17_58a5d8cc5fff4.jpg?resize=300%2C300'
     }
   ]
   await Channel.bulkCreate(channelArray)

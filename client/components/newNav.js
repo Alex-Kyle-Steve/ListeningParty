@@ -18,9 +18,9 @@ import {
 
 const NewNavbar = ({handleClick, isLoggedIn}) => (
   <Navbar>
-    <Navbar.Brand href="/home">
+    <Link to="/home" className="link-styling">
       <h1>Listening 🎉 Party</h1>
-    </Navbar.Brand>
+    </Link>
 
     {isLoggedIn ? (
       <Nav className="mr-auto">
