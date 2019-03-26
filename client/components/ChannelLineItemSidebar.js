@@ -50,22 +50,34 @@ class ChannelLineItemSidebar extends Component {
         >
           Quick Info
         </Button>
-        <button type="button" className="list-btn" onClick={this.handleClick}>
+        <Button
+          variant="link"
+          className="favorite-channel-sidebar-button"
+          onClick={this.handleClick}
+        >
           +
-        </button>
+        </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.channel.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>{this.props.channel.description}</Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={this.handleClose}>
+            <Button
+              variant="link"
+              className="link-styling"
+              onClick={this.handleClose}
+            >
               Close
             </Button>
 
             <Link to={`/channels/${this.props.channel.id}`}>
               {' '}
-              <Button variant="success" onClick={this.handleClose}>
+              <Button
+                variant="link"
+                className="link-styling"
+                onClick={this.handleClose}
+              >
                 Join Channel
               </Button>{' '}
             </Link>

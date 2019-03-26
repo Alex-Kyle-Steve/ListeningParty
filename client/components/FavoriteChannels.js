@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Row, Col, ListGroup} from 'react-bootstrap'
+import {Container, ListGroup, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import {fetchFavoriteChannels, removeFavoriteChannel, me} from '../store/user'
 
@@ -33,13 +33,13 @@ export class FavoriteChannels extends Component {
                 <Link to={`/channels/${channel.id}`} className="link-styling">
                   {channel.name}{' '}
                 </Link>
-                <button
-                  type="button"
-                  className="list-btn-fav"
+                <Button
+                  variant="link"
+                  className="favorite-channel-sidebar-button2"
                   onClick={this.handleClick}
                 >
                   X
-                </button>
+                </Button>
               </ListGroup.Item>
             ))
           ) : (

@@ -6,7 +6,9 @@ import {
   Button,
   Modal,
   Card,
-  CardDeck
+  CardDeck,
+  Col,
+  Row
 } from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import {addFavoriteChannel, me} from '../store/user'
@@ -74,7 +76,7 @@ class ChanneLineItem extends Component {
     return (
       <Container>
         <CardDeck>
-          <Card>
+          <Card border="light">
             <Card.Img
               variant="top"
               src={this.state.images[Math.floor(Math.random() * 22) + 5]}
@@ -82,19 +84,11 @@ class ChanneLineItem extends Component {
             />
             <Card.Body>
               <Card.Title>
-                {' '}
                 <Link to={`/channels/${this.props.channel.id}`}>
                   <Card.Title className="link-styling">
                     {this.props.channel.name}{' '}
                   </Card.Title>
                 </Link>
-                <button
-                  type="button"
-                  className="list-btn"
-                  onClick={this.handleClick}
-                >
-                  +
-                </button>
               </Card.Title>
               <Card.Text>
                 <Button
@@ -105,8 +99,8 @@ class ChanneLineItem extends Component {
                 >
                   Quick Info
                 </Button>
+
                 <Link to={`channels/${this.props.channel.id}`}>
-                  {' '}
                   <Button
                     variant="link"
                     className="link-styling"
@@ -120,27 +114,31 @@ class ChanneLineItem extends Component {
             </Card.Body>
           </Card>
         </CardDeck>
-        {/* <ListGroup.Item key={this.props.channel.id} style={{border: 'none'}}> */}
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.channel.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>{this.props.channel.description}</Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={this.handleClose}>
+            <Button
+              variant="link"
+              className="link-styling"
+              onClick={this.handleClose}
+            >
               Close
             </Button>
 
             <Link to={`channels/${this.props.channel.id}`}>
-              {' '}
-              <Button variant="success" onClick={this.handleClose}>
+              <Button
+                variant="link"
+                className="link-styling"
+                onClick={this.handleClose}
+              >
                 Join Channel
-              </Button>{' '}
+              </Button>
             </Link>
           </Modal.Footer>
         </Modal>
-        {/* </ListGroup.Item> */}
-        {/* </Card> */}
       </Container>
     )
   }
