@@ -56,6 +56,15 @@ class NewChannel extends Component {
                   placeholder="Enter Description"
                 />
               </Form.Group>
+              <Form.Group as={Row} controlId="formBasicTitle">
+                <Form.Label>Image URL</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="imageURL"
+                  onChange={this.handleChange}
+                  placeholder="Enter Image URL"
+                />
+              </Form.Group>
               <Button variant="primary" type="submit">
                 Submit
               </Button>
