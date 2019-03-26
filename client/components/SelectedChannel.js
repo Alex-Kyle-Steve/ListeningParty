@@ -116,13 +116,6 @@ export class SelectedChannel extends Component {
                           </h3>
                         </Card.Title>
                         <Card.Text>{selectedChannel.description}</Card.Text>
-                        <Button
-                          size="sm"
-                          variant="link"
-                          onClick={this.handleClick}
-                        >
-                          Add To Favorites
-                        </Button>
                       </Card.Body>
                     </Card>
                   </CardDeck>
