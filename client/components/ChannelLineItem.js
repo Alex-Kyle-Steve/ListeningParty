@@ -36,7 +36,9 @@ class ChanneLineItem extends Component {
       <Container>
         <CardDeck>
           <Card border="light">
-            <Card.Img variant="top" src={this.props.channel.imageURL} />
+            <Link to={`/channels/${this.props.channel.id}`}>
+              <Card.Img variant="top" src={this.props.channel.imageURL} />
+            </Link>
             <Card.Body>
               <Card.Title>
                 <Link to={`/channels/${this.props.channel.id}`}>
