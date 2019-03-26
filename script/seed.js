@@ -35,37 +35,38 @@ async function seed() {
     {
       name: 'Chicago Blues',
       description: 'Lots of text describing the Chicago Blues Channel',
-      ownerId: 3
+      ownerId: 3,
+      imageURL: 'https://picsum.photos/300/300?image=21'
     },
     {
       name: 'Smooth Jazz',
       description: 'Lots of text describing the Smooth Jazz Channel',
-      ownerId: 2
-    },
-    {
-      name: 'Contemporary Urban',
-      description: 'Lots of text describing the Contemporary Urban Channel',
-      ownerId: 3
+      ownerId: 2,
+      imageURL: 'https://picsum.photos/300/300?image=20'
     },
     {
       name: 'Hip Hop',
       description: 'Lots of text describing the Hip Hop Channel',
-      ownerId: 4
+      ownerId: 4,
+      imageURL: 'https://picsum.photos/300/300?image=3'
     },
     {
       name: 'Modern Pop',
       description: 'Lots of text describing the Modern Pop Channel',
-      ownerId: 1
+      ownerId: 1,
+      imageURL: 'https://picsum.photos/300/300?image=1'
     },
     {
       name: 'Oldies',
       description: 'Lots of text describing the Oldies Channel',
-      ownerId: 3
+      ownerId: 3,
+      imageURL: 'https://picsum.photos/300/300?image=9'
     },
     {
       name: 'Rap',
       description: 'Lots of text describing the Rap Channel',
-      ownerId: 4
+      ownerId: 4,
+      imageURL: 'https://picsum.photos/300/300?blur?image=2'
     }
   ]
   await Channel.bulkCreate(channelArray)

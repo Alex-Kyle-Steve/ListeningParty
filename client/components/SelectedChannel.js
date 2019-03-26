@@ -10,7 +10,6 @@ import {
   CardDeck,
   Button
 } from 'react-bootstrap'
-import {Playlist} from './Playlist'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {
   fetchSelectedChannel,

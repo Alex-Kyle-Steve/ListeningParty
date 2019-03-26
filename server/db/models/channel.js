@@ -8,6 +8,10 @@ const Channel = db.define('channel', {
   playlist: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
     defaultValue: []
+  },
+  imageURL: {
+    type: Sequelize.STRING,
+    defaultValue: 'https://picsum.photos/300/300/?blur'
   }
 })
 

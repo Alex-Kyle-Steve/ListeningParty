@@ -1,14 +1,5 @@
 import React, {Component} from 'react'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Tabs,
-  Tab,
-  CardDeck,
-  Button
-} from 'react-bootstrap'
+import {Card, Row, Col, Button} from 'react-bootstrap'
 import {Controller} from '.'
 export class Player extends Component {
   constructor() {
