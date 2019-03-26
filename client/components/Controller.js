@@ -16,51 +16,25 @@ export class Controller extends Component {
     this.seekTrack = this.seekTrack.bind(this)
   }
 
-  togglePlay() {
-    this.setState({
-      togglePlay: !this.state.togglePlay
-    })
-    playTrack()
-  }
+  // async toggleSkip() {
+  //   await axios({
+  //     method: 'post',
+  //     url: `https://api.spotify.com/v1/me/player/next`,
+  //     headers: {
+  //       Authorization: `Bearer ${this.props.user.accessToken}`
+  //     }
+  //   })
+  // }
 
-  togglePause() {
-    this.setState({
-      togglePlay: !this.state.togglePlay
-    })
-    togglePause()
-  }
-
-  async toggleSkip() {
-    await axios({
-      method: 'post',
-      url: `https://api.spotify.com/v1/me/player/next`,
-      headers: {
-        Authorization: `Bearer ${this.props.user.accessToken}`
-      }
-    })
-  }
-
-  async togglePrev() {
-    await axios({
-      method: 'post',
-      url: `https://api.spotify.com/v1/me/player/previous`,
-      headers: {
-        Authorization: `Bearer ${this.props.user.accessToken}`
-      }
-    })
-  }
-
-  async seekTrack() {
-    seekTrack()
-    // await axios({
-    //   method: 'put',
-    //   url: 'https://api.spotify.com/v1/me/player/seek?position_ms=6000',
-    //   headers: {
-    //     Authorization: `Bearer ${this.props.user.accessToken}`
-    //   }
-    //   // TODO: show position in MS
-    // })
-  }
+  // async togglePrev() {
+  //   await axios({
+  //     method: 'post',
+  //     url: `https://api.spotify.com/v1/me/player/previous`,
+  //     headers: {
+  //       Authorization: `Bearer ${this.props.user.accessToken}`
+  //     }
+  //   })
+  // }
 
   //currentPosition and songLength are values in Milliseconds
 
@@ -74,15 +48,27 @@ export class Controller extends Component {
               <img src="/back.png" />
             </i>
             {this.state.togglePlay === false ? (
-              <i onClick={this.togglePlay} className="fa fa-pause-circle">
+              <i
+                onClick={() => {
+                  this.setState({togglePlay: true})
+                  this.props.togglePause(false)
+                }}
+                className="fa fa-pause-circle"
+              >
                 <img src="/play.png" />
               </i>
             ) : (
-              <i onClick={this.togglePause} className="fa fa-pause-circle">
+              <i
+                onClick={() => {
+                  this.setState({togglePlay: false})
+                  this.props.togglePause(true)
+                }}
+                className="fa fa-pause-circle"
+              >
                 <img src="/pause.png" />
               </i>
             )}
-            <i onClick={this.toggleSkip} className="fa fa-step-forward">
+            <i onClick={this.tthioggleSkip} className="fa fa-step-forward">
               <img src="/forward.png" />
             </i>
           </div>
@@ -90,7 +76,7 @@ export class Controller extends Component {
             type="range"
             min="1"
             max="100"
-            onMouseUp={this.seekTrack}
+            onMouseUp={seekTrack}
             defaultValue={0}
             className="slider"
             id="myRange"
@@ -113,7 +99,7 @@ const mapStateToProps = state => {
 
 const mapDisPatchToProps = dispatch => {
   return {
-    togglePlay: dispatch(playTrack(this.props.currentTrack))
+    togglePlay: shouldPause => dispatch(togglePause(false))
   }
 }
 
