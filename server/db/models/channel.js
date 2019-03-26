@@ -6,7 +6,7 @@ const Channel = db.define('channel', {
   description: Sequelize.TEXT,
   imageURL: {
     type: Sequelize.STRING,
-    defaultValue: 'https://picsum.photos/300/300/?random'
+    defaultValue: 'https://picsum.photos/300/300/?blur'
   }
 })
 
