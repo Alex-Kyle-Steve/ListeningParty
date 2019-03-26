@@ -84,3 +84,12 @@ router.get('/:channelId/playlist', (req, res, next) =>
         .then(orderedTrack => res.json(orderedTrack))
   )
 )
+
+// update playlist
+// might need to parse req.body
+router.put('/:channelId/playlist', (req, res, next) =>
+  Channel.findById(req.params.channelId)
+    .then(channel => channel.update({playlist: req.body.playlist}))
+    .then(() => res.send(200))
+    .catch(next)
+)
