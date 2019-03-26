@@ -1,29 +1,32 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {postMessage, writeMessage} from '../store'
+import {postMessage} from '../store'
 
 class NewMessageEntry extends Component {
   constructor() {
     super()
+    this.state = {newMessageEntry: ''}
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(evt) {
-    this.props.writeMessage(evt.target.value)
+    this.writeMessage(evt.target.value)
   }
-
+  writeMessage(inString) {
+    this.setState({newMessageEntry: inString})
+  }
   async handleSubmit(evt) {
     evt.preventDefault()
     await this.props.postMessage(
       {
         userId: this.props.user.id,
-        content: this.props.newMessageEntry,
+        content: this.state.newMessageEntry,
         channelId: this.props.selectedChannel.id
       },
       this.props.user
     )
-    this.props.writeMessage('')
+    this.writeMessage('')
   }
 
   render() {
@@ -34,7 +37,7 @@ class NewMessageEntry extends Component {
             className="form-control"
             type="text"
             name="content"
-            value={this.props.newMessageEntry}
+            value={this.state.newMessageEntry}
             onChange={this.handleChange}
             placeholder="Enter message here"
           />
@@ -52,15 +55,13 @@ class NewMessageEntry extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    newMessageEntry: state.message.newMessageEntry,
     selectedChannel: state.channel.selectedChannel
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    postMessage: (message, user) => dispatch(postMessage(message, user)),
-    writeMessage: string => dispatch(writeMessage(string))
+    postMessage: (message, user) => dispatch(postMessage(message, user))
   }
 }
 

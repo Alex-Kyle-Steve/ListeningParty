@@ -11,7 +11,8 @@ socket.on('connect', () => {
 })
 
 socket.on('new-message', message => {
-  store.dispatch(getMessage(message))
+  if (store.getState().channel.selectedChannel.id === message.channelId)
+    store.dispatch(getMessage(message))
 })
 
 socket.on('received-state-change', playerState => {

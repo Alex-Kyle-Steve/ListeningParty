@@ -5,8 +5,7 @@ import socket from '../socket'
  * INITIAL STATE
  */
 const initialState = {
-  messages: [],
-  newMessageEntry: ''
+  messages: []
 }
 
 /**
@@ -14,7 +13,6 @@ const initialState = {
  */
 const GET_MESSAGE = 'GET_MESSAGE'
 const GET_MESSAGES = 'GET_MESSAGES'
-const WRITE_MESSAGE = 'WRITE_MESSAGE'
 
 /**
  * ACTION CREATORS
@@ -25,10 +23,6 @@ export const getMessage = message => {
 
 export const getMessages = messages => {
   return {type: GET_MESSAGES, messages}
-}
-
-export const writeMessage = content => {
-  return {type: WRITE_MESSAGE, content}
 }
 
 /**
@@ -66,11 +60,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         messages: [...state.messages, action.message]
-      }
-    case WRITE_MESSAGE:
-      return {
-        ...state,
-        newMessageEntry: action.content
       }
     default:
       return state
