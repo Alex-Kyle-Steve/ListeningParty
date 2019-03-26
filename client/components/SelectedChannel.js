@@ -20,13 +20,23 @@ import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
 import {addFavoriteChannel, me} from '../store/user'
+import {cpus} from 'os'
 
 export class SelectedChannel extends Component {
+  constructor(props, context) {
+    super(props, context)
+    this.handleClick = this.handleClick.bind(this)
+  }
   componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId)
     // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
+  }
+
+  async handleClick() {
+    const channelId = parseInt(this.props.match.params.channelId)
+    await this.props.addFavoriteChannel(this.props.user.id, channelId)
   }
 
   formatData() {
@@ -122,13 +132,6 @@ export class SelectedChannel extends Component {
                           </h3>
                         </Card.Title>
                         <Card.Text>{selectedChannel.description}</Card.Text>
-                        <Button
-                          size="sm"
-                          variant="link"
-                          onClick={this.handleClick}
-                        >
-                          Add To Favorites
-                        </Button>
                       </Card.Body>
                     </Card>
                   </CardDeck>

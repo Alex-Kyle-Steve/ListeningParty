@@ -24,6 +24,7 @@ class ChannelLineItemSidebar extends Component {
       show: true
     })
   }
+
   async handleClick(event) {
     const href = event.target.parentNode.firstChild.href
     const channelId = parseInt(href.slice(href.lastIndexOf('/') + 1))
