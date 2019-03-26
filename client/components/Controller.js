@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
+import {playTrack, togglePause, seekTrack} from '../store/player'
 export class Controller extends Component {
   constructor() {
     super()
@@ -15,38 +16,18 @@ export class Controller extends Component {
     this.seekTrack = this.seekTrack.bind(this)
   }
 
-  async togglePlay() {
+  togglePlay() {
     this.setState({
       togglePlay: !this.state.togglePlay
     })
-    await axios({
-      method: 'put',
-      url: `https://api.spotify.com/v1/me/player/play?device_id=${
-        this.props.player._options.id
-      }`,
-      headers: {
-        Authorization: `Bearer ${this.props.user.accessToken}`
-      },
-      data: {
-        uris: [
-          'spotify:track:4iV5W9uYEdYUVa79Axb7Rh',
-          'spotify:track:1301WleyT98MSxVHPZCA6M'
-        ]
-      }
-    })
+    playTrack()
   }
 
-  async togglePause() {
+  togglePause() {
     this.setState({
       togglePlay: !this.state.togglePlay
     })
-    await axios({
-      method: 'put',
-      url: `https://api.spotify.com/v1/me/player/pause`,
-      headers: {
-        Authorization: `Bearer ${this.props.user.accessToken}`
-      }
-    })
+    togglePause()
   }
 
   async toggleSkip() {
@@ -70,24 +51,17 @@ export class Controller extends Component {
   }
 
   async seekTrack() {
-    await axios({
-      method: 'put',
-      url: 'https://api.spotify.com/v1/me/player/seek',
-      headers: {
-        Authorization: `Bearer ${this.props.user.accessToken}`
-      }
-      // TODO: show position in MS
-      // data:{
-      //   position_ms:
-      // }
-    })
+    seekTrack()
+    // await axios({
+    //   method: 'put',
+    //   url: 'https://api.spotify.com/v1/me/player/seek?position_ms=6000',
+    //   headers: {
+    //     Authorization: `Bearer ${this.props.user.accessToken}`
+    //   }
+    //   // TODO: show position in MS
+    // })
   }
 
-  onInput(currentPosition, songLength) {
-    //TODO:
-    //Create function that increments the sliderValue as a function of the duration of the song.
-    //Have dynamic scrubbing
-  }
   //currentPosition and songLength are values in Milliseconds
 
   render() {
@@ -116,7 +90,7 @@ export class Controller extends Component {
             type="range"
             min="1"
             max="100"
-            onInput={this.seekTrack}
+            onMouseUp={this.seekTrack}
             defaultValue={0}
             className="slider"
             id="myRange"
@@ -134,6 +108,12 @@ const mapStateToProps = state => {
     currentTrack: state.currentTrack,
     playlist: state.playlist,
     player: state.player
+  }
+}
+
+const mapDisPatchToProps = dispatch => {
+  return {
+    togglePlay: dispatch(playTrack(this.props.currentTrack))
   }
 }
 
