@@ -69,15 +69,18 @@ router.get('/:channelId/playlist', (req, res, next) =>
       ({playlist}) =>
         Song.findAll({
           where: {
-            [Op.or]: [...playlist]
+            id: {
+              [Op.or]: [...playlist]
+            }
           },
           attributes: ['title', 'album', 'artist', 'id', 'uri']
-        })
+          // returned the found tracks and the playlist order
+        }).then(unorderedTracks => ({playlist, unorderedTracks}))
     )
     // we need to reorder them before returning
-    .then(playlist =>
+    .then(({playlist, unorderedTracks}) =>
       // create map of track: reduces the playlist array to object of key/value
-      ({playlist, trackMap: playlist.reduce(trackMapReducer, {})})
+      ({playlist, trackMap: unorderedTracks.reduce(trackMapReducer, {})})
     )
     .then(({playlist, trackMap}) =>
       // map through the playlist again to sort the track in order
