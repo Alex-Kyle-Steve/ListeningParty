@@ -1,15 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Tabs,
-  Tab,
-  CardDeck,
-  Button
-} from 'react-bootstrap'
+import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {
   fetchSelectedChannel,
