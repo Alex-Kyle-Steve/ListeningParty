@@ -18,3 +18,19 @@ router.get('/:songId', async (req, res, next) => {
     next(err)
   }
 })
+
+// extract song response from the findOrCreate response
+const getSongRes = ({title, artist, uri, album, id}) => ({
+  title,
+  artist,
+  uri,
+  album,
+  id
+})
+
+router.post('/', ({body: {title, artist, album, uri}}, res, next) =>
+  Song.findOrCreate({
+    where: {uri},
+    defaults: {title, artist, album, uri}
+  }).then(created => res.send(getSongRes(created[0])))
+)

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {Next} from 'react-bootstrap/PageItem'
 import {getMessages} from '.'
 
 /**

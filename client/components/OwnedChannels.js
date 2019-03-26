@@ -1,6 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Card, Container, Col, ListGroup, Button} from 'react-bootstrap'
+import {
+  Card,
+  Container,
+  Col,
+  ListGroup,
+  Button,
+  Dropdown
+} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import {deleteChannel, fetchOwnedChannels, me} from '../store/'
@@ -38,42 +45,35 @@ export class OwnedChannels extends Component {
             ownedChannels.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>
                 <Link to={`/channels/${channel.id}`} className="link-styling">
-                  {channel.name}{' '}
+                  {channel.name}
                 </Link>
-                <button
-                  type="button"
+                <Button
+                  variant="link"
                   onClick={this.editChannel}
-                  className="channel-btn"
+                  className="favorite-channel-sidebar-button"
                 >
                   Edit
-                </button>
-                {'  '}
-                <button
-                  type="button"
+                </Button>
+                <Button
+                  variant="link"
                   onClick={this.deleteChannel}
-                  className="channel-btn"
+                  className="favorite-channel-sidebar-button"
                 >
                   Delete
-                </button>
+                </Button>
               </ListGroup.Item>
             ))
           ) : (
-            <Col xs={12}>
-              <Card border="light">
-                <Card.Text className="center">
-                  No owned channels
-                  <br />
-                  <Link
-                    to="/newchannel"
-                    className="create-channel-sidebar-link "
-                  >
-                    <Button variant="primary" size="sm">
-                      Create Channel
-                    </Button>
-                  </Link>
-                </Card.Text>
-              </Card>
-            </Col>
+            <ListGroup>
+              <ListGroup.Item style={{border: 'none'}}>
+                No owned channels
+              </ListGroup.Item>
+              <Link to="/newchannel" className="create-channel-sidebar-link ">
+                <ListGroup.Item style={{border: 'none'}}>
+                  Want to Create a Channel?
+                </ListGroup.Item>
+              </Link>
+            </ListGroup>
           )}
         </ListGroup>
       </Container>

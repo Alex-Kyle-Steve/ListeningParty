@@ -1,18 +1,22 @@
 import React, {Component} from 'react'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Tabs,
-  Tab,
-  CardDeck,
-  Button
-} from 'react-bootstrap'
+import {Card, Row, Col, Button} from 'react-bootstrap'
 import {Controller} from '.'
 export class Player extends Component {
   constructor() {
     super()
+    this.state = {
+      listening: false
+    }
+
+    this.toggleListening = this.toggleListening.bind(this)
+  }
+
+  toggleListening() {
+    //TODO:
+    //Plug in logic to actually "join" the channel
+    this.setState({
+      listening: !this.state.listening
+    })
   }
 
   render() {
@@ -46,7 +50,7 @@ export class Player extends Component {
                 {selectedChannel.ownerId !== user.id &&
                 isListening === false ? (
                   <Row>
-                    <Button onClick={this.props.startListening}>
+                    <Button variant="link" onClick={this.props.startListening}>
                       Start Listening
                     </Button>
                   </Row>
@@ -54,7 +58,7 @@ export class Player extends Component {
                   <Controller togglePlay={() => this.togglePlay} />
                 ) : (
                   <Row>
-                    <Button onClick={this.props.stopListening}>
+                    <Button variant="link" onClick={this.props.stopListening}>
                       Stop Listening
                     </Button>
                   </Row>

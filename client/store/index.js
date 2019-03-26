@@ -5,7 +5,6 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import channel from './channel'
 import player from './player'
-import song from './song'
 import playerState from './playerState'
 import message from './message'
 const reducer = combineReducers({
@@ -13,7 +12,6 @@ const reducer = combineReducers({
   channel,
   player,
   playerState,
-  song,
   message
 })
 
@@ -27,6 +25,5 @@ export default store
 export * from './user'
 export * from './channel'
 export * from './player'
-export * from './song'
 export * from './message'
 export * from './playerState'

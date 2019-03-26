@@ -29,15 +29,7 @@ UserData.belongsTo(User)
 User.belongsTo(Address)
 Address.hasMany(User)
 
-SongHistory.belongsTo(User)
-SongHistory.belongsTo(Song)
-SongHistory.belongsTo(Channel)
-
-HistoricalPlayList.belongsTo(Song)
-Song.hasMany(HistoricalPlayList)
-HistoricalPlayList.belongsTo(Channel)
-
-Channel.hasMany(HistoricalPlayList)
+Channel.hasMany(Song, {as: 'trackQueue'})
 
 Channel.hasMany(Message, {
   onDelete: 'cascade',
@@ -48,6 +40,10 @@ User.hasMany(Message)
 
 Message.belongsTo(Channel)
 Message.belongsTo(User)
+
+SongHistory.belongsTo(User)
+SongHistory.belongsTo(Song)
+SongHistory.belongsTo(Channel)
 
 module.exports = {
   User,

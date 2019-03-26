@@ -2,7 +2,6 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Song = db.define('song', {
-  spotifyId: Sequelize.STRING,
   title: Sequelize.STRING,
   artist: Sequelize.STRING,
   album: Sequelize.STRING,
@@ -18,7 +17,8 @@ const Song = db.define('song', {
     }
   },
   track: Sequelize.INTEGER,
-  albumArt: Sequelize.BLOB
+  albumArt: Sequelize.BLOB,
+  uri: Sequelize.STRING
 })
 
 module.exports = Song

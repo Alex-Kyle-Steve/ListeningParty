@@ -1,17 +1,7 @@
 import React, {Component} from 'react'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Table,
-  Image,
-  Modal,
-  Popover,
-  Jumbotron
-} from 'react-bootstrap'
-export class ScrollTable extends React.Component {
+
+export class PlaylistTable extends Component {
   //TODO:
   // plug in data from selected Channels to the data property on BootstrapTable
   render() {

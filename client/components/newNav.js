@@ -17,8 +17,6 @@ import {
 } from 'react-bootstrap'
 
 const NewNavbar = ({handleClick, isLoggedIn}) => (
-  // <div className="nav">
-
   <Navbar>
     <Navbar.Brand href="/home">
       <h1>Listening 🎉 Party</h1>
@@ -27,15 +25,17 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
     {isLoggedIn ? (
       <Nav className="mr-auto">
         {/* The navbar will show these links after you log in */}
-        <Link className="link-styling" to="/home">
-          Home
+        <Link to="/home">
+          <Nav.Item className="link-styling">Home</Nav.Item>
         </Link>
-        <Nav.Link href="/login" className="link-styling" onClick={handleClick}>
-          Logout
-        </Nav.Link>
-        <Nav.Link href="/newchannel" className="link-styling">
-          Create Channel
-        </Nav.Link>
+        <Link to="/login">
+          <Nav.Item className="link-styling" onClick={handleClick}>
+            Logout
+          </Nav.Item>
+        </Link>
+        <Link to="/newchannel">
+          <Nav.Item className="link-styling">Create Channel</Nav.Item>
+        </Link>
       </Nav>
     ) : (
       <Nav className="mr-auto">

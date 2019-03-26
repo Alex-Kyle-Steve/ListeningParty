@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Container, Card, Button, Row, Col, Form} from 'react-bootstrap'
+import {Button, Row, Col, Form} from 'react-bootstrap'
 import {fetchSelectedChannel, updateChannel} from '../store'
 import history from '../history'
 
