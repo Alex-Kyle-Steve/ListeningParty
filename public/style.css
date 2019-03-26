@@ -171,4 +171,13 @@ i.fa:hover {
   background: black;
   cursor: pointer;
 }
+
+.player-track-info-text-header {
+  font-size: 150% !important;
+}
+
+.player-track-info-text {
+  font-size: 100% !important;
+}
+
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */

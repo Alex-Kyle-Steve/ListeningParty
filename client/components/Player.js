@@ -35,16 +35,28 @@ export class Player extends Component {
               {/* Current Song Information */}
               <Row>
                 <Col xs={12}>
-                  <Card.Title>Song Information</Card.Title>
+                  <Card.Title className="player-track-info-text-header">
+                    Song Information
+                  </Card.Title>
+                </Col>
+                <hr />
+                <Col xs={12}>
+                  <hr />
+                  <Card.Text className="player-track-info-text">
+                    Title: Road Head
+                  </Card.Text>
                 </Col>
                 <Col xs={12}>
-                  <Card.Text>Road Head</Card.Text>
+                  <hr />
+                  <Card.Text className="player-track-info-text">
+                    Artist: Japanese Breakfast
+                  </Card.Text>
                 </Col>
                 <Col xs={12}>
-                  <Card.Text>Japanese Breakfast</Card.Text>
-                </Col>
-                <Col xs={12}>
-                  <Card.Text>Soft Sounds from Another Planet</Card.Text>
+                  <hr />
+                  <Card.Text className="player-track-info-text">
+                    Album: Soft Sounds from Another Planet
+                  </Card.Text>
                 </Col>
               </Row>
               {/* <Row className="justify-content-md-center"> */}
@@ -55,10 +67,12 @@ export class Player extends Component {
                   </Button>
                 </Row>
               ) : selectedChannel.ownerId === user.id ? (
-                <ConnectedController
-                  user={user}
-                  // togglePlay={() => this.togglePlay}
-                />
+                <Row>
+                  <ConnectedController
+                    user={user}
+                    // togglePlay={() => this.togglePlay}
+                  />
+                </Row>
               ) : (
                 <Row>
                   <Button variant="link" onClick={this.props.stopListening}>
