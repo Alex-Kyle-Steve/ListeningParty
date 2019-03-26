@@ -2,6 +2,10 @@ import React, {Component} from 'react'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import {Button} from 'react-bootstrap'
 export class SpotifyCatalogScrollTable extends Component {
+  constructor(props) {
+    super(props)
+    this.showButton = this.showButton.bind(this)
+  }
   formatData() {
     let songObj = {}
     return this.props.tracks.items.reduce((accumulator, currentValue) => {
@@ -20,8 +24,15 @@ export class SpotifyCatalogScrollTable extends Component {
 
   //Adds an "Add" Button to the table
   showButton(_, song) {
+    const addTrack = this.props.addTrack
     return (
-      <Button variant="primary" onClick={() => {}}>
+      <Button
+        variant="primary"
+        onClick={() => {
+          console.log('adding song:', song)
+          addTrack(song)
+        }}
+      >
         Add
       </Button>
     )

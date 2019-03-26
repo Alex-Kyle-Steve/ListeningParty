@@ -17,21 +17,18 @@ export const fetchChannelPlaylist = channelId => dispatch =>
     .get(`/api/channels/${channelId}/playlist`)
     .then(playlist => dispatch(setPlaylist(playlist)))
 
-// sorts the state's playlist into track
-const getSortedTrackId = playlist => id => [
-  ...playlist.map(track => track.id),
-  id
-]
 export const addNewTrack = newTrack => (dispatch, getState) =>
   axios
     // post the song to our songs model
     .post('/api/songs', newTrack)
-    // sort the playlist into array of id
-    .then(({id}) => {
-      const playlist = getState().playerState.playlist
-      return getSortedTrackId(playlist)(id)
+    .then(({data}) => {
+      // just in-case state updates slower
+      const oldPlaylist = getState().playerState.playlist
+      dispatch(addTrack(data))
+      // maps and return only the array of id
+      return [...oldPlaylist, data].map(({id}) => id)
     })
-    // update our database
+    // update our database with the new array
     .then(sortedId =>
       axios.put(
         `/api/channels/${getState().channel.selectedChannel.id}/playlist`,
@@ -39,8 +36,6 @@ export const addNewTrack = newTrack => (dispatch, getState) =>
         {playlist: sortedId}
       )
     )
-    // update our state
-    .then(() => dispatch(addTrack(newTrack)))
 
 export default function(state = [], action) {
   if (action.type === SET_PLAYLIST) return action.playlist

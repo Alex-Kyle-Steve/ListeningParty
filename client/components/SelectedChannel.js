@@ -53,7 +53,6 @@ export class SelectedChannel extends Component {
 
   render() {
     const selectedChannel = this.props.selectedChannel
-    const historicalPlayList = selectedChannel.historicalPlayLists
     const channelId = parseInt(this.props.match.params.channelId)
     return (
       <div>
