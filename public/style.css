@@ -158,16 +158,6 @@ i.fa:hover {
   font-size: 3em;
 }
 
-/** Channel Buttons **/
-.channel-btn {
-  height: 18px;
-  font-size: 8pt;
-  border-radius: 9px;
-  border-width: 0;
-  background: #010d14;
-  color: #eee;
-}
-
 /* The slider itself */
 .slider {
   -webkit-appearance: none;
@@ -187,7 +177,7 @@ i.fa:hover {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #0040ff;
+  background: black;
   cursor: pointer;
 }
 
@@ -195,6 +185,6 @@ i.fa:hover {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #0040ff;
+  background: black;
   cursor: pointer;
 }

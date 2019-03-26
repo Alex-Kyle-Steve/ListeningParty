@@ -17,8 +17,6 @@ import {
 } from 'react-bootstrap'
 
 const NewNavbar = ({handleClick, isLoggedIn}) => (
-  // <div className="nav">
-
   <Navbar>
     <Navbar.Brand href="/home">
       <h1>Listening 🎉 Party</h1>
