@@ -10,16 +10,21 @@ import {
   CardDeck,
   Button
 } from 'react-bootstrap'
-import {PlaylistTable} from './PlaylistTable'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
-import {fetchSelectedChannel, startListening, stopListening} from '../store'
+import {
+  fetchSelectedChannel,
+  startListening,
+  stopListening,
+  fetchChannelPlaylist
+} from '../store'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
 import {ConnectedMessages} from './MessageList'
 import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
-import {addFavoriteChannel, me} from '../store/user'
+import {addFavoriteChannel} from '../store/user'
+import {TrackScrollTable} from './TrackScrollTable'
 
 export class SelectedChannel extends Component {
   componentDidMount() {
@@ -27,16 +32,7 @@ export class SelectedChannel extends Component {
     // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
-  }
-
-  formatData() {
-    return this.props.selectedChannel.historicalPlayLists.reduce(
-      (accumulator, currentValue) => {
-        accumulator.push(currentValue.song)
-        return accumulator
-      },
-      []
-    )
+    this.props.fetchPlaylist(channelId)
   }
 
   componentDidUpdate(prevProps) {
@@ -51,6 +47,7 @@ export class SelectedChannel extends Component {
       socket.emit('join-room', currCh)
       // get the new channel and set it on state as SelectedChannel
       this.props.fetchSelectedChannel(currCh)
+      this.props.fetchPlaylist(currCh)
       // stop listening if you were listening before
       if (this.props.isListening) this.props.stopListening()
     }
@@ -63,7 +60,6 @@ export class SelectedChannel extends Component {
 
   render() {
     const selectedChannel = this.props.selectedChannel
-    const historicalPlayList = selectedChannel.historicalPlayLists
     const channelId = parseInt(this.props.match.params.channelId)
     return (
       <div>
@@ -84,19 +80,14 @@ export class SelectedChannel extends Component {
                 startListening={this.props.startListening}
                 stopListening={this.props.stopListening}
               />
+
+              {/* //////////////////////////////////////////////////////////////////////// */}
+
               <Row>
                 <Card border="light" />
-                {/* Tabulated Tables. Shows Either the Spotify Search results or the channel's active playlist */}
-
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   <Tab eventKey="playlist" title="Playlist">
-                    {selectedChannel.description &&
-                    selectedChannel.historicalPlayLists !==
-                      historicalPlayList ? (
-                      <PlaylistTable playList={historicalPlayList} />
-                    ) : (
-                      <PlaylistTable playList={historicalPlayList} />
-                    )}
+                    <TrackScrollTable tracks={this.props.playlist} />
                   </Tab>
                   <Tab eventKey="search" title="Search">
                     <ConnectedSpotifyCatalogSearch />
@@ -105,6 +96,9 @@ export class SelectedChannel extends Component {
               </Row>
             </Col>
             {/* Chat/Channel Information tabs. */}
+
+            {/* ////////////////////////////////////////////////////////////////////////// */}
+
             <Col xs={3}>
               <Tabs
                 defaultActiveKey="description"
@@ -153,7 +147,9 @@ const mapStateToProps = state => {
     selectedChannel: state.channel.selectedChannel,
     messages: state.message.messages,
     user: state.user,
-    isListening: state.playerState.isListening
+    // playerState
+    isListening: state.playerState.isListening,
+    playlist: state.playerState.playlist
   }
 }
 
@@ -165,7 +161,7 @@ const mapDispatchToProps = dispatch => {
     stopListening: () => dispatch(stopListening()),
     addFavoriteChannel: (userId, channelId) =>
       dispatch(addFavoriteChannel(userId, channelId)),
-    fetchMe: () => dispatch(me())
+    fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId))
   }
 }
 
