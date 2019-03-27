@@ -88,14 +88,15 @@ const handleStateChanged = (playerState, dispatch, getState) => {
 // ***** HANDLING HOST'S STATE CHANGE *****//
 
 // promise creator for calling thunks to update the listener's player
-const resolveStateChange = (uri, paused, position) => ({
+const resolveStateChange = (uri, paused, position) => async ({
   shouldTogglePlay,
   shouldChangeTrack,
   shouldSeek
-}) =>
-  Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri)))
-    .then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
-    .then(() => shouldSeek && store.dispatch(seekTrack(position)))
+}) => {
+  if (shouldChangeTrack) await store.dispatch(playTrack(uri))
+  if (shouldTogglePlay) await store.dispatch(togglePause(paused))
+  if (shouldSeek) await store.dispatch(seekTrack(position))
+}
 /**
  * handler for when channel owner's player state changes
  * subscribed to listening players only when listener requests
@@ -115,7 +116,7 @@ export const handleStateReceived = async receivedState => {
 
   const listenerState = await store.getState().player.getCurrentState()
   if (!listenerState) {
-    return stateChangePromise({
+    await stateChangePromise({
       shouldTogglePlay: true,
       shouldChangeTrack: true,
       shouldSeek: true
@@ -124,7 +125,7 @@ export const handleStateReceived = async receivedState => {
   const {prevPaused, prevUri, prevPosition} = listenerState
   const compareNewState = newStateComparer(paused, uri, position)
   const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
-  setStoreState(
+  await setStoreState(
     paused,
     uri,
     position,
@@ -132,7 +133,7 @@ export const handleStateReceived = async receivedState => {
     store.getState().dispatch
   )
   // call the helper promise to determine the needed adjustment
-  return stateChangePromise(whatToChange)
+  await stateChangePromise(whatToChange)
 }
 
 // ***** END *****//
