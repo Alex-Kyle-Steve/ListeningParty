@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {Card, Row, Col, Button} from 'react-bootstrap'
-import {ConnectedController} from '.'
+import {ConnectedController, ListenerController} from '.'
 
 export class Player extends Component {
   constructor() {
     super()
     this.state = {
-      togglePlay: false
+      toggleListening: false
     }
   }
   render() {
@@ -46,68 +46,52 @@ export class Player extends Component {
                   <Card.Text className="player-track-info-text">
                     Album: Soft Sounds from Another Planet
                   </Card.Text>
+                  {selectedChannel.ownerId !== user.id &&
+                  isListening === false ? (
+                    this.state.toggleListening === false ? (
+                      <Button
+                        variant="link"
+                        onClick={() =>
+                          this.setState({
+                            toggleListening: true
+                          })
+                        }
+                      >
+                        {' '}
+                        Start Listening{' '}
+                      </Button>
+                    ) : (
+                      <div>
+                        <Button
+                          variant="link"
+                          onClick={() =>
+                            this.setState({
+                              toggleListening: false
+                            })
+                          }
+                        >
+                          Stop Listening{' '}
+                        </Button>
+                        <ListenerController
+                          isListening={isListening}
+                          //TODO:
+                          //Pass isPaused as props
+                        />
+                      </div>
+                    )
+                  ) : selectedChannel.ownerId === user.id ? (
+                    <Row>
+                      <ConnectedController
+                        user={user}
+                        selectedChannel={selectedChannel}
+                        //pass isPaused as props
+                      />
+                    </Row>
+                  ) : (
+                    ''
+                  )}
                 </Col>
               </Row>
-              {/* <Row className="justify-content-md-center"> */}
-              {selectedChannel.ownerId !== user.id && isListening === false ? (
-                <Row>
-                  <Col xs={{offset: 5}}>
-                    <i
-                      onClick={() => {
-                        this.setState({togglePlay: true})
-
-                        this.props.startListening()
-                      }}
-                      className="fa fa-pause-circle"
-                    >
-                      <img src="/play.png" />
-                    </i>
-                  </Col>
-                  <input
-                    type="range"
-                    min="1"
-                    max="100"
-                    defaultValue={0}
-                    className="slider"
-                    id="myRange"
-                  />
-                </Row>
-              ) : selectedChannel.ownerId === user.id ? (
-                <Row>
-                  <ConnectedController
-                    user={user}
-                    selectedChannel={selectedChannel}
-                    // togglePlay={() => this.togglePlay}
-                  />
-                </Row>
-              ) : (
-                <Row>
-                  <Col xs={{offset: 5}}>
-                    <i
-                      onClick={() => {
-                        this.props.stopListening()
-                        this.setState({togglePlay: false})
-                      }}
-                      className="fa fa-pause-circle"
-                    >
-                      <img src="/pause.png" />
-                    </i>
-                  </Col>
-                  <input
-                    type="range"
-                    min="1"
-                    max="100"
-                    defaultValue={0}
-                    className="slider"
-                    id="myRange"
-                  />
-
-                  {/* <Button variant="link" onClick={this.props.stopListening}>
-                    Stop Listening
-                  </Button> */}
-                </Row>
-              )}
-              {/* </Row> */}
             </Col>
           </Row>
         </Card>
