@@ -10,7 +10,7 @@ const musicPlayerEvent = new EventEmitter()
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
   // get current channel, track and user from the state
-  const {channel: {selectedChannel}, user} = getState()
+  const {channel: {selectedChannel}, user, player} = getState()
   // id of the current channel participating
   const channelId = selectedChannel.id
   // determine if the triggered player is owner's
