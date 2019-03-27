@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {setNewTrack} from './currentTrack'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
 const ADD_TRACK = 'ADD_TRACK'
@@ -22,7 +23,7 @@ export const addNewTrack = newTrack => (dispatch, getState) =>
     // post the song to our songs model
     .post('/api/songs', newTrack)
     .then(({data}) => {
-      // just in-case state updates slower
+      // just in-case state updates slower, destructure old playlist and add in a new one
       const oldPlaylist = getState().playerState.playlist
       dispatch(addTrack(data))
       // maps and return only the array of id
@@ -36,6 +37,14 @@ export const addNewTrack = newTrack => (dispatch, getState) =>
         {playlist: sortedId}
       )
     )
+
+export const playNextTrack = () => (dispatch, getState) => {
+  const currentPlaylist = getState().playlist
+  const nextTrack = currentPlaylist[0]
+  const nextPlaylist = currentPlaylist.slice(1)
+  dispatch(setNewTrack(nextTrack))
+  dispatch(setPlaylist(nextPlaylist))
+}
 
 export default function(state = [], action) {
   if (action.type === SET_PLAYLIST) return action.playlist
