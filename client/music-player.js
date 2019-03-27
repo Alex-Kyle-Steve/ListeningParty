@@ -34,8 +34,6 @@ const setStoreState = function(
       ? store.dispatch(startTick(trackLength, playerPosition))
       : store.dispatch(stopTick(trackLength, playerPosition))
     store.dispatch(setPaused(playerPaused))
-  } else {
-    setPosition(playerPosition, playerTrack.duration_ms)
   }
 }
 
