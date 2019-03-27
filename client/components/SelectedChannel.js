@@ -57,15 +57,15 @@ export class SelectedChannel extends Component {
         <Container fluid={true}>
           <Row>
             {/* Channel Bar */}
-            <Col xs={3}>
+            <Col xs={12} s={12} md={3} l={3} lg={3}>
               <ConnectedOwnedChannels channelId={channelId} />
               <ConnectedFavoriteChannels />
               <ConnectedAllChannelsSidebar />
             </Col>
             {/* Music info/Player */}
-            <Col xs={6}>
-              {/* //////////////////////////////////////////////////////////////////////// */}
+            <Col xs={12} s={12} md={6} l={6} lg={6}>
               <Player
+                currentTrack={this.props.currentTrack}
                 selectedChannel={selectedChannel}
                 user={this.props.user}
                 isListening={this.props.isListening}
@@ -85,48 +85,39 @@ export class SelectedChannel extends Component {
               </Row>
               {/* //////////////////////////////////////////////////////////////////////// */}
             </Col>
-            {this.props.selectedChannel.id && (
-              <Col xs={3}>
-                <Tabs
-                  defaultActiveKey="description"
-                  id="uncontrolled-tab-example"
-                >
-                  <Tab eventKey="description" title="Channel">
-                    <CardDeck>
-                      <Card border="light">
-                        <Card.Body>
-                          <Card.Title className="link-styling">
-                            <h3>
-                              Current Channel:
-                              <br />
-                              {selectedChannel.name}{' '}
-                            </h3>
-                          </Card.Title>
-                          <Card.Text>{selectedChannel.description}</Card.Text>
-                          <Button
-                            size="sm"
-                            variant="link"
-                            onClick={this.handleClick}
-                          >
-                            Add To Favorites
-                          </Button>
-                        </Card.Body>
-                      </Card>
-                    </CardDeck>
-                  </Tab>
-                  <Tab
-                    eventKey="chat"
-                    title="Chat"
-                    style={{maxHeight: '1000px'}}
-                  >
-                    <ConnectedMessages channel={selectedChannel.name} />
-                  </Tab>
-                </Tabs>
-                <Row>
-                  <Col xs={12} />
-                </Row>
-              </Col>
-            )}
+            {/* Chat/Channel Information tabs. */}
+
+            {/* ////////////////////////////////////////////////////////////////////////// */}
+
+            <Col xs={12} s={12} md={3} l={3} lg={3}>
+              <Tabs
+                defaultActiveKey="description"
+                id="uncontrolled-tab-example"
+              >
+                <Tab eventKey="description" title="Channel">
+                  <CardDeck>
+                    <Card border="light">
+                      <Card.Body>
+                        <Card.Title className="link-styling">
+                          <h3>
+                            Current Channel:
+                            <br />
+                            {selectedChannel.name}{' '}
+                          </h3>
+                        </Card.Title>
+                        <Card.Text>{selectedChannel.description}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </CardDeck>
+                </Tab>
+                <Tab eventKey="chat" title="Chat" style={{maxHeight: '1000px'}}>
+                  <ConnectedMessages channel={selectedChannel.name} />
+                </Tab>
+              </Tabs>
+              <Row>
+                <Col xs={12} />
+              </Row>
+            </Col>
           </Row>
         </Container>
       </div>
@@ -140,7 +131,8 @@ const mapStateToProps = state => {
     user: state.user,
     // playerState
     isListening: state.playerState.isListening,
-    playlist: state.playerState.playlist
+    playlist: state.playerState.playlist,
+    currentTrack: state.currentTrack
   }
 }
 
