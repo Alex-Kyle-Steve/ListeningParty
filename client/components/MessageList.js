@@ -7,15 +7,13 @@ import {fetchMessages} from '../store'
 class Messages extends Component {
   async componentDidMount() {
     const channelId = this.props.selectedChannel.id
-    await this.props.fetchMessages(channelId)
+    channelId && (await this.props.fetchMessages(channelId))
   }
 
   async componentDidUpdate(prevState) {
     if (
       String(prevState.messages.length) !== String(this.props.messages.length)
     ) {
-      const channelId = this.props.selectedChannel.id
-      //await this.props.fetchMessages(channelId)
       const scrollList = document.getElementById('message-list')
       scrollList.scrollTop += scrollList.scrollHeight
     }
