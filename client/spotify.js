@@ -45,5 +45,7 @@ export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
  */
 export const playTrack = uri => (dispatch, getState) => {
   const player = getState().player
-  return playNewUri({uri, player}).then(() => console.log('playing uri:', uri))
+  return playNewUri({uri, player}).then(response =>
+    console.log('played new uri: response =', response)
+  )
 }

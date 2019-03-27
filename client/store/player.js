@@ -1,5 +1,5 @@
 import musicPlayerEvent from '../music-player'
-import {createPlayer} from '../spotify'
+import {createPlayer, playNewUri} from '../spotify'
 
 const SET_PLAYER_INSTANCE = 'SET_PLAYER_INSTANCE'
 
@@ -38,6 +38,18 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
   await instance.connect()
   // set the created player on the redux store
   dispatch(setPlayerInstance(instance))
+}
+
+/**
+ * dispatched by client socket
+ * plays new song when current_track changes
+ * @param {string} uri
+ */
+export const playTrack = uri => (dispatch, getState) => {
+  const player = getState().player
+  return playNewUri({uri, player}).then(response =>
+    console.log('played new uri: response =', response)
+  )
 }
 
 /**
