@@ -7,15 +7,17 @@ export const startTick = (trackLength, position) => (dispatch, getState) => {
   const intervalId = getState().playerState.scrollbar
   // don't dispatch another setInterval if intervalId isn't 0
   if (intervalId) return
-  // myRange length is 500
-  const normalizedPosition =
-    Math.floor(500 / Math.ceil(trackLength / 1000)) *
-    Math.floor(position / 1000)
+  // myRange length is 1000
+  console.log('track length: ', trackLength)
+  const normalizedPosition = Math.ceil(1000 / trackLength * position)
+  console.log('position: ', normalizedPosition)
   // set position of the bar
   document.getElementById('myRange').value = normalizedPosition
+
   // how much to move per sec
-  const seekSpeed = Math.ceil(500 / Math.ceil(trackLength / 1000))
-  // get the function from the elementßß
+  const seekSpeed = Math.floor(1000 / trackLength * 500)
+  console.log('seek speed:', seekSpeed)
+  // get the function from the element
   const stepUp = document
     .getElementById('myRange')
     .stepUp.bind(document.getElementById('myRange'))
@@ -24,7 +26,7 @@ export const startTick = (trackLength, position) => (dispatch, getState) => {
     stepUp(seekSpeed.toString())
   }
   // set up animation tick
-  dispatch(setId(setInterval(callback, 1000)))
+  dispatch(setId(setInterval(callback, 500)))
 }
 
 // stop moving bar when pausing

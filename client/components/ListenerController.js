@@ -54,8 +54,8 @@ export class ListenerController extends Component {
         </Col>
         <input
           type="range"
-          min="1"
-          max="100"
+          min="0"
+          max="1000"
           onMouseDown={this.disable}
           defaultValue={0}
           className="slider"

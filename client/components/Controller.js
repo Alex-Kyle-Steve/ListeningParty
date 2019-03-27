@@ -64,7 +64,7 @@ export class Controller extends Component {
             <input
               type="range"
               min="0"
-              max="500"
+              max="1000"
               onMouseDown={this.disable}
               step="1"
               defaultValue="0"
