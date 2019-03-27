@@ -7,15 +7,18 @@ export const setPosition = position => ({type: SET_POSITION, position})
 export const setId = id => ({type: SET_ID, id})
 
 // start moving bar when playing
-export const startTick = (trackLength, callback) => dispatch => {
+export const startTick = (trackLength, callback) => (dispatch, getState) => {
+  const intervalId = getState().intervalId
+  // don't dispatch another setInterval if intervalId is 0
+  if (intervalId) return
   const scrubbingSpeed = 1000 / trackLength
-  const intervalId = setInterval(callback, scrubbingSpeed)
-  dispatch(setId(intervalId))
+  dispatch(setId(setInterval(callback, scrubbingSpeed)))
 }
 
 // stop moving bar when pausing
 export const stopTick = () => (dispatch, getState) => {
   const intervalId = getState().intervalId
+  if (!intervalId) return
   clearInterval(intervalId)
   dispatch(setId(0))
 }
