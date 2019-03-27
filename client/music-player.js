@@ -114,7 +114,11 @@ export const handleStateReceived = async receivedState => {
       shouldSeek: true
     }).then(() => {})
   const compareNewState = newStateComparer(paused, uri, position)
-  const whatToChange = compareNewState(listenerState)
+  const whatToChange = compareNewState(
+    listenerState.paused,
+    listenerState.track_window.current_track.uri,
+    listenerState.position
+  )
   console.log('what changed', whatToChange)
   // call the helper promise to determine the needed adjustment
   return stateChangePromise(whatToChange).then(() =>
