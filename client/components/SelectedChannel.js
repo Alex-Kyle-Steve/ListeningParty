@@ -56,6 +56,7 @@ export class SelectedChannel extends Component {
   componentWillUnmount() {
     const currCh = this.props.match.params.channelId
     socket.emit('leave-room', currCh)
+    this.props.stopListening()
   }
 
   render() {
