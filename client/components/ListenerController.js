@@ -31,6 +31,8 @@ export class ListenerController extends Component {
       <Row>
         <Col xs={{offset: 5}}>
           {this.state.togglePlay === false ? (
+            //Renders the pause Button.
+            //Condition is !Owner&&isPaused === true
             <i
               onClick={() => {
                 this.setState({togglePlay: true})
@@ -42,6 +44,8 @@ export class ListenerController extends Component {
               <img src="/pause.png" />
             </i>
           ) : (
+            //Renders the play button
+            //Condition is !Owner&&isPaused === true
             <i
               onClick={() => {
                 this.setState({togglePlay: false})

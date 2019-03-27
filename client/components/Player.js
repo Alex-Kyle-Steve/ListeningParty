@@ -73,7 +73,11 @@ export class Player extends Component {
                         >
                           Stop Listening{' '}
                         </Button>
-                        <ListenerController />
+                        <ListenerController
+                          isListening={isListening}
+                          //TODO:
+                          //Pass isPaused as props
+                        />
                       </div>
                     )
                   ) : selectedChannel.ownerId === user.id ? (
@@ -81,6 +85,7 @@ export class Player extends Component {
                       <ConnectedController
                         user={user}
                         selectedChannel={selectedChannel}
+                        //pass isPaused as props
                       />
                     </Row>
                   ) : (

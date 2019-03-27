@@ -27,6 +27,11 @@ export class Controller extends Component {
             <i onClick={this.togglePrev} className="fa fa-step-backward">
               <img src="/back.png" />
             </i>
+
+            {/* TODO:
+              create checks for isPaused. Should be able to
+              use togglePlay
+            */}
             {this.state.togglePlay === false ? (
               <i
                 onClick={() => {
