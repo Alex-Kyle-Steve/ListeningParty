@@ -1,3 +1,4 @@
+/* --------Boilermaker Styles --------------------------------------------------- */
 body {
   font-family: sans-serif;
 }
@@ -22,7 +23,9 @@ form div {
 .left-side-bar {
   width: 300px;
 }
+/* -------------------------------------------------------------------- */
 
+/* ---------------- Styling Homepage/Links ------------------------*/
 .custom-center-align {
   text-align: center !important;
 }
@@ -65,29 +68,6 @@ form div {
   max-width: 50% !important;
 }
 
-.list-btn {
-  height: 18px;
-  width: 18px;
-  border-radius: 9px;
-  font-size: 10pt;
-  background: #010d14;
-  border: 0;
-  color: #f5ebeb;
-  text-align: center;
-  vertical-align: center;
-}
-.list-btn-fav {
-  height: 18px;
-  width: 18px;
-  border-radius: 9px;
-  font-size: 6pt;
-  background: #010d14;
-  border: 0;
-  color: #f5ebeb;
-  text-align: center;
-  vertical-align: center;
-}
-
 .favorite-channel-sidebar-button2 {
   font-size: 7pt !important;
   color: lightgray;
@@ -98,7 +78,9 @@ form div {
   color: lightgray;
 }
 
-/* message form */
+/* ---------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------- message form -------------------------------------------------------------------- */
 
 #new-message-form {
   position: relative;
@@ -123,8 +105,9 @@ form div {
   overflow: hidden;
   height: 100%;
 }
+/* ----------------------------------------------------------------------------------------------------------------------- */
 
-/* player */
+/*------------------------------------------------------------------------------------- player  ---------------------------------------------------*/
 i.fa {
   cursor: pointer;
   font-size: 2em;
@@ -188,3 +171,13 @@ i.fa:hover {
   background: black;
   cursor: pointer;
 }
+
+.player-track-info-text-header {
+  font-size: 150% !important;
+}
+
+.player-track-info-text {
+  font-size: 100% !important;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------------------- */

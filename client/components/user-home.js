@@ -21,7 +21,11 @@ export class UserHome extends React.Component {
           <Row>
             <Col
               className="my-center-align"
-              xs={3}
+              xs={12}
+              s={12}
+              md={3}
+              l={3}
+              lg={3}
               style={{overflow: 'scroll', height: '500px'}}
             >
               <ConnectedOwnedChannels
@@ -35,7 +39,11 @@ export class UserHome extends React.Component {
 
             <Col
               className="custom-center-align"
-              xs={6}
+              xs={12}
+              s={12}
+              md={6}
+              l={6}
+              lg={6}
               style={{overflow: 'scroll', height: '1000px'}}
             >
               <Row>
@@ -50,7 +58,7 @@ export class UserHome extends React.Component {
               <ConnectedAllChannels />
             </Col>
 
-            <Col className="my-center-align" xs={3}>
+            <Col className="my-center-align" xs={12} s={12} md={3} l={3} lg={3}>
               <Tabs
                 defaultActiveKey="description"
                 id="uncontrolled-tab-example"
