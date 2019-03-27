@@ -37,15 +37,3 @@ const makePlayRequest = (uri, id) => accessToken =>
  */
 export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
   getOAuthToken(makePlayRequest(uri, id))
-
-/**
- * dispatched by client socket
- * plays new song when current_track changes
- * @param {string} uri
- */
-export const playTrack = uri => (dispatch, getState) => {
-  const player = getState().player
-  return playNewUri({uri, player}).then(response =>
-    console.log('played new uri: response =', response)
-  )
-}

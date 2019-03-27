@@ -9,6 +9,7 @@ const musicPlayerEvent = new EventEmitter()
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
+  console.log('state changed!!!:', playerState)
   // get current channel, track and user from the state
   const {channel: {selectedChannel}, user, player} = getState()
   // id of the current channel participating

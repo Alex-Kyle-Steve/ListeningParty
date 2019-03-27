@@ -6,7 +6,8 @@ import {
   fetchSelectedChannel,
   startListening,
   stopListening,
-  fetchChannelPlaylist
+  fetchChannelPlaylist,
+  playNextTrack
 } from '../store'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
@@ -18,15 +19,15 @@ import {addFavoriteChannel} from '../store/user'
 import {TrackScrollTable} from './TrackScrollTable'
 
 export class SelectedChannel extends Component {
-  async componentDidMount() {
-    const channelId = parseInt(this.props.match.params.channelId)
+  componentDidMount() {
+    const channelId = parseInt(this.props.match.params.channelId, 10)
     // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
     this.props.fetchPlaylist(channelId)
   }
 
-  async componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     // get previous and current channel ID
     const prevCh = prevProps.match.params.channelId
     const currCh = this.props.match.params.channelId
@@ -51,7 +52,7 @@ export class SelectedChannel extends Component {
 
   render() {
     const selectedChannel = this.props.selectedChannel
-    const channelId = parseInt(this.props.match.params.channelId)
+    const channelId = parseInt(this.props.match.params.channelId, 10)
     return (
       <div>
         <Container fluid={true}>
@@ -83,12 +84,7 @@ export class SelectedChannel extends Component {
                   </Tab>
                 </Tabs>
               </Row>
-              {/* //////////////////////////////////////////////////////////////////////// */}
             </Col>
-            {/* Chat/Channel Information tabs. */}
-
-            {/* ////////////////////////////////////////////////////////////////////////// */}
-
             <Col xs={12} s={12} md={3} l={3} lg={3}>
               <Tabs
                 defaultActiveKey="description"
@@ -146,7 +142,8 @@ const mapDispatchToProps = dispatch => {
     stopListening: () => dispatch(stopListening()),
     addFavoriteChannel: (userId, channelId) =>
       dispatch(addFavoriteChannel(userId, channelId)),
-    fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId))
+    fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId)),
+    playNextTrack: () => dispatch(playNextTrack())
   }
 }
 
