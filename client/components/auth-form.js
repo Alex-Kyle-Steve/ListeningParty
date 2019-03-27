@@ -19,7 +19,10 @@ const AuthForm = props => {
         <Row>
           <Col xs={12}>
             <Card border="light">
-              <Card.Title>Login With</Card.Title>
+              <Card.Title>
+                {' '}
+                <h4>Login With</h4>
+              </Card.Title>
               <form onSubmit={handleSubmit} name={name}>
                 <label htmlFor="email">
                   <small>Email</small>
@@ -43,7 +46,14 @@ const AuthForm = props => {
               <Col xs={6}>or</Col>
               <Col xs={3} />
             </Row> */}
+              {/* <hr /> */}
               <hr />
+              <Row>
+                <Col xs={12}>
+                  {' '}
+                  <h4>Or</h4>
+                </Col>
+              </Row>
 
               <a href="/auth/spotify">
                 <img src="/Spotify_Logo_RGB_Green.png" />
