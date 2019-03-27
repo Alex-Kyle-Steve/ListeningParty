@@ -94,6 +94,7 @@ const resolveStateChange = (uri, paused, position) => async ({
   shouldChangeTrack,
   shouldSeek
 }) => {
+  console.log('changing the player to :', uri, paused, position)
   if (shouldChangeTrack) await store.dispatch(playTrack(uri))
   if (shouldTogglePlay) await store.dispatch(togglePause(paused))
   if (shouldSeek) await store.dispatch(seekTrack(position))
