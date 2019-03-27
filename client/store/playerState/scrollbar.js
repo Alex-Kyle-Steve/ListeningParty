@@ -23,7 +23,6 @@ export const startTick = (trackLength, position) => (dispatch, getState) => {
   if (intervalId) return
   // myRange length is 1000
   setPosition(position, trackLength)
-
   // how much to move per sec
   const seekSpeed = Math.floor(1000 / trackLength * 500)
   // get the function from the element

@@ -15,8 +15,7 @@ const setStoreState = function(
   playerPaused,
   playerTrack,
   playerPosition,
-  playerState,
-  dispatch
+  playerState
 ) {
   // get redux store state
   const stateTrack = playerState.currentTrack
@@ -24,7 +23,7 @@ const setStoreState = function(
   // change store states if uri or pause changed
   if (playerTrack.uri !== stateTrack.uri) {
     console.log('track state changing')
-    dispatch(setNewTrack(playerTrack))
+    store.dispatch(setNewTrack(playerTrack))
   }
   // if player paused change
   if (playerPaused !== statePaused) {
@@ -32,9 +31,9 @@ const setStoreState = function(
     const trackLength = playerTrack.duration_ms
     const position = playerState.position
     playerPaused
-      ? dispatch(startTick(trackLength, position))
-      : dispatch(stopTick(trackLength, position))
-    dispatch(setPaused(playerPaused))
+      ? store.dispatch(startTick(trackLength, position))
+      : store.dispatch(stopTick(trackLength, position))
+    store.dispatch(setPaused(playerPaused))
   } else {
     setPosition(playerPosition, playerTrack.duration_ms)
   }
