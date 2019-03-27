@@ -76,7 +76,6 @@ export class Controller extends Component {
               className="slider"
               id="myRange"
             />
-            <button onClick={this.step}>Step</button>
           </Col>
         </Row>
       </Col>

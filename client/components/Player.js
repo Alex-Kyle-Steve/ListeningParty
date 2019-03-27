@@ -9,7 +9,6 @@ export class Player extends Component {
       toggleListening: false
     }
   }
-
   render() {
     const selectedChannel = this.props.selectedChannel
     const user = this.props.user
