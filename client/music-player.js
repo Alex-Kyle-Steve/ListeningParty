@@ -23,10 +23,12 @@ const setStoreState = function(
   const statePaused = playerState.isPaused
   // change store states if uri or pause changed
   if (playerTrack.uri !== stateTrack.uri) {
+    console.log('track state changing')
     dispatch(setNewTrack(playerTrack))
   }
   // if player paused change
   if (playerPaused !== statePaused) {
+    console.log('pause state changing')
     const trackLength = playerTrack.duration_ms
     const position = playerState.position
     playerPaused
@@ -70,7 +72,6 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   const {channel: {selectedChannel}, user} = getState()
   const isChannelOwner = selectedChannel.ownerId === user.id
   if (!isChannelOwner) return
-  console.log(`handlingState`)
   handleOwnerChange(playerState, getState())
   // spotify playerState from owner
   const playerPaused = playerState.paused
@@ -122,9 +123,12 @@ export const handleStateReceived = async receivedState => {
       shouldSeek: true
     })
   }
+  console.log('received state: ', receivedState)
+  console.log('current listener state:', listenerState)
   const {prevPaused, prevUri, prevPosition} = listenerState
   const compareNewState = newStateComparer(paused, uri, position)
   const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
+  console.log('these are the changes: ', whatToChange)
   await setStoreState(
     paused,
     uri,
