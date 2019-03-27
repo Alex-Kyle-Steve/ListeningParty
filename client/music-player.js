@@ -41,9 +41,7 @@ const setStoreState = function(
 
 // returns a function that compares the provided spotify player state with the olde state
 const newStateComparer = function(newPaused, newUri, newPosition) {
-  console.log('at new state')
   return function(prevPaused, prevUri, prevPosition) {
-    console.log('at compare state')
     const shouldChangeTrack = newUri !== prevUri
     prevPaused = shouldChangeTrack ? false : prevPaused
     const shouldTogglePlay = newPaused === prevPaused
@@ -117,6 +115,7 @@ export const handleStateReceived = async receivedState => {
     }).then(() => {})
   const compareNewState = newStateComparer(paused, uri, position)
   const whatToChange = compareNewState(listenerState)
+  console.log('what changed', whatToChange)
   // call the helper promise to determine the needed adjustment
   return stateChangePromise(whatToChange).then(() =>
     setStoreState(
