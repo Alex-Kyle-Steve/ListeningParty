@@ -35,6 +35,7 @@ socket.on('received-state-change', playerState =>
 
 socket.on('new-listener', function(listenerId) {
   const {channel: {selectedChannel}, user, player} = store.getState()
+  const isOwner = selectedChannel.ownerId === user.id
   return (
     isOwner &&
     player

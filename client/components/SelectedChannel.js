@@ -78,12 +78,16 @@ export class SelectedChannel extends Component {
               <Row>
                 <Card border="light" />
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
+                  {/* playlist */}
                   <Tab eventKey="playlist" title="Playlist">
                     <TrackScrollTable tracks={this.props.playlist} />
                   </Tab>
+                  {/* end-playlist */}
+                  {/* search */}
                   <Tab eventKey="search" title="Search">
                     <ConnectedSpotifyCatalogSearch />
                   </Tab>
+                  {/* end-search */}
                 </Tabs>
               </Row>
             </Col>
