@@ -19,6 +19,7 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   if (isChannelOwner) {
     socket.emit('owner-state-changed', channelId, playerState)
   }
+  const {paused, track_window: {current_track: {uri}}, position} = playerState
 }
 
 // listener for state change in spotify player
