@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {setNewTrack} from './currentTrack'
+import {playTrack} from '../player'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
 const ADD_TRACK = 'ADD_TRACK'
@@ -46,6 +47,8 @@ export const playNextTrack = () => (dispatch, getState) => {
   dispatch(setNewTrack(nextTrack))
   dispatch(setPlaylist(nextPlaylist))
 }
+
+export const playSelectedTrack = uri => dispatch => dispatch(playTrack(uri))
 
 export default function(state = [], action) {
   if (action.type === SET_PLAYLIST) return action.playlist
