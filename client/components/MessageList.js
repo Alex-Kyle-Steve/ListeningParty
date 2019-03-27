@@ -28,11 +28,11 @@ class Messages extends Component {
         <hr />
         <div style={{overflow: 'scroll', height: '500px'}} id="message-list">
           <ul className="media-list">
-            {(messages.length &&
-              messages.map(message => (
-                <Message message={message} key={message.id} />
-              ))) ||
-              ''}
+            {messages.length
+              ? messages.map(message => (
+                  <Message message={message} key={message.id} />
+                ))
+              : ''}
           </ul>
         </div>
         <NewMessageEntry channelId={channelId} />
