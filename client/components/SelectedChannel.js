@@ -1,21 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Tabs,
-  Tab,
-  CardDeck,
-  Button
-} from 'react-bootstrap'
+import {Card, Container, Row, Col, Tabs, Tab, CardDeck} from 'react-bootstrap'
 import {ConnectedSpotifyCatalogSearch} from './spotifyCatalogSearch'
 import {
   fetchSelectedChannel,
   startListening,
   stopListening,
-  fetchChannelPlaylist
+  fetchChannelPlaylist,
+  playNextTrack
 } from '../store'
 import {ConnectedFavoriteChannels} from './FavoriteChannels'
 import {ConnectedOwnedChannels} from './OwnedChannels'
@@ -28,7 +20,7 @@ import {TrackScrollTable} from './TrackScrollTable'
 
 export class SelectedChannel extends Component {
   componentDidMount() {
-    const channelId = parseInt(this.props.match.params.channelId)
+    const channelId = parseInt(this.props.match.params.channelId, 10)
     // join room when first render
     socket.emit('join-room', channelId)
     this.props.fetchSelectedChannel(channelId)
@@ -60,29 +52,27 @@ export class SelectedChannel extends Component {
 
   render() {
     const selectedChannel = this.props.selectedChannel
-    const channelId = parseInt(this.props.match.params.channelId)
+    const channelId = parseInt(this.props.match.params.channelId, 10)
     return (
       <div>
         <Container fluid={true}>
           <Row>
             {/* Channel Bar */}
-            <Col xs={3}>
+            <Col xs={12} s={12} md={3} l={3} lg={3}>
               <ConnectedOwnedChannels channelId={channelId} />
               <ConnectedFavoriteChannels />
               <ConnectedAllChannelsSidebar />
             </Col>
             {/* Music info/Player */}
-            <Col xs={6}>
+            <Col xs={12} s={12} md={6} l={6} lg={6}>
               <Player
+                currentTrack={this.props.currentTrack}
                 selectedChannel={selectedChannel}
                 user={this.props.user}
                 isListening={this.props.isListening}
                 startListening={this.props.startListening}
                 stopListening={this.props.stopListening}
               />
-
-              {/* //////////////////////////////////////////////////////////////////////// */}
-
               <Row>
                 <Card border="light" />
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
@@ -95,11 +85,7 @@ export class SelectedChannel extends Component {
                 </Tabs>
               </Row>
             </Col>
-            {/* Chat/Channel Information tabs. */}
-
-            {/* ////////////////////////////////////////////////////////////////////////// */}
-
-            <Col xs={3}>
+            <Col xs={12} s={12} md={3} l={3} lg={3}>
               <Tabs
                 defaultActiveKey="description"
                 id="uncontrolled-tab-example"
@@ -138,11 +124,13 @@ export class SelectedChannel extends Component {
 const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
-    messages: state.message.messages,
     user: state.user,
     // playerState
+    //TODO:
+    //ADD isPAUSED CONDITION
     isListening: state.playerState.isListening,
-    playlist: state.playerState.playlist
+    playlist: state.playerState.playlist,
+    currentTrack: state.currentTrack
   }
 }
 
@@ -154,7 +142,8 @@ const mapDispatchToProps = dispatch => {
     stopListening: () => dispatch(stopListening()),
     addFavoriteChannel: (userId, channelId) =>
       dispatch(addFavoriteChannel(userId, channelId)),
-    fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId))
+    fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId)),
+    playNextTrack: () => dispatch(playNextTrack())
   }
 }
 

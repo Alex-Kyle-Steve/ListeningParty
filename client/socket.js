@@ -8,14 +8,13 @@ const socket = io(window.location.origin)
 
 socket.on('connect', () => {
   console.log('Socket Connected!')
-
   socket.on('new-message', message => {
-    store.dispatch(getMessage(message))
+    if (store.getState().channel.selectedChannel.id === message.channelId)
+      store.dispatch(getMessage(message))
   })
   const {channel: {selectedChannel}, user} = store.getState()
   if (selectedChannel.ownerId === user.id) {
     socket.on('request', (song, requester) => {
-      // store.dispatch( getMessage( {user: requester, userId: requester.id, channelId: selectedChannel.id, content: `Listener ${ requester.id} reqested ${song.title} by ${song.artist}`}))
       if (
         confirm(
           `Listener ${requester.id} reqested ${song.title} by ${
@@ -28,9 +27,9 @@ socket.on('connect', () => {
   }
 })
 
-socket.on('received-state-change', playerState => {
+socket.on('received-state-change', playerState =>
   musicPlayerEvent.emit('state-received', playerState)
-})
+)
 
 socket.on('new-listener', function(listenerId) {
   const {channel: {selectedChannel}, user, player} = store.getState()
@@ -43,7 +42,5 @@ socket.on('new-listener', function(listenerId) {
       )
   )
 })
-
-socket.on('sync-to-channel')
 
 export default socket

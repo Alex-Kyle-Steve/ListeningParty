@@ -1,28 +1,13 @@
 import React, {Component} from 'react'
 import {Card, Row, Col, Button} from 'react-bootstrap'
-import {Controller} from '.'
+import {ConnectedController, ListenerController} from '.'
+
 export class Player extends Component {
-  constructor() {
-    super()
-    this.state = {
-      listening: false
-    }
-
-    this.toggleListening = this.toggleListening.bind(this)
-  }
-
-  toggleListening() {
-    //TODO:
-    //Plug in logic to actually "join" the channel
-    this.setState({
-      listening: !this.state.listening
-    })
-  }
-
   render() {
     const selectedChannel = this.props.selectedChannel
     const user = this.props.user
     const isListening = this.props.isListening
+    const isOwner = selectedChannel.ownerId !== user.id
     return (
       <div>
         <Card border="light">
@@ -34,35 +19,50 @@ export class Player extends Component {
               {/* Current Song Information */}
               <Row>
                 <Col xs={12}>
-                  <Card.Title>Song Information</Card.Title>
+                  <Card.Title className="player-track-info-text-header">
+                    <strong>Current Song</strong>
+                  </Card.Title>
+                </Col>
+
+                <Col xs={12}>
+                  <hr />
+                  <Card.Text className="player-track-info-text">
+                    Title: Road Head
+                  </Card.Text>
                 </Col>
                 <Col xs={12}>
-                  <Card.Text>Road Head</Card.Text>
+                  <hr />
+                  <Card.Text className="player-track-info-text">
+                    Artist: Japanese Breakfast
+                  </Card.Text>
                 </Col>
                 <Col xs={12}>
-                  <Card.Text>Japanese Breakfast</Card.Text>
-                </Col>
-                <Col xs={12}>
-                  <Card.Text>Soft Sounds from Another Planet</Card.Text>
-                </Col>
-              </Row>
-              <Row className="justify-content-md-center">
-                {selectedChannel.ownerId !== user.id &&
-                isListening === false ? (
-                  <Row>
+                  <hr />
+                  <Card.Text className="player-track-info-text">
+                    Album: Soft Sounds from Another Planet
+                  </Card.Text>
+                  {!isOwner ? (
+                    <Row>
+                      <ConnectedController
+                        user={user}
+                        selectedChannel={selectedChannel}
+                        //pass isPaused as props
+                      />
+                    </Row>
+                  ) : !isListening ? (
                     <Button variant="link" onClick={this.props.startListening}>
-                      Start Listening
+                      {' '}
+                      Start Listening{' '}
                     </Button>
-                  </Row>
-                ) : selectedChannel.ownerId === user.id ? (
-                  <Controller togglePlay={() => this.togglePlay} />
-                ) : (
-                  <Row>
-                    <Button variant="link" onClick={this.props.stopListening}>
-                      Stop Listening
-                    </Button>
-                  </Row>
-                )}
+                  ) : (
+                    <div>
+                      <Button variant="link" onClick={this.props.stopListening}>
+                        Stop Listening{' '}
+                      </Button>
+                      <ListenerController isListening={isListening} />
+                    </div>
+                  )}
+                </Col>
               </Row>
             </Col>
           </Row>

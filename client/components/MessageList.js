@@ -2,19 +2,18 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Message from './Message'
 import NewMessageEntry from './NewMessageEntry'
-import {fetchMessages, me} from '../store'
+import {fetchMessages} from '../store'
 
 class Messages extends Component {
   async componentDidMount() {
-    await this.props.fetchMe()
-    await this.props.fetchMessages()
+    const channelId = this.props.selectedChannel.id
+    channelId && (await this.props.fetchMessages(channelId))
   }
 
   async componentDidUpdate(prevState) {
     if (
       String(prevState.messages.length) !== String(this.props.messages.length)
     ) {
-      await this.props.fetchMessages()
       const scrollList = document.getElementById('message-list')
       scrollList.scrollTop += scrollList.scrollHeight
     }
@@ -23,19 +22,16 @@ class Messages extends Component {
   render() {
     const channelId = Number(this.props.selectedChannel.id)
     const messages = this.props.messages
-    const filteredMessages = messages.filter(message => {
-      return message.channelId === channelId
-    })
-
     return (
       <div>
         <h4>{this.props.channel} Chat</h4>
         <hr />
         <div style={{overflow: 'scroll', height: '500px'}} id="message-list">
           <ul className="media-list">
-            {filteredMessages.map(message => (
-              <Message message={message} key={message.id} />
-            ))}
+            {messages.length &&
+              messages.map(message => (
+                <Message message={message} key={message.id} />
+              ))}
           </ul>
         </div>
         <NewMessageEntry channelId={channelId} />
@@ -46,7 +42,6 @@ class Messages extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
     messages: state.message.messages,
     selectedChannel: state.channel.selectedChannel
   }
@@ -54,8 +49,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchMessages: () => dispatch(fetchMessages()),
-    fetchMe: () => dispatch(me())
+    fetchMessages: channelId => dispatch(fetchMessages(channelId))
   }
 }
 
