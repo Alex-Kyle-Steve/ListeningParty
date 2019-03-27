@@ -24,6 +24,15 @@ export class ListenerController extends Component {
             </i>
           )}
         </Col>
+        <input
+          type="range"
+          min="0"
+          max="1000"
+          onMouseDown={this.disable}
+          defaultValue={0}
+          className="slider"
+          id="myRange"
+        />
       </Row>
     )
   }
