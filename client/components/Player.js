@@ -41,10 +41,7 @@ export class Player extends Component {
                   </Card.Text>
                   {!isOwner ? (
                     <Row>
-                      <Controller
-                        isListening={isListening}
-                        isPaused={this.props.isPaused}
-                      />
+                      <Controller isPaused={this.props.isPaused} />
                     </Row>
                   ) : !isListening ? (
                     <Button variant="link" onClick={this.props.startListening}>
@@ -56,10 +53,7 @@ export class Player extends Component {
                       <Button variant="link" onClick={this.props.stopListening}>
                         Stop Listening{' '}
                       </Button>
-                      <ListenerController
-                        isListening={isListening}
-                        isPaused={this.props.isPaused}
-                      />
+                      <ListenerController isPaused={this.props.isPaused} />
                     </div>
                   )}
                 </Col>

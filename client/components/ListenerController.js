@@ -10,7 +10,7 @@ export class ListenerController extends Component {
     return (
       <Row>
         <Col xs={{offset: 5}}>
-          {!this.props.isPaused ? (
+          {this.props.isPaused ? (
             //Renders the pause Button.
             //Condition is !Owner&&isPaused === true
             <i className="fa fa-pause-circle">
