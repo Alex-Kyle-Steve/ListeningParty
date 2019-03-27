@@ -24,7 +24,7 @@ export class Player extends Component {
             <Col xs={6}>
               {/* Current Song Information */}
               <Row>
-                <Col xs={12}>
+                <Col xs={12} className="player-track-info-text-header">
                   <Card.Title className="player-track-info-text-header">
                     <strong>Current Song</strong>
                   </Card.Title>
