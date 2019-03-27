@@ -3,16 +3,11 @@ import {Card, Row, Col, Button} from 'react-bootstrap'
 import {ConnectedController, ListenerController} from '.'
 
 export class Player extends Component {
-  constructor() {
-    super()
-    this.state = {
-      toggleListening: false
-    }
-  }
   render() {
     const selectedChannel = this.props.selectedChannel
     const user = this.props.user
     const isListening = this.props.isListening
+    const isOwner = selectedChannel.ownerId !== user.id
     return (
       <div>
         <Card border="light">
@@ -46,40 +41,7 @@ export class Player extends Component {
                   <Card.Text className="player-track-info-text">
                     Album: Soft Sounds from Another Planet
                   </Card.Text>
-                  {selectedChannel.ownerId !== user.id &&
-                  isListening === false ? (
-                    this.state.toggleListening === false ? (
-                      <Button
-                        variant="link"
-                        onClick={() =>
-                          this.setState({
-                            toggleListening: true
-                          })
-                        }
-                      >
-                        {' '}
-                        Start Listening{' '}
-                      </Button>
-                    ) : (
-                      <div>
-                        <Button
-                          variant="link"
-                          onClick={() =>
-                            this.setState({
-                              toggleListening: false
-                            })
-                          }
-                        >
-                          Stop Listening{' '}
-                        </Button>
-                        <ListenerController
-                          isListening={isListening}
-                          //TODO:
-                          //Pass isPaused as props
-                        />
-                      </div>
-                    )
-                  ) : selectedChannel.ownerId === user.id ? (
+                  {!isOwner ? (
                     <Row>
                       <ConnectedController
                         user={user}
@@ -87,8 +49,18 @@ export class Player extends Component {
                         //pass isPaused as props
                       />
                     </Row>
+                  ) : !isListening ? (
+                    <Button variant="link" onClick={this.props.startListening}>
+                      {' '}
+                      Start Listening{' '}
+                    </Button>
                   ) : (
-                    ''
+                    <div>
+                      <Button variant="link" onClick={this.props.stopListening}>
+                        Stop Listening{' '}
+                      </Button>
+                      <ListenerController isListening={isListening} />
+                    </div>
                   )}
                 </Col>
               </Row>
