@@ -55,7 +55,6 @@ export class Controller extends Component {
               type="range"
               min="0"
               max="1000"
-              onMouseDown={this.disable}
               step="1"
               defaultValue="0"
               className="slider"
