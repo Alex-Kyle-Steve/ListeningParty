@@ -37,13 +37,13 @@ class EditUser extends Component {
   handleSubmit = async event => {
     event.preventDefault()
     await this.props.updateUser(this.props.user.id, this.state)
-    history.push(`/home`)
+    history.push(`/user`)
   }
 
   render() {
     return (
       <div className="form">
-        <Col xs={{span: 12, offset: 6}}>
+        <Col xs={{span: 4, offset: 1}}>
           <Form className="marg-top" onSubmit={this.handleSubmit}>
             <Form.Group as={Row} controlId="formBasicTitle">
               <Form.Label>eMail</Form.Label>

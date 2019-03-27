@@ -14,6 +14,7 @@ import {
   ConnectedEditChannel,
   ConnectedSelectedSong,
   ConnectedEditUser,
+  ConnectedUserProfile,
   ConnectedMessages
 } from './components'
 import {me, initializePlayerInstance} from './store'
@@ -63,6 +64,7 @@ class Routes extends Component {
               />
               <Route path="/newChannel" component={ConnectedNewChannel} />
               <Route path="/chat" component={ConnectedMessages} />
+              <Route path="/user" component={ConnectedUserProfile} />
               <Route path="/editUser/:userId" component={ConnectedEditUser} />
               <Route component={UserHome} />
             </Switch>
