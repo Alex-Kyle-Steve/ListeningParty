@@ -2,13 +2,6 @@ import React, {Component} from 'react'
 import {Row, Col} from 'react-bootstrap'
 
 export class ListenerController extends Component {
-  constructor() {
-    super()
-    this.state = {
-      togglePlay: false
-    }
-  }
-
   step() {
     const slider = document.getElementById('myRange')
     slider.stepUp('1')

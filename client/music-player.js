@@ -1,32 +1,46 @@
 import {EventEmitter} from 'events'
 import socket from './socket'
 import store, {playTrack, togglePause, seekTrack} from './store'
+import {setNewTrack, setPaused, startTick, stopTick} from './store/playerState'
 
 const musicPlayerEvent = new EventEmitter()
+
+// determine if player-state-change event is fired by channel owner then send state to others
+const handleOwnerChange = (playerState, {channel: {selectedChannel}, user}) => {
+  // determine if the triggered player is owner's
+  const channelId = selectedChannel.id
+  const isChannelOwner = selectedChannel.ownerId === user.id
+  // if it was triggered by channel owner's player, manage all the listeners
+  if (isChannelOwner) {
+    socket.emit('owner-state-changed', channelId, playerState)
+  }
+}
 
 /**
  * handler for musicPlayerEvents when the player state changes
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
-  // get current channel, track and user from the state
-  const {channel: {selectedChannel}, user, player} = getState()
-  // id of the current channel participating
-  const channelId = selectedChannel.id
-  // determine if the triggered player is owner's
-  const isChannelOwner = selectedChannel.ownerId === user.id
-  // if it was triggered by channel owner's player, manage all the listeners
-  if (isChannelOwner) {
-    socket.emit('owner-state-changed', channelId, playerState)
+  handleOwnerChange(playerState, getState())
+  // spotify playerState from owner
+  const playerPaused = playerState.paused
+  const playerTrack = playerState.track_window.current_track
+  // get redux store state
+  const {currentTrack, isPaused} = getState().playerState
+  // change store states if uri or pause changed
+  if (playerTrack.uri !== currentTrack.uri) dispatch(setNewTrack(playerTrack))
+  if (playerPaused !== isPaused) {
+    dispatch(setPaused(playerPaused))
+    console.log(playerTrack)
+    const trackLength = playerTrack.duration_ms
+    const position = playerState.position
+    isPaused ? dispatch(startTick(trackLength, position)) : dispatch(stopTick())
   }
-  const {paused, track_window: {current_track: {uri}}, position} = playerState
 }
-
-// listener for state change in spotify player
-musicPlayerEvent.on('state-changed', handleStateChanged)
 
 // ***** HANDLING HOST'S STATE CHANGE *****//
 
+// returns a function that compares the provided spotify player state with the olde state
 const newStateComparer = function({newPaused, newUri, newPosition}) {
   return function({prevPaused, prevUri, prevPosition}) {
     const shouldChangeTrack = newUri !== prevUri
@@ -97,6 +111,8 @@ export const handleStopListening = () => {
   musicPlayerEvent.removeListener('state-received', handleStateReceived)
 }
 
+// listener for state change in spotify player
+musicPlayerEvent.on('state-changed', handleStateChanged)
 musicPlayerEvent.on('start-listening', handleStartListening)
 musicPlayerEvent.on('stop-listening', handleStopListening)
 

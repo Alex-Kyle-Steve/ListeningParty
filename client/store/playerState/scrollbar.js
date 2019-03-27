@@ -1,23 +1,33 @@
-const SET_POSITION = 'SET_POSITION'
 const SET_ID = 'SET_ID'
-
-// sets the position in milisecond on state
-export const setPosition = position => ({type: SET_POSITION, position})
 
 export const setId = id => ({type: SET_ID, id})
 
 // start moving bar when playing
-export const startTick = (trackLength, callback) => (dispatch, getState) => {
-  const intervalId = getState().intervalId
-  // don't dispatch another setInterval if intervalId is 0
+export const startTick = (trackLength, position) => (dispatch, getState) => {
+  const intervalId = getState().playerState.scrollbar
+  // don't dispatch another setInterval if intervalId isn't 0
   if (intervalId) return
-  const scrubbingSpeed = 1000 / trackLength
-  dispatch(setId(setInterval(callback, scrubbingSpeed)))
+  // myRange length is 500
+  const normalizedPosition = Math.floor(position / trackLength) * 500
+  // set position of the bar
+  document.getElementById('myRange').value = normalizedPosition
+  // how much to move per sec
+  const seekSpeed = Math.ceil(500 / Math.ceil(trackLength / 1000))
+  // get the function from the element
+  const stepUp = document
+    .getElementById('myRange')
+    .stepUp.bind(document.getElementById('myRange'))
+  // declare the callback
+  const callback = function() {
+    stepUp(seekSpeed)
+  }
+  // set up animation tick
+  dispatch(setId(setInterval(callback, 1000)))
 }
 
 // stop moving bar when pausing
 export const stopTick = () => (dispatch, getState) => {
-  const intervalId = getState().intervalId
+  const intervalId = getState().playerState.scrollbar
   if (!intervalId) return
   clearInterval(intervalId)
   dispatch(setId(0))
@@ -26,13 +36,7 @@ export const stopTick = () => (dispatch, getState) => {
 // reducer for duration.
 // integer in milisecond
 
-const initialState = {
-  position: 0,
-  intervalId: 0
-}
-
-export default function(state = initialState, action) {
-  if (action.type === SET_POSITION) return {...state, position: action.position}
-  if (action.type === SET_ID) return {...state, intervalId: action.id}
+export default function(state = 0, action) {
+  if (action.type === SET_ID) return action.id
   return state
 }
