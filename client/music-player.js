@@ -1,5 +1,4 @@
 import {EventEmitter} from 'events'
-import axios from 'axios'
 import socket from './socket'
 import store, {playTrack, togglePause, seekTrack} from './store'
 
@@ -24,6 +23,8 @@ const handleStateChanged = (playerState, dispatch, getState) => {
 
 // listener for state change in spotify player
 musicPlayerEvent.on('state-changed', handleStateChanged)
+
+// ***** HANDLING HOST'S STATE CHANGE *****//
 
 // helper for determining what to update
 const getChangedState = (
@@ -82,6 +83,8 @@ export const handleStateReceived = receivedState => {
   )
 }
 
+// ***** END *****//
+
 // when listener clicks the 'start listening' button
 export const handleStartListening = channelId => {
   // subscribe listening
@@ -91,7 +94,7 @@ export const handleStartListening = channelId => {
 }
 
 // when listener clicks the 'stop listening' button
-export const handleStopListening = channelId => {
+export const handleStopListening = () => {
   // pauses track
   store.dispatch(togglePause(true))
   // unsubscribe listening
@@ -102,41 +105,3 @@ musicPlayerEvent.on('start-listening', handleStartListening)
 musicPlayerEvent.on('stop-listening', handleStopListening)
 
 export default musicPlayerEvent
-
-// ***** SPOTIFY WEBPLAYBACK SDK ***** //
-
-// grants access token from user session. only handles successful request
-// - TODO: refreshing token, handling error
-export const getAccessToken = () =>
-  axios.get('/auth/spotify/token').then(res => res.data.accessToken)
-
-// creates player
-export const createPlayer = () =>
-  new Spotify.Player({
-    name: 'Listening Party Spotify Player',
-    getOAuthToken: callback => getAccessToken().then(callback)
-  })
-
-// returns a helper function for creating fetch call
-const makePlayRequest = (uri, id) => accessToken =>
-  fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({uris: [uri]}),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`
-    }
-  })
-    .then(response => response)
-    .catch(console.log)
-
-/**
- * function that makes an html request to web API and changes the track on the player
- * @param {{string, object: {object: {function, string}}}} param0: nested object of uri and the player
- * @returns {Spotify.Player}
- * TODO:
- * - add error-handling when playback fails
- * - fetch new auth token when expired
- */
-export const playNewUri = ({uri, player: {_options: {getOAuthToken, id}}}) =>
-  getOAuthToken(makePlayRequest(uri, id))
