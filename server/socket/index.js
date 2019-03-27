@@ -17,18 +17,12 @@ module.exports = io => {
     socket.on('join-room', (roomNumber, isOwner, joinId) => {
       socket.join(roomNumber)
       console.log('owner?', isOwner)
-      if (isOwner) {
-        socket.to(socket.id).emit('subscribe-owner')
-      }
       console.log(`${socket.id} joined room ${roomNumber}`)
     })
 
     // leaving a channel
     socket.on('leave-room', (roomNumber, isOwner) => {
       socket.leave(roomNumber)
-      if (isOwner) {
-        socket.to(socket.id).emit('unsubscribe-owner')
-      }
       console.log(`${socket.id} left room ${roomNumber}`)
     })
 

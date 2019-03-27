@@ -51,20 +51,6 @@ export const playTrack = uri => (dispatch, getState) => {
   )
 }
 
-export const setAsOwner = () => (dispatch, getState) => {
-  getState().player.addListener('player_state_changed', state => {
-    // emit event to socket: check music-player.js
-    musicPlayerEvent.emit('state-changed', state, dispatch, getState)
-  })
-}
-
-export const removeAsOwner = () => (dispatch, getState) => {
-  getState().player.addListener('player_state_changed', state => {
-    // emit event to socket: check music-player.js
-    musicPlayerEvent.emit('state-changed', state, dispatch, getState)
-  })
-}
-
 /**
  * toggle pause and resume of the spotify player when:
  * - owner pause state changes
