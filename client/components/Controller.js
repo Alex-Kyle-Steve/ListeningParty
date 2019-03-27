@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Col, Row} from 'react-bootstrap'
-import {togglePause} from '../store'
 export class Controller extends Component {
   render() {
     return (
@@ -49,7 +48,6 @@ export class Controller extends Component {
               type="range"
               min="0"
               max="1000"
-              onMouseDown={this.disable}
               step="1"
               defaultValue="0"
               className="slider"

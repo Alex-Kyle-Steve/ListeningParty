@@ -6,7 +6,6 @@ export class Player extends Component {
   render() {
     const isListening = this.props.isListening
     const isOwner = this.props.isOwner
-    console.log(this.props)
     return (
       <div>
         <Card border="light">

@@ -12,9 +12,9 @@ socket.on('connect', () => {
     if (store.getState().channel.selectedChannel.id === message.channelId)
       store.dispatch(getMessage(message))
   })
-  
+
   const {channel: {selectedChannel}, user} = store.getState()
-  
+
   if (selectedChannel.ownerId === user.id) {
     socket.on('request', (song, requester) => {
       if (
