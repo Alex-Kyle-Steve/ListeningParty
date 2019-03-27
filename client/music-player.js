@@ -42,7 +42,9 @@ const setStoreState = function(
 
 // returns a function that compares the provided spotify player state with the olde state
 const newStateComparer = function(newPaused, newUri, newPosition) {
+  console.log('at new state')
   return function(prevPaused, prevUri, prevPosition) {
+    console.log('at compare state')
     const shouldChangeTrack = newUri !== prevUri
     prevPaused = shouldChangeTrack ? false : prevPaused
     const shouldTogglePlay = newPaused === prevPaused
@@ -114,23 +116,26 @@ export const handleStateReceived = async receivedState => {
   // extract needed state from owner's player
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
 
-  const stateChangePromise = resolveStateChange(uri, paused, position)
-
   const listenerState = await store.getState().player.getCurrentState()
-  console.log('received state: ', receivedState)
-  console.log('current listener state:', listenerState)
-  const {prevPaused, prevUri, prevPosition} = listenerState
-  const compareNewState = newStateComparer(paused, uri, position)
-  const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
-  console.log('these are the changes: ', whatToChange)
   // call the helper promise to determine the needed adjustment
   if (!listenerState) {
-    await stateChangePromise({
+    await resolveStateChange(uri, paused, position)({
       shouldTogglePlay: true,
       shouldChangeTrack: true,
       shouldSeek: true
     })
-  } else await stateChangePromise(whatToChange)
+  } else {
+    console.log('received state: ', receivedState)
+    console.log('current listener state:', listenerState)
+    const prevPaused = listenerState.paused
+    const prevUri = listenerState.current_track.uri
+    const prevPosition = listenerState.position
+    const compareNewState = newStateComparer(paused, uri, position)
+    const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
+    console.log('these are the changes: ', whatToChange)
+
+    resolveStateChange(uri, paused, position).stateChangePromise(whatToChange)
+  }
   await setStoreState(
     paused,
     uri,
