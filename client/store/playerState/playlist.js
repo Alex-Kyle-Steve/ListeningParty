@@ -39,7 +39,8 @@ export const addNewTrack = newTrack => (dispatch, getState) =>
     )
 
 export const playNextTrack = () => (dispatch, getState) => {
-  const currentPlaylist = getState().playlist
+  const currentPlaylist = getState().playerState.playlist
+  if (!currentPlaylist.length) return null
   const nextTrack = currentPlaylist[0]
   const nextPlaylist = currentPlaylist.slice(1)
   dispatch(setNewTrack(nextTrack))

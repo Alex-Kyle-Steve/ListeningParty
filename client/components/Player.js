@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Card, Row, Col, Button} from 'react-bootstrap'
-import {Controller, ListenerController} from '.'
+import {PlayerController, ListenerController} from '.'
 
 export class Player extends Component {
   render() {
@@ -28,7 +28,6 @@ export class Player extends Component {
                     <strong>Current Song</strong>
                   </Card.Title>
                 </Col>
-
                 <Col xs={12}>
                   <hr />
                   <Card.Text className="player-track-info-text">
@@ -58,7 +57,7 @@ export class Player extends Component {
                   </Card.Text>
                   {isOwner ? (
                     <Row>
-                      <Controller isPaused={this.props.isPaused} />
+                      <PlayerController isPaused={this.props.isPaused} />
                     </Row>
                   ) : !isListening ? (
                     <Button variant="link" onClick={this.props.startListening}>

@@ -54,9 +54,6 @@ export class SelectedChannel extends Component {
     const selectedChannel = this.props.selectedChannel
     const channelId = parseInt(this.props.match.params.channelId, 10)
     const isOwner = this.props.selectedChannel.ownerId === this.props.user.id
-    console.log(
-      `channelID:${this.props.selectedChannel.id}, userID:${this.props.user.id}`
-    )
     return (
       <div>
         <Container fluid={true}>
