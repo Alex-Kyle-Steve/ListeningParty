@@ -12,8 +12,8 @@ import {
 const musicPlayerEvent = new EventEmitter()
 
 // returns a function that compares the provided spotify player state with the olde state
-const newStateComparer = function({newPaused, newUri, newPosition}) {
-  return function({prevPaused, prevUri, prevPosition}) {
+const newStateComparer = function(newPaused, newUri, newPosition) {
+  return function(prevPaused, prevUri, prevPosition) {
     const shouldChangeTrack = newUri !== prevUri
     prevPaused = shouldChangeTrack ? false : prevPaused
     const shouldTogglePlay = newPaused === prevPaused
@@ -100,8 +100,9 @@ export const handleStateReceived = async receivedState => {
     })
     return
   }
+  const {prevPaused, prevUri, prevPosition} = listenerState
   const compareNewState = newStateComparer(paused, uri, position)
-  const whatToChange = compareNewState(listenerState)
+  const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
   // call the helper promise to determine the needed adjustment
   await stateChangePromise(whatToChange)
 }
