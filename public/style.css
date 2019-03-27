@@ -144,7 +144,9 @@ i.fa:hover {
 /* The slider itself */
 .slider {
   -webkit-appearance: none;
-  width: 95%;
+  width: 75%;
+  margin-left: 10%;
+
   height: 15px;
   border-radius: 5px;
   background: #d3d3d3;
