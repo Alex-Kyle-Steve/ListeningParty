@@ -21,7 +21,6 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
   }
   // create soptify player
   const instance = createPlayer()
-  // subscribe listeners  for when player state changes
   instance.addListener('player_state_changed', state => {
     // emit event to socket: check music-player.js
     musicPlayerEvent.emit('state-changed', state, dispatch, getState)
@@ -50,6 +49,20 @@ export const playTrack = uri => (dispatch, getState) => {
   return playNewUri({uri, player}).then(response =>
     console.log('played new uri: response =', response)
   )
+}
+
+export const setAsOwner = () => (dispatch, getState) => {
+  getState().player.addListener('player_state_changed', state => {
+    // emit event to socket: check music-player.js
+    musicPlayerEvent.emit('state-changed', state, dispatch, getState)
+  })
+}
+
+export const removeAsOwner = () => (dispatch, getState) => {
+  getState().player.addListener('player_state_changed', state => {
+    // emit event to socket: check music-player.js
+    musicPlayerEvent.emit('state-changed', state, dispatch, getState)
+  })
 }
 
 /**

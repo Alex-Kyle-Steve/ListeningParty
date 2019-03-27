@@ -11,6 +11,33 @@ import {
 
 const musicPlayerEvent = new EventEmitter()
 
+const setStoreState = function(
+  playerPaused,
+  playerTrack,
+  playerPosition,
+  playerState,
+  dispatch
+) {
+  // get redux store state
+  const stateTrack = playerState.currentTrack
+  const statePaused = playerState.isPaused
+  // change store states if uri or pause changed
+  if (playerTrack.uri !== stateTrack.uri) {
+    dispatch(setNewTrack(playerTrack))
+  }
+  // if player paused change
+  if (playerPaused !== statePaused) {
+    const trackLength = playerTrack.duration_ms
+    const position = playerState.position
+    playerPaused
+      ? dispatch(startTick(trackLength, position))
+      : dispatch(stopTick(trackLength, position))
+    dispatch(setPaused(playerPaused))
+  } else {
+    setPosition(playerPosition, playerTrack.duration_ms)
+  }
+}
+
 // returns a function that compares the provided spotify player state with the olde state
 const newStateComparer = function(newPaused, newUri, newPosition) {
   return function(prevPaused, prevUri, prevPosition) {
@@ -40,27 +67,22 @@ const handleOwnerChange = (playerState, {channel: {selectedChannel}, user}) => {
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
+  const {channel: {selectedChannel}, user} = getState()
+  const isChannelOwner = selectedChannel.ownerId === user.id
+  if (!isChannelOwner) return
+  console.log(`handlingState`)
   handleOwnerChange(playerState, getState())
   // spotify playerState from owner
   const playerPaused = playerState.paused
   const playerTrack = playerState.track_window.current_track
   const playerPosition = playerState.position
-  // get redux store state
-  const stateTrack = getState().playerState.currentTrack
-  const statePaused = getState().playerState.isPaused
-  // change store states if uri or pause changed
-  if (playerTrack.uri !== stateTrack.uri) {
-    dispatch(setNewTrack(playerTrack))
-  }
-  // if player paused change
-  if (playerPaused !== statePaused) {
-    const trackLength = playerTrack.duration_ms
-    const position = playerState.position
-    playerPaused
-      ? dispatch(startTick(trackLength, position))
-      : dispatch(stopTick(trackLength, position))
-    dispatch(setPaused(playerPaused))
-  } else setPosition(playerPosition, playerTrack.duration_ms)
+  setStoreState(
+    playerPaused,
+    playerTrack,
+    playerPosition,
+    getState().playerState,
+    dispatch
+  )
 }
 
 // ***** HANDLING HOST'S STATE CHANGE *****//
@@ -102,6 +124,13 @@ export const handleStateReceived = async receivedState => {
   const {prevPaused, prevUri, prevPosition} = listenerState
   const compareNewState = newStateComparer(paused, uri, position)
   const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
+  setStoreState(
+    paused,
+    uri,
+    position,
+    store.getState().playerState,
+    store.getState().dispatch
+  )
   // call the helper promise to determine the needed adjustment
   return stateChangePromise(whatToChange)
 }

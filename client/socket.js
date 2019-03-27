@@ -2,7 +2,12 @@
 import io from 'socket.io-client'
 
 import musicPlayerEvent from './music-player'
-import store, {getMessage, addNewTrack} from './store'
+import store, {
+  getMessage,
+  addNewTrack,
+  setAsOwner,
+  removeAsOwner
+} from './store'
 
 const socket = io(window.location.origin)
 
@@ -45,5 +50,9 @@ socket.on('new-listener', function(listenerId) {
       )
   )
 })
+
+socket.on('subscribe-owner', setAsOwner)
+
+socket.on('unsubscribe-owner', removeAsOwner)
 
 export default socket
