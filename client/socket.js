@@ -2,7 +2,7 @@
 import io from 'socket.io-client'
 
 import musicPlayerEvent from './music-player'
-import store, {getMessage} from './store'
+import store, {getMessage, addNewTrack} from './store'
 
 const socket = io(window.location.origin)
 
@@ -16,11 +16,14 @@ socket.on('connect', () => {
   if (selectedChannel.ownerId === user.id) {
     socket.on('request', (song, requester) => {
       // store.dispatch( getMessage( {user: requester, userId: requester.id, channelId: selectedChannel.id, content: `Listener ${ requester.id} reqested ${song.title} by ${song.artist}`}))
-      alert(
-        `Listener ${requester.id} reqested ${song.title} by ${
-          song.artist
-        } from the album ${song.album}`
+      if (
+        confirm(
+          `Listener ${requester.id} reqested ${song.title} by ${
+            song.artist
+          } from the album ${song.album}\nAdd to play list?`
+        )
       )
+        store.dispatch(addNewTrack(song))
     })
   }
 })
@@ -31,11 +34,6 @@ socket.on('received-state-change', playerState => {
 
 socket.on('new-listener', function(listenerId) {
   const {channel: {selectedChannel}, user, player} = store.getState()
-  const isOwner = selectedChannel.ownerId === user.id
-  if (isOwner)
-    socket.on('request', (song, requester) => {
-      console.log(song, requester)
-    })
   return (
     isOwner &&
     player
