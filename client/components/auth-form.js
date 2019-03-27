@@ -2,16 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {
-  Button,
-  Row,
-  Col,
-  Table,
-  Image,
-  Form,
-  Container,
-  Jumbotron
-} from 'react-bootstrap'
+import {Button, Row, Col, Card, Container, Jumbotron} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 /**
  * COMPONENT
@@ -21,37 +12,54 @@ const AuthForm = props => {
 
   return (
     <Container>
-      <Jumbotron className="custom-center-align">
+      <Jumbotron
+        className="custom-center-align"
+        style={{backgroundColor: 'white'}}
+      >
         <Row>
           <Col xs={12}>
-            <form onSubmit={handleSubmit} name={name}>
-              <label htmlFor="email">
-                <small>Email</small>
-              </label>
-              <input name="email" type="text" />
+            <Card border="light">
+              <Card.Title>
+                {' '}
+                <h4>Login With</h4>
+              </Card.Title>
+              <form onSubmit={handleSubmit} name={name}>
+                <label htmlFor="email">
+                  <small>Email</small>
+                </label>
+                <input name="email" type="text" />
 
-              <label htmlFor="password">
-                <small>Password</small>
-              </label>
-              <input name="password" type="password" />
-              <br />
-              <br />
-              {/* <Row> */}
-              {error && error.response && <div> {error.response.data} </div>}
-              {/* </Row> */}
-              <Button type="submit">{displayName}</Button>
-            </form>
+                <label htmlFor="password">
+                  <small>Password</small>
+                </label>
+                <input name="password" type="password" />
+                <br />
+                <br />
+                {/* <Row> */}
+                {error && error.response && <div> {error.response.data} </div>}
+                {/* </Row> */}
+                <Button type="submit">{displayName}</Button>
+              </form>
 
-            {/* <Row>
+              {/* <Row>
               <Col xs={3} />
               <Col xs={6}>or</Col>
               <Col xs={3} />
             </Row> */}
-            <hr />
+              {/* <hr /> */}
+              <hr />
+              <Row>
+                <Col xs={12}>
+                  {' '}
+                  <h4>Or</h4>
+                </Col>
+              </Row>
 
-            <a href="/auth/spotify">
-              <Button variant="success">{displayName} with Spotify</Button>
-            </a>
+              <a href="/auth/spotify">
+                <img src="/Spotify_Logo_RGB_Green.png" />
+                {/* <Button variant="success">{displayName} with Spotify</Button> */}
+              </a>
+            </Card>
           </Col>
         </Row>
       </Jumbotron>

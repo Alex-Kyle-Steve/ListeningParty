@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Col, Row} from 'react-bootstrap'
-import {togglePause} from '../store'
 export class Controller extends Component {
   render() {
     return (
@@ -9,14 +8,11 @@ export class Controller extends Component {
         <br />
         <Row>
           <Col
-            xs={{offset: 1, span: 11}}
-            md={{offset: 0, span: 12}}
+            xs={{offset: 0, span: 11}}
+            md={{offset: 0, span: 10}}
             lg={{offset: 0, span: 12}}
-            xl={{span: 12, offset: 4}}
+            xl={{span: 12, offset: 5}}
           >
-            <i onClick={this.togglePrev} className="fa fa-step-backward">
-              <img src="/back.png" />
-            </i>
             {this.props.isPaused ? (
               <i
                 onClick={
@@ -38,9 +34,6 @@ export class Controller extends Component {
                 <img src="/pause.png" />
               </i>
             )}
-            <i onClick={this.tthioggleSkip} className="fa fa-step-forward">
-              <img src="/forward.png" />
-            </i>
           </Col>
         </Row>
         <br />

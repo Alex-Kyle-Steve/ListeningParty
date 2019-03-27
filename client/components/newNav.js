@@ -36,6 +36,9 @@ const NewNavbar = ({handleClick, isLoggedIn}) => (
         <Link to="/newchannel">
           <Nav.Item className="link-styling">Create Channel</Nav.Item>
         </Link>
+        <Link to="/user">
+          <Nav.Item className="link-styling">User Profile</Nav.Item>
+        </Link>
       </Nav>
     ) : (
       <Nav className="mr-auto">

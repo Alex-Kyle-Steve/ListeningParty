@@ -11,7 +11,14 @@ export class Player extends Component {
         <Card border="light">
           <Row>
             <Col xs={6}>
-              <Card.Img src="https://i.scdn.co/image/2b2c35974280d813521f8e9b5962f043136d3440" />
+              <Card.Img
+                src={
+                  this.props.currentTrack
+                    ? // .images[0] !== undefined
+                      this.props.currentTrack.images[0]
+                    : '/noAlbum.jpg'
+                }
+              />
             </Col>
             <Col xs={6}>
               {/* Current Song Information */}
@@ -25,19 +32,29 @@ export class Player extends Component {
                 <Col xs={12}>
                   <hr />
                   <Card.Text className="player-track-info-text">
-                    Title: Road Head
+                    Title:{' '}
+                    {this.props.currentTrack && this.props.currentTrack.name
+                      ? this.props.currentTrack.name
+                      : ''}
                   </Card.Text>
                 </Col>
                 <Col xs={12}>
                   <hr />
                   <Card.Text className="player-track-info-text">
-                    Artist: Japanese Breakfast
+                    Artist:{' '}
+                    {this.props.currentTrack &&
+                    this.props.currentTrack.artists[0].name
+                      ? this.props.currentTrack.artists[0].name
+                      : ''}
                   </Card.Text>
                 </Col>
                 <Col xs={12}>
                   <hr />
                   <Card.Text className="player-track-info-text">
-                    Album: Soft Sounds from Another Planet
+                    Album:{' '}
+                    {this.props.currentTrack && this.props.artists[0].name
+                      ? this.props.currentTrack.album.name
+                      : ''}
                   </Card.Text>
                   {!isOwner ? (
                     <Row>

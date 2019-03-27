@@ -9,7 +9,7 @@ export class ListenerController extends Component {
   render() {
     return (
       <Row>
-        <Col xs={{offset: 5}}>
+        <Col xs={{offset: 4}}>
           {this.props.isPaused ? (
             //Renders the pause Button.
             //Condition is !Owner&&isPaused === true
