@@ -15,9 +15,9 @@ socket.on('new-message', message => {
     store.dispatch(getMessage(message))
 })
 
-socket.on('received-state-change', playerState => {
+socket.on('received-state-change', playerState =>
   musicPlayerEvent.emit('state-received', playerState)
-})
+)
 
 socket.on('new-listener', function(listenerId) {
   const {channel: {selectedChannel}, user, player} = store.getState()
@@ -31,7 +31,5 @@ socket.on('new-listener', function(listenerId) {
       )
   )
 })
-
-socket.on('sync-to-channel')
 
 export default socket
