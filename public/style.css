@@ -144,7 +144,7 @@ i.fa:hover {
 /* The slider itself */
 .slider {
   -webkit-appearance: none;
-  width: 100%;
+  width: 95%;
   height: 15px;
   border-radius: 5px;
   background: #d3d3d3;
@@ -178,6 +178,10 @@ i.fa:hover {
 
 .player-track-info-text {
   font-size: 100% !important;
+}
+
+.listener-song-status-bar-width {
+  max-width: 75%;
 }
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */

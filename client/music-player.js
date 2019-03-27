@@ -11,7 +11,7 @@ const musicPlayerEvent = new EventEmitter()
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
   // get current channel, track and user from the state
-  const {channel: {selectedChannel}, user} = getState()
+  const {channel: {selectedChannel}, user, palyer} = getState()
   // id of the current channel participating
   const channelId = selectedChannel.id
   // determine if the triggered player is owner's
@@ -20,6 +20,7 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   if (isChannelOwner) {
     socket.emit('owner-state-changed', channelId, playerState)
   }
+  const {paused, track_window: {current_track: {uri}}, position} = playerState
 }
 
 // listener for state change in spotify player
