@@ -1,18 +1,8 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
 import {Col, Row} from 'react-bootstrap'
 import {togglePause} from '../store'
 export class Controller extends Component {
-  constructor() {
-    super()
-    this.state = {
-      togglePlay: false,
-      sliderValue: 0
-    }
-  }
-
   render() {
-    console.log(this.props)
     return (
       <Col xs={{span: 12}}>
         <br />
@@ -27,22 +17,22 @@ export class Controller extends Component {
             <i onClick={this.togglePrev} className="fa fa-step-backward">
               <img src="/back.png" />
             </i>
-            {this.state.togglePlay === false ? (
+            {this.props.isPaused ? (
               <i
-                onClick={() => {
-                  this.setState({togglePlay: true})
-                  this.props.togglePlay(false)
-                }}
+                onClick={
+                  /** PLAY THUNK */
+                  () => {}
+                }
                 className="fa fa-pause-circle"
               >
                 <img src="/play.png" />
               </i>
             ) : (
               <i
-                onClick={() => {
-                  this.setState({togglePlay: false})
-                  this.props.togglePlay(true)
-                }}
+                onClick={
+                  /** PAUSE THUNK */
+                  () => {}
+                }
                 className="fa fa-pause-circle"
               >
                 <img src="/pause.png" />
@@ -63,8 +53,8 @@ export class Controller extends Component {
           >
             <input
               type="range"
-              min="1"
-              max="100"
+              min="0"
+              max="1000"
               onMouseDown={this.disable}
               step="1"
               defaultValue="0"
@@ -77,21 +67,3 @@ export class Controller extends Component {
     )
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    currentTrack: state.currentTrack,
-    isListening: state.playerState.isListening,
-    isPlaying: state.playerState.isPlaying
-  }
-}
-
-const mapDisPatchToProps = dispatch => {
-  return {
-    togglePlay: shouldPause => dispatch(togglePause(shouldPause))
-  }
-}
-
-export const ConnectedController = connect(mapStateToProps, mapDisPatchToProps)(
-  Controller
-)

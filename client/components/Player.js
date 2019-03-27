@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
 import {Card, Row, Col, Button} from 'react-bootstrap'
-import {ConnectedController, ListenerController} from '.'
+import {Controller, ListenerController} from '.'
 
 export class Player extends Component {
   render() {
-    const selectedChannel = this.props.selectedChannel
-    const user = this.props.user
     const isListening = this.props.isListening
-    const isOwner = selectedChannel.ownerId !== user.id
+    const isOwner = this.props.isOwner
     return (
       <div>
         <Card border="light">
@@ -43,11 +41,7 @@ export class Player extends Component {
                   </Card.Text>
                   {!isOwner ? (
                     <Row>
-                      <ConnectedController
-                        user={user}
-                        selectedChannel={selectedChannel}
-                        //pass isPaused as props
-                      />
+                      <Controller isPaused={this.props.isPaused} />
                     </Row>
                   ) : !isListening ? (
                     <Button variant="link" onClick={this.props.startListening}>
@@ -59,7 +53,7 @@ export class Player extends Component {
                       <Button variant="link" onClick={this.props.stopListening}>
                         Stop Listening{' '}
                       </Button>
-                      <ListenerController isListening={isListening} />
+                      <ListenerController isPaused={this.props.isPaused} />
                     </div>
                   )}
                 </Col>
