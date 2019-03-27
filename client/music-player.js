@@ -46,17 +46,17 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   const playerTrack = playerState.track_window.current_track
   const playerPosition = playerState.position
   // get redux store state
-  const {currentTrack, isPaused} = getState().playerState
+  const stateTrack = getState().playerState.currentTrack
+  const statePaused = getState().playerState.isPaused
   // change store states if uri or pause changed
-  if (playerTrack.uri !== currentTrack.uri) {
+  if (playerTrack.uri !== stateTrack.uri) {
     dispatch(setNewTrack(playerTrack))
   }
   // if player paused change
-  if (playerPaused !== isPaused) {
-    dispatch(setPaused(playerPaused))
+  if (playerPaused !== statePaused) {
     const trackLength = playerTrack.duration_ms
     const position = playerState.position
-    isPaused
+    playerPaused
       ? dispatch(startTick(trackLength, position))
       : dispatch(stopTick(trackLength, position))
     dispatch(setPaused(playerPaused))
