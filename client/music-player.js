@@ -93,18 +93,17 @@ export const handleStateReceived = async receivedState => {
 
   const listenerState = await store.getState().player.getCurrentState()
   if (!listenerState) {
-    await stateChangePromise({
+    return stateChangePromise({
       shouldTogglePlay: true,
       shouldChangeTrack: true,
       shouldSeek: true
     })
-    return
   }
   const {prevPaused, prevUri, prevPosition} = listenerState
   const compareNewState = newStateComparer(paused, uri, position)
   const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
   // call the helper promise to determine the needed adjustment
-  await stateChangePromise(whatToChange)
+  return stateChangePromise(whatToChange)
 }
 
 // ***** END *****//
