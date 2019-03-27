@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Col, Row} from 'react-bootstrap'
-import {playTrack, togglePause, seekTrack} from '../store/player'
+import {togglePause} from '../store'
 export class Controller extends Component {
   constructor() {
     super()
@@ -27,11 +27,6 @@ export class Controller extends Component {
             <i onClick={this.togglePrev} className="fa fa-step-backward">
               <img src="/back.png" />
             </i>
-
-            {/* TODO:
-              create checks for isPaused. Should be able to
-              use togglePlay
-            */}
             {this.state.togglePlay === false ? (
               <i
                 onClick={() => {
@@ -86,8 +81,8 @@ export class Controller extends Component {
 const mapStateToProps = state => {
   return {
     currentTrack: state.currentTrack,
-    playlist: state.playlist,
-    player: state.player
+    isListening: state.playerState.isListening,
+    isPlaying: state.playerState.isPlaying
   }
 }
 
