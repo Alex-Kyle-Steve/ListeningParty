@@ -56,7 +56,7 @@ export class Player extends Component {
                       ? this.props.currentTrack.album.name
                       : ''}
                   </Card.Text>
-                  {!isOwner ? (
+                  {isOwner ? (
                     <Row>
                       <Controller isPaused={this.props.isPaused} />
                     </Row>
