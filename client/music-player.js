@@ -134,7 +134,9 @@ export const handleStateReceived = async receivedState => {
     const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
     console.log('these are the changes: ', whatToChange)
 
-    resolveStateChange(uri, paused, position).stateChangePromise(whatToChange)
+    await resolveStateChange(uri, paused, position).stateChangePromise(
+      whatToChange
+    )
   }
   await setStoreState(
     paused,
