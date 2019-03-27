@@ -11,28 +11,6 @@ export class Controller extends Component {
     }
   }
 
-  // async toggleSkip() {
-  //   await axios({
-  //     method: 'post',
-  //     url: `https://api.spotify.com/v1/me/player/next`,
-  //     headers: {
-  //       Authorization: `Bearer ${this.props.user.accessToken}`
-  //     }
-  //   })
-  // }
-
-  // async togglePrev() {
-  //   await axios({
-  //     method: 'post',
-  //     url: `https://api.spotify.com/v1/me/player/previous`,
-  //     headers: {
-  //       Authorization: `Bearer ${this.props.user.accessToken}`
-  //     }
-  //   })
-  // }
-
-  //currentPosition and songLength are values in Milliseconds
-
   render() {
     console.log(this.props)
     return (
@@ -49,6 +27,11 @@ export class Controller extends Component {
             <i onClick={this.togglePrev} className="fa fa-step-backward">
               <img src="/back.png" />
             </i>
+
+            {/* TODO:
+              create checks for isPaused. Should be able to
+              use togglePlay
+            */}
             {this.state.togglePlay === false ? (
               <i
                 onClick={() => {
@@ -87,8 +70,9 @@ export class Controller extends Component {
               type="range"
               min="1"
               max="100"
-              onMouseUp={seekTrack}
-              defaultValue={0}
+              onMouseDown={this.disable}
+              step="1"
+              defaultValue="0"
               className="slider"
               id="myRange"
             />

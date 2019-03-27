@@ -130,6 +130,8 @@ const mapStateToProps = state => {
     selectedChannel: state.channel.selectedChannel,
     user: state.user,
     // playerState
+    //TODO:
+    //ADD isPAUSED CONDITION
     isListening: state.playerState.isListening,
     playlist: state.playerState.playlist,
     currentTrack: state.currentTrack
