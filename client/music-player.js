@@ -90,63 +90,45 @@ const handleStateChanged = (playerState, dispatch, getState) => {
 
 // ***** HANDLING HOST'S STATE CHANGE *****//
 
-// promise creator for calling thunks to update the listener's player
-const resolveStateChange = (uri, paused, position) => async ({
+const resolveStateChange = (uri, paused, position) => ({
   shouldTogglePlay,
   shouldChangeTrack,
   shouldSeek
-}) => {
-  console.log('changing the player to :', uri, paused, position)
-  if (shouldChangeTrack) await store.dispatch(playTrack(uri))
-  if (shouldTogglePlay) await store.dispatch(togglePause(paused))
-  if (shouldSeek) await store.dispatch(seekTrack(position))
-}
-/**
- * handler for when channel owner's player state changes
- * subscribed to listening players only when listener requests
- * check store/playerState/isListening.js
- * @param {WebPlaybackState} playerState
- * TODO:
- * - seek music
- */
+}) =>
+  Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri)))
+    .then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
+    .then(() => shouldSeek && store.dispatch(seekTrack(position)))
+
 export const handleStateReceived = async receivedState => {
+  console.log('state received!!!:', receivedState)
   // if received state is null, and our player is active, pause it just in case
   if (!receivedState)
     return store.getState().player && store.dispatch(togglePause(true))
   // extract needed state from owner's player
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
 
+  const stateChangePromise = resolveStateChange(uri, paused, position)
+
   const listenerState = await store.getState().player.getCurrentState()
-  // call the helper promise to determine the needed adjustment
-  if (!listenerState) {
-    await resolveStateChange(uri, paused, position)({
+  if (!listenerState)
+    return stateChangePromise({
       shouldTogglePlay: true,
       shouldChangeTrack: true,
       shouldSeek: true
-    })
-  } else {
-    console.log('received state: ', receivedState)
-    console.log('current listener state:', listenerState)
-    const prevPaused = listenerState.paused
-    const prevUri = listenerState.current_track.uri
-    const prevPosition = listenerState.position
-    const compareNewState = newStateComparer(paused, uri, position)
-    const whatToChange = compareNewState(prevPaused, prevUri, prevPosition)
-    console.log('these are the changes: ', whatToChange)
-
-    await resolveStateChange(uri, paused, position).stateChangePromise(
-      whatToChange
+    }).then(() => {})
+  const compareNewState = newStateComparer(paused, uri, position)
+  const whatToChange = compareNewState(listenerState)
+  // call the helper promise to determine the needed adjustment
+  return stateChangePromise(whatToChange).then(() =>
+    setStoreState(
+      paused,
+      uri,
+      position,
+      store.getState().playerState,
+      store.getState().dispatch
     )
-  }
-  await setStoreState(
-    paused,
-    uri,
-    position,
-    store.getState().playerState,
-    store.getState().dispatch
   )
 }
-
 // ***** END *****//
 
 // when listener clicks the 'start listening' button
