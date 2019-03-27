@@ -8,18 +8,22 @@ export const startTick = (trackLength, position) => (dispatch, getState) => {
   // don't dispatch another setInterval if intervalId isn't 0
   if (intervalId) return
   // myRange length is 500
-  const normalizedPosition = Math.floor(position / trackLength) * 500
+  const normalizedPosition =
+    Math.floor(500 / Math.ceil(trackLength / 1000)) * Math.ceil(position / 1000)
+  console.log('position:', normalizedPosition)
   // set position of the bar
   document.getElementById('myRange').value = normalizedPosition
   // how much to move per sec
   const seekSpeed = Math.ceil(500 / Math.ceil(trackLength / 1000))
-  // get the function from the element
+  console.log('seek-speed:', seekSpeed)
+  // get the function from the elementßß
   const stepUp = document
     .getElementById('myRange')
     .stepUp.bind(document.getElementById('myRange'))
   // declare the callback
   const callback = function() {
-    stepUp(seekSpeed)
+    stepUp(seekSpeed.toString())
+    console.log(document.getElementById('myRange').value)
   }
   // set up animation tick
   dispatch(setId(setInterval(callback, 1000)))

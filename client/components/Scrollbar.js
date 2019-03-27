@@ -6,7 +6,7 @@ export const Scrollbar = function(props) {
       <input
         type="range"
         min="1"
-        max="100"
+        max="500"
         onMouseDown={props.onMouseDown}
         defaultValue={0}
         className="slider"
