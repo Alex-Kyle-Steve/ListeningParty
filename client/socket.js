@@ -12,6 +12,17 @@ socket.on('connect', () => {
   socket.on('new-message', message => {
     store.dispatch(getMessage(message))
   })
+  const {channel: {selectedChannel}, user} = store.getState()
+  if (selectedChannel.ownerId === user.id) {
+    socket.on('request', (song, requester) => {
+      // store.dispatch( getMessage( {user: requester, userId: requester.id, channelId: selectedChannel.id, content: `Listener ${ requester.id} reqested ${song.title} by ${song.artist}`}))
+      alert(
+        `Listener ${requester.id} reqested ${song.title} by ${
+          song.artist
+        } from the album ${song.album}`
+      )
+    })
+  }
 })
 
 socket.on('received-state-change', playerState => {
