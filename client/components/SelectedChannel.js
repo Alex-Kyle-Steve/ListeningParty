@@ -53,6 +53,7 @@ export class SelectedChannel extends Component {
   render() {
     const selectedChannel = this.props.selectedChannel
     const channelId = parseInt(this.props.match.params.channelId, 10)
+    const isOwner = this.props.selectedChannel.id === this.props.user.id
     return (
       <div>
         <Container fluid={true}>
@@ -68,7 +69,8 @@ export class SelectedChannel extends Component {
               <Player
                 currentTrack={this.props.currentTrack}
                 selectedChannel={selectedChannel}
-                user={this.props.user}
+                isOwner={isOwner}
+                isPaused={this.props.isPaused}
                 isListening={this.props.isListening}
                 startListening={this.props.startListening}
                 stopListening={this.props.stopListening}
@@ -125,9 +127,7 @@ const mapStateToProps = state => {
   return {
     selectedChannel: state.channel.selectedChannel,
     user: state.user,
-    // playerState
-    //TODO:
-    //ADD isPAUSED CONDITION
+    isPaused: state.playerState.isPaused,
     isListening: state.playerState.isListening,
     playlist: state.playerState.playlist,
     currentTrack: state.currentTrack

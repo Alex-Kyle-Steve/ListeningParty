@@ -9,7 +9,6 @@ const musicPlayerEvent = new EventEmitter()
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleStateChanged = (playerState, dispatch, getState) => {
-  console.log('state changed!!!:', playerState)
   // get current channel, track and user from the state
   const {channel: {selectedChannel}, user, player} = getState()
   // id of the current channel participating
@@ -27,6 +26,18 @@ const handleStateChanged = (playerState, dispatch, getState) => {
 musicPlayerEvent.on('state-changed', handleStateChanged)
 
 // ***** HANDLING HOST'S STATE CHANGE *****//
+
+const newStateComparer = function({newPaused, newUri, newPosition}) {
+  return function({prevPaused, prevUri, prevPosition}) {
+    const shouldChangeTrack = newUri !== prevUri
+    prevPaused = shouldChangeTrack ? false : prevPaused
+    const shouldTogglePlay = newPaused === prevPaused
+    prevPosition = shouldChangeTrack ? 0 : prevPosition
+    const shouldSeek =
+      newPosition > prevPosition + 3000 || newPosition < prevPosition - 3000
+    return {shouldTogglePlay, shouldChangeTrack, shouldSeek}
+  }
+}
 
 // helper for determining what to update
 const getChangedState = (
@@ -72,17 +83,27 @@ const resolveStateChange = (uri, paused, position) => ({
  * TODO:
  * - seek music
  */
-export const handleStateReceived = receivedState => {
+export const handleStateReceived = async receivedState => {
+  console.log('state received!!!:', receivedState)
   // if received state is null, and our player is active, pause it just in case
   if (!receivedState)
     return store.getState().player && store.dispatch(togglePause(true))
   // extract needed state from owner's player
   const {paused, track_window: {current_track: {uri}}, position} = receivedState
+
+  const stateChangePromise = resolveStateChange(uri, paused, position)
+
+  const listenerState = await store.getState().player.getCurrentState()
+  if (!listenerState)
+    return stateChangePromise({
+      shouldTogglePlay: true,
+      shouldChangeTrack: true,
+      shouldSeek: true
+    })
+  const compareNewState = newStateComparer(paused, uri, position)
+  const whatToChange = compareNewState(listenerState)
   // call the helper promise to determine the needed adjustment
-  return getChangedState(paused, uri, position, store.getState().player).then(
-    whatStateToChange =>
-      resolveStateChange(uri, paused, position)(whatStateToChange)
-  )
+  return stateChangePromise(whatToChange)
 }
 
 // ***** END *****//

@@ -4,10 +4,8 @@ import {ConnectedController, ListenerController} from '.'
 
 export class Player extends Component {
   render() {
-    const selectedChannel = this.props.selectedChannel
-    const user = this.props.user
     const isListening = this.props.isListening
-    const isOwner = selectedChannel.ownerId !== user.id
+    const isOwner = this.props.isOwner
     return (
       <div>
         <Card border="light">
@@ -44,9 +42,8 @@ export class Player extends Component {
                   {!isOwner ? (
                     <Row>
                       <ConnectedController
-                        user={user}
-                        selectedChannel={selectedChannel}
-                        //pass isPaused as props
+                        isListening={this.props.isListening}
+                        isPlaying={this.props.isPlaying}
                       />
                     </Row>
                   ) : !isListening ? (

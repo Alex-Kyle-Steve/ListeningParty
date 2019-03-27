@@ -81,7 +81,6 @@ export class Controller extends Component {
 const mapStateToProps = state => {
   return {
     currentTrack: state.currentTrack,
-    isListening: state.playerState.isListening,
     isPlaying: state.playerState.isPlaying
   }
 }

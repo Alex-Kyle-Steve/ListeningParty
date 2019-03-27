@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Row, Col} from 'react-bootstrap'
-import {startListening, stopListening} from '../store'
 
 export class ListenerController extends Component {
   constructor() {
