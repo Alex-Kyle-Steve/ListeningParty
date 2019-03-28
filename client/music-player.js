@@ -1,13 +1,7 @@
 import {EventEmitter} from 'events'
 import socket from './socket'
 import store, {playTrack, togglePause, seekTrack} from './store'
-import {
-  setNewTrack,
-  setPaused,
-  startTick,
-  stopTick,
-  setPosition
-} from './store/playerState'
+import {setNewTrack, setPaused, startTick, stopTick} from './store/playerState'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -85,11 +79,11 @@ const handleStateChanged = (playerState, dispatch, getState) => {
 
 // ***** HANDLING HOST'S STATE CHANGE *****//
 
-const resolveStateChange = (uri, paused, position) => ({
+const resolveStateChange = (uri, paused, position) => (
   shouldTogglePlay,
   shouldChangeTrack,
   shouldSeek
-}) =>
+) =>
   Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri)))
     .then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
     .then(() => shouldSeek && store.dispatch(seekTrack(position)))
@@ -105,13 +99,13 @@ export const handleStateReceived = async receivedState => {
   const stateChangePromise = resolveStateChange(uri, paused, position)
 
   const listenerState = await store.getState().player.getCurrentState()
-  if (!listenerState)
-    return stateChangePromise({
-      shouldTogglePlay: true,
-      shouldChangeTrack: true,
-      shouldSeek: true
-    }).then(() => {})
+  if (!listenerState) return stateChangePromise(true, true, true).then(() => {})
   const compareNewState = newStateComparer(paused, uri, position)
+
+  /**
+   * TODO
+   * - remove this cancer
+   */
   const whatToChange = compareNewState(
     listenerState.paused,
     listenerState.track_window.current_track.uri,
@@ -128,6 +122,7 @@ export const handleStateReceived = async receivedState => {
       store.getState().dispatch
     )
   )
+  /** Please remove cancer */
 }
 // ***** END *****//
 
