@@ -23,6 +23,8 @@ module.exports = io => {
     // leaving a channel
     socket.on('leave-room', (roomNumber, isOwner) => {
       socket.leave(roomNumber)
+      if (isOwner)
+        this.broadcast.to(roomNumber).emit('received-state-change', null)
       console.log(`${socket.id} left room ${roomNumber}`)
     })
 

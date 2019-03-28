@@ -25,11 +25,11 @@ export const startTick = (trackLength, position) => (dispatch, getState) => {
   setPosition(position, trackLength)
   // how much to move per sec
   const seekSpeed = Math.floor(1000 / trackLength * 500)
-  // get the function from the element
+  // get the function from the element and bind the this contact to itself
   const stepUp = document
     .getElementById('myRange')
     .stepUp.bind(document.getElementById('myRange'))
-  // declare the callback
+  // declare the callback for setInterval
   const callback = function() {
     stepUp(seekSpeed.toString())
   }

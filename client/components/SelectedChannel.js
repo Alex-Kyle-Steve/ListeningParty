@@ -17,8 +17,6 @@ import socket from '../socket'
 import {Player} from './Player'
 import {addFavoriteChannel} from '../store/user'
 import {TrackScrollTable} from './TrackScrollTable'
-import musicPlayerEvent from '../music-player'
-import player from '../store/player'
 
 export class SelectedChannel extends Component {
   componentDidMount() {

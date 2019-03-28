@@ -16,16 +16,14 @@ const setStoreState = function(
   const statePaused = playerState.isPaused
   // change store states if uri or pause changed
   if (playerTrack.uri !== stateTrack.uri) {
-    console.log('track state changing')
     store.dispatch(setNewTrack(playerTrack))
   }
   // if player paused change
   if (playerPaused !== statePaused) {
-    console.log('pause state changing')
     const trackLength = playerTrack.duration_ms
     playerPaused
-      ? store.dispatch(startTick(trackLength, playerPosition))
-      : store.dispatch(stopTick(trackLength, playerPosition))
+      ? store.dispatch(stopTick(trackLength, playerPosition))
+      : store.dispatch(startTick(trackLength, playerPosition))
     store.dispatch(setPaused(playerPaused))
   }
 }
@@ -43,17 +41,6 @@ const newStateComparer = function(newPaused, newUri, newPosition) {
   }
 }
 
-// determine if player-state-change event is fired by channel owner then send state to others
-const handleOwnerChange = (playerState, {channel: {selectedChannel}, user}) => {
-  // determine if the triggered player is owner's
-  const channelId = selectedChannel.id
-  const isChannelOwner = selectedChannel.ownerId === user.id
-  // if it was triggered by channel owner's player, manage all the listeners
-  if (isChannelOwner) {
-    socket.emit('owner-state-changed', channelId, playerState)
-  }
-}
-
 /**
  * handler for musicPlayerEvents when the player state changes
  * emit event to other socket when it is triggered by the channel owner
@@ -62,7 +49,7 @@ const handleStateChanged = (playerState, dispatch, getState) => {
   const {channel: {selectedChannel}, user} = getState()
   const isChannelOwner = selectedChannel.ownerId === user.id
   if (!isChannelOwner) return
-  handleOwnerChange(playerState, getState())
+  socket.emit('owner-state-changed', selectedChannel.id, playerState)
   // spotify playerState from owner
   const playerPaused = playerState.paused
   const playerTrack = playerState.track_window.current_track
