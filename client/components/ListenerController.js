@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Row, Col} from 'react-bootstrap'
+import {Row, Col, Button} from 'react-bootstrap'
 
 export class ListenerController extends Component {
   disable(event) {
@@ -9,6 +9,15 @@ export class ListenerController extends Component {
   render() {
     return (
       <Row>
+        {this.props.isListening ? (
+          <Button variant="link" onClick={this.props.stopListening}>
+            Stop Listening{' '}
+          </Button>
+        ) : (
+          <Button variant="link" onClick={this.props.startListening}>
+            Start Listening{' '}
+          </Button>
+        )}
         <Col xs={{offset: 4}}>
           {this.props.isPaused ? (
             //Renders the pause Button.

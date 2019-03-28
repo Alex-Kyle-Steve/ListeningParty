@@ -23,7 +23,6 @@ const setStoreState = function(
   if (playerPaused !== statePaused) {
     console.log('pause state changing')
     const trackLength = playerTrack.duration_ms
-    const position = playerState.position
     playerPaused
       ? store.dispatch(startTick(trackLength, playerPosition))
       : store.dispatch(stopTick(trackLength, playerPosition))
