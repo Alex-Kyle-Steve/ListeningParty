@@ -15,9 +15,7 @@ const addTrack = trackData => ({
 })
 
 export const fetchChannelPlaylist = channelId => dispatch =>
-  axios
-    .get(`/api/channels/${channelId}/playlist`)
-    .then(({data}) => dispatch(setPlaylist(data)))
+  axios.get(`/api/channels/${channelId}/playlist`).then(({data}) => dispatch(setPlaylist(data)))
 
 export const addNewTrack = newTrack => (dispatch, getState) =>
   axios
@@ -44,7 +42,8 @@ export const playNextTrack = () => (dispatch, getState) => {
   if (!currentPlaylist.length) return null
   const nextTrack = currentPlaylist[0]
   const nextPlaylist = currentPlaylist.slice(1)
-  dispatch(setNewTrack(nextTrack))
+  // spotify changes currentTrack
+  dispatch(playTrack(nextTrack.uri))
   dispatch(setPlaylist(nextPlaylist))
 }
 

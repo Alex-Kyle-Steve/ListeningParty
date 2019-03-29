@@ -3,32 +3,26 @@ const SET_ID = 'SET_ID'
 export const setId = id => ({type: SET_ID, id})
 
 export const setPosition = (position, trackLength, range = 1000) => {
-  const scrollbar = document.getElementById('myRange')
-  if (position === 0) {
-    scrollbar.value = 0
-    return
-  }
   const normalizedPosition = Math.ceil(range / trackLength * position)
-  if (
-    scrollbar.value > normalizedPosition + 3 ||
-    scrollbar.value < normalizedPosition - 3
-  )
+
+  const scrollbar = document.getElementById('myRange')
+  if (scrollbar.value + 1 >= normalizedPosition || scrollbar.value - 1 <= normalizedPosition) return false
+  if (position === 0) scrollbar.value = 0
+  else if (scrollbar.value > normalizedPosition + 3 || scrollbar.value < normalizedPosition - 3)
     scrollbar.value = normalizedPosition
+  return true
 }
 
 // start moving bar when playing
-export const startTick = (trackLength, position) => (dispatch, getState) => {
+export const startTick = trackLength => (dispatch, getState) => {
   const intervalId = getState().playerState.scrollbar
   // don't dispatch another setInterval if intervalId isn't 0
   if (intervalId) return
-  // myRange length is 1000
-  setPosition(position, trackLength)
+  // myRange length is 1000ß
   // how much to move per sec
   const seekSpeed = Math.floor(1000 / trackLength * 500)
   // get the function from the element and bind the this contact to itself
-  const stepUp = document
-    .getElementById('myRange')
-    .stepUp.bind(document.getElementById('myRange'))
+  const stepUp = document.getElementById('myRange').stepUp.bind(document.getElementById('myRange'))
   // declare the callback for setInterval
   const callback = function() {
     stepUp(seekSpeed.toString())
@@ -38,10 +32,9 @@ export const startTick = (trackLength, position) => (dispatch, getState) => {
 }
 
 // stop moving bar when pausing
-export const stopTick = (trackLength, position) => (dispatch, getState) => {
+export const stopTick = () => (dispatch, getState) => {
   const intervalId = getState().playerState.scrollbar
   if (!intervalId) return
-  setPosition(position, trackLength)
   clearInterval(intervalId)
   dispatch(setId(0))
 }
