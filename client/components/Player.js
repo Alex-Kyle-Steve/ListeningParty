@@ -24,7 +24,10 @@ export class Player extends Component {
               <CurrentSongInfo currentTrack={this.props.currentTrack} />
               <hr />
               {isOwner ? (
-                <PlayerController isPaused={this.props.isPaused} />
+                <PlayerController
+                  isPaused={this.props.isPaused}
+                  currentTrack={this.props.currentTrack}
+                />
               ) : (
                 <ListenerController
                   stopListening={this.props.stopListening}
