@@ -99,7 +99,6 @@ const handleOwnerStateChanged = (changedState, dispatch, getState) => {
     !storeState.isPaused &&
     scrollVal + 5 >= 1000
   ) {
-    console.log('playing next track')
     dispatch(playNextTrack())
   }
 }
