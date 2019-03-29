@@ -99,10 +99,7 @@ export class SelectedChannel extends Component {
               </Row>
             </Col>
             <Col xs={12} s={12} md={3} l={3} lg={3}>
-              <Tabs
-                defaultActiveKey="description"
-                id="uncontrolled-tab-example"
-              >
+              <Tabs defaultActiveKey="description" id="uncontrolled-tab-example">
                 <Tab eventKey="description" title="Channel">
                   <CardDeck>
                     <Card border="light">
@@ -141,24 +138,21 @@ const mapStateToProps = state => {
     isPaused: state.playerState.isPaused,
     isListening: state.playerState.isListening,
     playlist: state.playerState.playlist,
-    currentTrack: state.currentTrack
+    currentTrack: state.playerState.currentTrack
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSelectedChannel: channelId =>
-      dispatch(fetchSelectedChannel(channelId)),
+    fetchSelectedChannel: channelId => dispatch(fetchSelectedChannel(channelId)),
     startListening: () => dispatch(startListening()),
     stopListening: () => dispatch(stopListening()),
-    addFavoriteChannel: (userId, channelId) =>
-      dispatch(addFavoriteChannel(userId, channelId)),
+    addFavoriteChannel: (userId, channelId) => dispatch(addFavoriteChannel(userId, channelId)),
     fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId)),
     playNextTrack: () => dispatch(playNextTrack())
   }
 }
 
-export const ConnectedSelectedChannel = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectedChannel)
+export const ConnectedSelectedChannel = connect(mapStateToProps, mapDispatchToProps)(
+  SelectedChannel
+)

@@ -111,6 +111,7 @@ const handleStateReceived = async receivedState => {
   )
   // call the helper promise to determine the needed adjustment
   return resolveStateChange(shouldTogglePlay, shouldChangeTrack, shouldSeek).then(() =>
+    // set the store to update the UI
     setStoreState(receivedState, storeState, store.dispatch)
   )
 }
