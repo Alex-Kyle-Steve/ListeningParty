@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Col, Row} from 'react-bootstrap'
-import {playNextTrack, changePosition, scrollPosition} from '../store'
+import {playNextTrack, scrollPosition, togglePause} from '../store'
 
 export class Controller extends Component {
   // handleChange(e) {
@@ -13,6 +13,17 @@ export class Controller extends Component {
   handleMouseUp(e) {
     const currentValue = e.target.value
     this.props.scrollPosition(currentValue)
+  }
+
+  handlePlay(e) {
+    if (!this.props.currentTrack.uri) {
+      this.props.playNextTrack()
+    }
+    this.props.togglePause(false)
+  }
+
+  handlePause(e) {
+    this.props.togglePause(true)
   }
 
   render() {
@@ -28,23 +39,11 @@ export class Controller extends Component {
             xl={{span: 12, offset: 5}}
           >
             {this.props.isPaused ? (
-              <i
-                onClick={
-                  /** PLAY THUNK */
-                  () => {}
-                }
-                className="fa fa-pause-circle"
-              >
+              <i onClick={this.handlePlay.bind(this)} className="fa fa-pause-circle">
                 <img src="/play.png" />
               </i>
             ) : (
-              <i
-                onClick={
-                  /** PAUSE THUNK */
-                  () => {}
-                }
-                className="fa fa-pause-circle"
-              >
+              <i onClick={this.handlePause.bind(this)} className="fa fa-pause-circle">
                 <img src="/pause.png" />
               </i>
             )}
@@ -66,7 +65,6 @@ export class Controller extends Component {
               defaultValue="0"
               className="slider"
               id="myRange"
-              on
               onMouseUp={this.handleMouseUp.bind(this)}
             />
           </Col>
@@ -78,6 +76,7 @@ export class Controller extends Component {
 
 const mapDispatch = dispatch => ({
   playNextTrack: () => dispatch(playNextTrack()),
+  togglePause: isPaused => dispatch(togglePause(isPaused)),
   scrollPosition: scrollVal => dispatch(scrollPosition(scrollVal))
 })
 

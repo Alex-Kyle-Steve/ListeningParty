@@ -1,7 +1,14 @@
 import {EventEmitter} from 'events'
 import socket from './socket'
 import store, {playTrack, togglePause, seekTrack} from './store'
-import {setNewTrack, setPaused, startTick, stopTick, setPosition} from './store/playerState'
+import {
+  setNewTrack,
+  setPaused,
+  startTick,
+  stopTick,
+  setPosition,
+  playNextTrack
+} from './store/playerState'
 
 const musicPlayerEvent = new EventEmitter()
 
@@ -77,13 +84,25 @@ function setStoreState(spotifyState, storeState, dispatch) {
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleOwnerStateChanged = (changedState, dispatch, getState) => {
+  console.log(changedState)
   const selectedChannel = getState().channel.selectedChannel
+
   socket.emit('owner-state-changed', selectedChannel.id, changedState)
   // get state on redux
   const storeState = getState().playerState
-  setStoreState(changedState, storeState, dispatch)
+  const scrollVal = document.getElementById('MyRange').value
+  // condition check for if the track ended
+  if (
+    changedState.paused &&
+    changedState.position === 0 &&
+    !storeState.isPaused &&
+    scrollVal + 5 >= 1000
+  ) {
+    dispatch(playNextTrack())
+  } else {
+    setStoreState(changedState, storeState, dispatch)
+  }
 }
-
 // ***** HANDLING HOST'S STATE CHANGE ***** //
 
 // handler for dealing with received owner player state
