@@ -70,6 +70,15 @@ export const seekTrack = newPosition => (dispatch, getState) => {
   return player.seek(newPosition).then(() => console.log(`changed to position ${newPosition}`))
 }
 
+// manipulate track through scrollbar
+export const scrollPosition = scrollVal => async (dispatch, getState) => {
+  const playerState = await getState().player.getCurrentState()
+  if (!playerState) return
+  const trackLength = playerState.duration
+  const newPosition = trackLength / 1000 * scrollVal
+  dispatch(seekTrack(newPosition))
+}
+
 export default function(state = null, action) {
   if (action.type === SET_PLAYER_INSTANCE) return action.instance
   return state
