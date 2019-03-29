@@ -4,12 +4,6 @@ import {Col, Row} from 'react-bootstrap'
 import {playNextTrack, scrollPosition, togglePause} from '../store'
 
 export class Controller extends Component {
-  // handleChange(e) {
-  //   const currVal = parseInt(e.target.value, 10)
-  //   const max = parseInt(e.target.max, 10)
-  //   if (currVal >= max - 2) this.props.playNextTrack()
-  // }
-
   handleMouseUp(e) {
     const currentValue = e.target.value
     this.props.scrollPosition(currentValue)

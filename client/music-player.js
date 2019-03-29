@@ -90,7 +90,8 @@ const handleOwnerStateChanged = (changedState, dispatch, getState) => {
   socket.emit('owner-state-changed', selectedChannel.id, changedState)
   // get state on redux
   const storeState = getState().playerState
-  const scrollVal = document.getElementById('MyRange').value
+  const scrollVal = document.getElementById('myRange').value
+  setStoreState(changedState, storeState, dispatch)
   // condition check for if the track ended
   if (
     changedState.paused &&
@@ -99,8 +100,6 @@ const handleOwnerStateChanged = (changedState, dispatch, getState) => {
     scrollVal + 5 >= 1000
   ) {
     dispatch(playNextTrack())
-  } else {
-    setStoreState(changedState, storeState, dispatch)
   }
 }
 // ***** HANDLING HOST'S STATE CHANGE ***** //
