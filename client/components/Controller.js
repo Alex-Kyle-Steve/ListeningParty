@@ -65,7 +65,6 @@ export class Controller extends Component {
               defaultValue="0"
               className="slider"
               id="myRange"
-              on
               onMouseUp={this.handleMouseUp.bind(this)}
             />
           </Col>

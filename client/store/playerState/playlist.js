@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {setNewTrack} from './currentTrack'
 import {playTrack} from '../player'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
@@ -16,6 +15,11 @@ const addTrack = trackData => ({
 
 export const fetchChannelPlaylist = channelId => dispatch =>
   axios.get(`/api/channels/${channelId}/playlist`).then(({data}) => dispatch(setPlaylist(data)))
+
+export const changePlaylist = (channelId, newList) => dispatch =>
+  axios
+    .put(`/api/channels/${channelId}/playlist`, {playlist: newList.map(track => track.id)})
+    .then(() => dispatch(setPlaylist(newList)))
 
 export const addNewTrack = newTrack => (dispatch, getState) =>
   axios
