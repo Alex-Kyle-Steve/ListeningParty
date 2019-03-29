@@ -16,7 +16,7 @@ import {ConnectedAllChannelsSidebar} from './AllChannelsSidebar'
 import socket from '../socket'
 import {Player} from './Player'
 import {addFavoriteChannel} from '../store/user'
-import {TrackScrollTable} from './TrackScrollTable'
+import {Playlist} from './Playlist'
 
 export class SelectedChannel extends Component {
   componentDidMount() {
@@ -87,7 +87,7 @@ export class SelectedChannel extends Component {
                 <Tabs defaultActiveKey="playlist" id="music-tables-tabs">
                   {/* playlist */}
                   <Tab eventKey="playlist" title="Playlist">
-                    <TrackScrollTable tracks={this.props.playlist} />
+                    <Playlist playlist={this.props.playlist} />
                   </Tab>
                   {/* end-playlist */}
                   {/* search */}

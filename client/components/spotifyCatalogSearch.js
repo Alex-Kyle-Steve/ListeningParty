@@ -46,7 +46,6 @@ class SpotifyCatalogSearch extends Component {
     )
   }
   requestButton(_, song) {
-    const requestTrack = this.props.addTrack
     return (
       <Button
         variant="primary"
@@ -140,11 +139,9 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    addTrack: trackData => dispatch(addNewTrack(trackData)),
-    requestTrack: trackData => dispatch(requestNewTrack(trackData))
+    addTrack: trackData => dispatch(addNewTrack(trackData))
   }
 }
-export const ConnectedSpotifyCatalogSearch = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SpotifyCatalogSearch)
+export const ConnectedSpotifyCatalogSearch = connect(mapStateToProps, mapDispatchToProps)(
+  SpotifyCatalogSearch
+)

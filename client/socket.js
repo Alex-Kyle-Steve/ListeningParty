@@ -17,7 +17,7 @@ socket.on('connect', () => {
   const {channel: {selectedChannel}, user} = store.getState()
 
   if (selectedChannel.ownerId === user.id) {
-    socket.on('request', (song, requester) => {
+    socket.on('request-received', (song, requester) => {
       if (
         confirm(
           `Listener ${requester.id} reqested ${song.title} by ${song.artist} from the album ${
