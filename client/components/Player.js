@@ -12,11 +12,7 @@ export class Player extends Component {
           <Row>
             <Col xs={6}>
               <Card.Img
-                src={
-                  this.props.currentTrack
-                    ? this.props.currentTrack.images[0]
-                    : '/noAlbum.jpg'
-                }
+                src={this.props.currentTrack ? this.props.currentTrack.images[0] : '/noAlbum.jpg'}
               />
             </Col>
             <Col xs={6}>

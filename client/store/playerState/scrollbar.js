@@ -2,19 +2,19 @@ const SET_ID = 'SET_ID'
 
 const setId = id => ({type: SET_ID, id})
 
+// sets the position of the scrollbar.
+// returns true/false by result
 export const setPosition = (position, trackLength, range = 1000) => {
   const normalizedPosition = Math.ceil(range / trackLength * position)
-
   const scrollbar = document.getElementById('myRange')
-  if (scrollbar.value + 1 >= normalizedPosition || scrollbar.value - 1 <= normalizedPosition) {
-    return false
-  }
   if (position === 0) {
     scrollbar.value = 0
+    return true
   } else if (scrollbar.value > normalizedPosition + 3 || scrollbar.value < normalizedPosition - 3) {
     scrollbar.value = normalizedPosition
+    return true
   }
-  return true
+  return false
 }
 
 // start moving bar when playing

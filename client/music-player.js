@@ -77,7 +77,7 @@ function setStoreState(spotifyState, storeState, dispatch) {
  * emit event to other socket when it is triggered by the channel owner
  */
 const handleOwnerStateChanged = (changedState, dispatch, getState) => {
-  const selectedChannel = getState().selectedChannel
+  const selectedChannel = getState().channel.selectedChannel
   socket.emit('owner-state-changed', selectedChannel.id, changedState)
   // get state on redux
   const storeState = getState().playerState
