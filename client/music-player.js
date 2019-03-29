@@ -19,7 +19,7 @@ const getStateCompared = function(receivedState, currentState) {
   let prevPosition = currentState.position
   const shouldChangeTrack = newUri !== prevUri
   prevPaused = shouldChangeTrack ? false : prevPaused
-  const shouldTogglePlay = newPaused === prevPaused
+  const shouldTogglePlay = newPaused !== prevPaused
   prevPosition = shouldChangeTrack ? 0 : prevPosition
   const shouldSeek = newPosition > prevPosition + 3000 || newPosition < prevPosition - 3000
   // please don't forget to fix this cancer
@@ -121,7 +121,7 @@ const handleStateReceived = async receivedState => {
 export const handleStartListening = channelId => {
   // subscribe listening
   musicPlayerEvent.on('state-received', handleStateReceived)
-  // update listener player with channel-owner's state
+  // request channel-owner's state
   socket.emit('request-channel-state', channelId, socket.id)
 }
 
