@@ -1,15 +1,19 @@
 const SET_ID = 'SET_ID'
 
-export const setId = id => ({type: SET_ID, id})
+const setId = id => ({type: SET_ID, id})
 
 export const setPosition = (position, trackLength, range = 1000) => {
   const normalizedPosition = Math.ceil(range / trackLength * position)
 
   const scrollbar = document.getElementById('myRange')
-  if (scrollbar.value + 1 >= normalizedPosition || scrollbar.value - 1 <= normalizedPosition) return false
-  if (position === 0) scrollbar.value = 0
-  else if (scrollbar.value > normalizedPosition + 3 || scrollbar.value < normalizedPosition - 3)
+  if (scrollbar.value + 1 >= normalizedPosition || scrollbar.value - 1 <= normalizedPosition) {
+    return false
+  }
+  if (position === 0) {
+    scrollbar.value = 0
+  } else if (scrollbar.value > normalizedPosition + 3 || scrollbar.value < normalizedPosition - 3) {
     scrollbar.value = normalizedPosition
+  }
   return true
 }
 
@@ -19,7 +23,7 @@ export const startTick = trackLength => (dispatch, getState) => {
   // don't dispatch another setInterval if intervalId isn't 0
   if (intervalId) return
   // myRange length is 1000ß
-  // how much to move per sec
+  // how much to move per 500 mlsec
   const seekSpeed = Math.floor(1000 / trackLength * 500)
   // get the function from the element and bind the this contact to itself
   const stepUp = document.getElementById('myRange').stepUp.bind(document.getElementById('myRange'))
@@ -39,9 +43,7 @@ export const stopTick = () => (dispatch, getState) => {
   dispatch(setId(0))
 }
 
-// reducer for duration.
-// integer in milisecond
-
+// reducer for duration
 export default function(state = 0, action) {
   if (action.type === SET_ID) return action.id
   return state

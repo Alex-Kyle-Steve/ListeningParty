@@ -8,22 +8,22 @@ const musicPlayerEvent = new EventEmitter()
 /***************** HELPER FUNCTIONS  */
 
 // returns a function that compares the provided spotify player state with the redux state
-const getStateComparer = function(receivedState) {
+const getStateCompared = function(receivedState, currentState) {
+  // new state from host
   const newUri = receivedState.track_window.current_track.uri
   const newPaused = receivedState.paused
   const newPosition = receivedState.position
-  return function(currentState) {
-    const prevUri = currentState.track_window.current_track.uri
-    let prevPaused = currentState.paused
-    let prevPosition = currentState.position
-    const shouldChangeTrack = newUri !== prevUri
-    prevPaused = shouldChangeTrack ? false : prevPaused
-    const shouldTogglePlay = newPaused === prevPaused
-    prevPosition = shouldChangeTrack ? 0 : prevPosition
-    const shouldSeek = newPosition > prevPosition + 3000 || newPosition < prevPosition - 3000
-    // please don't forget to fix this cancer
-    return {shouldTogglePlay, shouldChangeTrack, shouldSeek}
-  }
+  // listener's current state
+  const prevUri = currentState.track_window.current_track.uri
+  let prevPaused = currentState.paused
+  let prevPosition = currentState.position
+  const shouldChangeTrack = newUri !== prevUri
+  prevPaused = shouldChangeTrack ? false : prevPaused
+  const shouldTogglePlay = newPaused === prevPaused
+  prevPosition = shouldChangeTrack ? 0 : prevPosition
+  const shouldSeek = newPosition > prevPosition + 3000 || newPosition < prevPosition - 3000
+  // please don't forget to fix this cancer
+  return {shouldTogglePlay, shouldChangeTrack, shouldSeek}
 }
 
 // creates a promise that will change the player depending on the received state
@@ -104,10 +104,11 @@ const handleStateReceived = async receivedState => {
       setStoreState(receivedState, storeState, store.dispatch)
     )
   }
-  // create a comparer for new state
-  const compareNewState = getStateComparer(receivedState)
   // - Please remove cancer
-  const {shouldTogglePlay, shouldChangeTrack, shouldSeek} = compareNewState(listenerState)
+  const {shouldTogglePlay, shouldChangeTrack, shouldSeek} = getStateCompared(
+    receivedState,
+    listenerState
+  )
   // call the helper promise to determine the needed adjustment
   return resolveStateChange(shouldTogglePlay, shouldChangeTrack, shouldSeek).then(() =>
     setStoreState(receivedState, storeState, store.dispatch)

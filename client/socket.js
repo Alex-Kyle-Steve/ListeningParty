@@ -9,8 +9,9 @@ const socket = io(window.location.origin)
 socket.on('connect', () => {
   console.log('Socket Connected!')
   socket.on('new-message', message => {
-    if (store.getState().channel.selectedChannel.id === message.channelId)
+    if (store.getState().channel.selectedChannel.id === message.channelId) {
       store.dispatch(getMessage(message))
+    }
   })
 
   const {channel: {selectedChannel}, user} = store.getState()
@@ -19,9 +20,9 @@ socket.on('connect', () => {
     socket.on('request', (song, requester) => {
       if (
         confirm(
-          `Listener ${requester.id} reqested ${song.title} by ${
-            song.artist
-          } from the album ${song.album}\nAdd to play list?`
+          `Listener ${requester.id} reqested ${song.title} by ${song.artist} from the album ${
+            song.album
+          }\nAdd to play list?`
         )
       )
         store.dispatch(addNewTrack(song))
@@ -40,9 +41,7 @@ socket.on('new-listener', function(listenerId) {
     isOwner &&
     player
       .getCurrentState()
-      .then(playerState =>
-        socket.emit('owner-state-changed', listenerId, playerState)
-      )
+      .then(playerState => socket.emit('owner-state-changed', listenerId, playerState))
   )
 })
 
