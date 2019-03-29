@@ -45,6 +45,11 @@ export const playNextTrack = () => (dispatch, getState) => {
   // spotify changes currentTrack
   dispatch(playTrack(nextTrack.uri))
   dispatch(setPlaylist(nextPlaylist))
+  const playlistIds = nextPlaylist.map(song => song.id)
+  const channelId = getState().channel.selectedChannel.id
+  return axios.put(`/api/channels/${channelId}/playlist`, {
+    playlist: playlistIds
+  })
 }
 
 export const playSelectedTrack = uri => dispatch => dispatch(playTrack(uri))

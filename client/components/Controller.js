@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Col, Row} from 'react-bootstrap'
-import {playNextTrack, changePosition, scrollPosition, togglePause} from '../store'
+import {playNextTrack, scrollPosition, togglePause} from '../store'
 
 export class Controller extends Component {
   // handleChange(e) {
