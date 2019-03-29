@@ -41,6 +41,7 @@ export const addNewTrack = newTrack => (dispatch, getState) =>
       )
     )
 
+// play the next track on our playlist state
 export const playNextTrack = () => (dispatch, getState) => {
   const currentPlaylist = getState().playerState.playlist
   if (!currentPlaylist.length) return null
