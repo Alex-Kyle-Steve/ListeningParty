@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Row, Col} from 'react-bootstrap'
+import {Row, Col, Button} from 'react-bootstrap'
 
 export class ListenerController extends Component {
   disable(event) {
@@ -8,32 +8,50 @@ export class ListenerController extends Component {
 
   render() {
     return (
-      <Row>
-        <Col xs={{offset: 4}}>
-          {this.props.isPaused ? (
-            //Renders the pause Button.
-            //Condition is !Owner&&isPaused === true
-            <i className="fa fa-pause-circle">
-              <img src="/pause.png" />
-            </i>
+      <div className="container">
+        <Row>
+          {this.props.isListening ? (
+            <Button variant="link" onClick={this.props.stopListening}>
+              Stop Listening{' '}
+            </Button>
           ) : (
-            //Renders the play button
-            //Condition is !Owner&&isPaused === true
-            <i className="fa fa-pause-circle">
-              <img src="/play.png" />
-            </i>
+            <Button variant="link" onClick={this.props.startListening}>
+              Start Listening{' '}
+            </Button>
           )}
-        </Col>
-        <input
-          type="range"
-          min="0"
-          max="1000"
-          onMouseDown={this.disable}
-          defaultValue={0}
-          className="slider"
-          id="myRange"
-        />
-      </Row>
+        </Row>
+        {this.props.isListening ? (
+          <Row>
+            <Col xs={{offset: 4}}>
+              {this.props.isPaused ? (
+                //Renders the pause Button.
+                //Condition is !Owner&&isPaused === true
+                <i className="fa fa-pause-circle">
+                  <img src="/pause.png" />
+                </i>
+              ) : (
+                //Renders the play button
+                //Condition is !Owner&&isPaused === true
+                <i className="fa fa-pause-circle">
+                  <img src="/play.png" />
+                </i>
+              )}
+            </Col>
+            {/* slider bar */}
+            <input
+              type="range"
+              min="0"
+              max="1000"
+              onMouseDown={this.disable}
+              defaultValue={0}
+              className="slider"
+              id="myRange"
+            />
+          </Row>
+        ) : (
+          ''
+        )}
+      </div>
     )
   }
 }

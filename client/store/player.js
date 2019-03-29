@@ -21,10 +21,13 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
   }
   // create soptify player
   const instance = createPlayer()
-  // subscribe listeners  for when player state changes
   instance.addListener('player_state_changed', state => {
+    const {channel: {selectedChannel}, user} = getState()
+    const isChannelOwner = selectedChannel.ownerId === user.id
     // emit event to socket: check music-player.js
-    musicPlayerEvent.emit('state-changed', state, dispatch, getState)
+    if (isChannelOwner) {
+      musicPlayerEvent.emit('state-changed', state, dispatch, getState)
+    }
   })
   // listener for when device is ready
   instance.addListener('ready', device => {
@@ -47,9 +50,7 @@ export const initializePlayerInstance = () => async (dispatch, getState) => {
  */
 export const playTrack = uri => (dispatch, getState) => {
   const player = getState().player
-  return playNewUri({uri, player}).then(response =>
-    console.log('played new uri: response =', response)
-  )
+  return playNewUri({uri, player}).then(response => console.log('played new uri', response))
 }
 
 /**
@@ -66,9 +67,16 @@ export const togglePause = isPaused => (dispatch, getState) => {
 
 export const seekTrack = newPosition => (dispatch, getState) => {
   const player = getState().player
-  return player
-    .seek(newPosition)
-    .then(() => console.log(`changed to position ${newPosition}`))
+  return player.seek(newPosition).then(() => console.log(`changed to position ${newPosition}`))
+}
+
+// manipulate track through scrollbar
+export const scrollPosition = scrollVal => async (dispatch, getState) => {
+  const playerState = await getState().player.getCurrentState()
+  if (!playerState) return
+  const trackLength = playerState.duration
+  const newPosition = trackLength / 1000 * scrollVal
+  dispatch(seekTrack(newPosition))
 }
 
 export default function(state = null, action) {

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {setNewTrack} from './currentTrack'
+import {playTrack} from '../player'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
 const ADD_TRACK = 'ADD_TRACK'
@@ -14,9 +15,7 @@ const addTrack = trackData => ({
 })
 
 export const fetchChannelPlaylist = channelId => dispatch =>
-  axios
-    .get(`/api/channels/${channelId}/playlist`)
-    .then(({data}) => dispatch(setPlaylist(data)))
+  axios.get(`/api/channels/${channelId}/playlist`).then(({data}) => dispatch(setPlaylist(data)))
 
 export const addNewTrack = newTrack => (dispatch, getState) =>
   axios
@@ -39,12 +38,16 @@ export const addNewTrack = newTrack => (dispatch, getState) =>
     )
 
 export const playNextTrack = () => (dispatch, getState) => {
-  const currentPlaylist = getState().playlist
+  const currentPlaylist = getState().playerState.playlist
+  if (!currentPlaylist.length) return null
   const nextTrack = currentPlaylist[0]
   const nextPlaylist = currentPlaylist.slice(1)
-  dispatch(setNewTrack(nextTrack))
+  // spotify changes currentTrack
+  dispatch(playTrack(nextTrack.uri))
   dispatch(setPlaylist(nextPlaylist))
 }
+
+export const playSelectedTrack = uri => dispatch => dispatch(playTrack(uri))
 
 export default function(state = [], action) {
   if (action.type === SET_PLAYLIST) return action.playlist

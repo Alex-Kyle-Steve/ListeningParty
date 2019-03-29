@@ -1,6 +1,20 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {Col, Row} from 'react-bootstrap'
+import {playNextTrack, changePosition, scrollPosition} from '../store'
+
 export class Controller extends Component {
+  // handleChange(e) {
+  //   const currVal = parseInt(e.target.value, 10)
+  //   const max = parseInt(e.target.max, 10)
+  //   if (currVal >= max - 2) this.props.playNextTrack()
+  // }
+
+  handleMouseUp(e) {
+    const currentValue = e.target.value
+    this.props.scrollPosition(currentValue)
+  }
+
   render() {
     return (
       <Col xs={{span: 12}}>
@@ -52,6 +66,8 @@ export class Controller extends Component {
               defaultValue="0"
               className="slider"
               id="myRange"
+              on
+              onMouseUp={this.handleMouseUp.bind(this)}
             />
           </Col>
         </Row>
@@ -59,3 +75,10 @@ export class Controller extends Component {
     )
   }
 }
+
+const mapDispatch = dispatch => ({
+  playNextTrack: () => dispatch(playNextTrack()),
+  scrollPosition: scrollVal => dispatch(scrollPosition(scrollVal))
+})
+
+export const PlayerController = connect(null, mapDispatch)(Controller)

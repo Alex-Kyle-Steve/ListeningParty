@@ -1,9 +1,27 @@
 import React from 'react'
-import {connect} from 'redux'
-import {playNextTrack} from '../store'
+import {Button} from 'react-bootstrap'
 
-class ChannelPlaylist extends React.Component {}
-
-const mapDispatch = (dispatch, ownProps) => ({
-  playNextTrack: dispatch(playNextTrack())
-})
+class ChannelPlaylist extends React.Component {
+  renderQueue() {
+    return (
+      <div className="container">
+        <Button
+          variant="primary"
+          onClick={() => {
+            playNow(song)
+          }}
+        >
+          Add
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => {
+            makeFirst(song)
+          }}
+        >
+          Add
+        </Button>
+      </div>
+    )
+  }
+}

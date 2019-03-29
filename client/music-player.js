@@ -1,116 +1,128 @@
 import {EventEmitter} from 'events'
 import socket from './socket'
 import store, {playTrack, togglePause, seekTrack} from './store'
-import {
-  setNewTrack,
-  setPaused,
-  startTick,
-  stopTick,
-  setPosition
-} from './store/playerState'
+import {setNewTrack, setPaused, startTick, stopTick, setPosition} from './store/playerState'
 
 const musicPlayerEvent = new EventEmitter()
 
-// returns a function that compares the provided spotify player state with the olde state
-const newStateComparer = function({newPaused, newUri, newPosition}) {
-  return function({prevPaused, prevUri, prevPosition}) {
-    const shouldChangeTrack = newUri !== prevUri
-    prevPaused = shouldChangeTrack ? false : prevPaused
-    const shouldTogglePlay = newPaused === prevPaused
-    prevPosition = shouldChangeTrack ? 0 : prevPosition
-    const shouldSeek =
-      newPosition > prevPosition + 3000 || newPosition < prevPosition - 3000
-    return {shouldTogglePlay, shouldChangeTrack, shouldSeek}
+/***************** HELPER FUNCTIONS  */
+
+// returns a function that compares the provided spotify player state with the redux state
+const getStateCompared = function(receivedState, currentState) {
+  // new state from host
+  const newUri = receivedState.track_window.current_track.uri
+  const newPaused = receivedState.paused
+  const newPosition = receivedState.position
+  // listener's current state
+  const prevUri = currentState.track_window.current_track.uri
+  let prevPaused = currentState.paused
+  let prevPosition = currentState.position
+  const shouldChangeTrack = newUri !== prevUri
+  prevPaused = shouldChangeTrack ? false : prevPaused
+  const shouldTogglePlay = newPaused !== prevPaused
+  prevPosition = shouldChangeTrack ? 0 : prevPosition
+  const shouldSeek = newPosition > prevPosition + 3000 || newPosition < prevPosition - 3000
+  // please don't forget to fix this cancer
+  return {shouldTogglePlay, shouldChangeTrack, shouldSeek}
+}
+
+// creates a promise that will change the player depending on the received state
+function getStateChangePromise(receivedState) {
+  const {paused, track_window: {current_track: {uri}}, position} = receivedState
+  return (shouldTogglePlay, shouldChangeTrack, shouldSeek) => {
+    // return promise change so each consecutive call to spotify API will await for it to resolve
+    return Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri)))
+      .then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
+      .then(() => shouldSeek && store.dispatch(seekTrack(position)))
   }
 }
 
-// determine if player-state-change event is fired by channel owner then send state to others
-const handleOwnerChange = (playerState, {channel: {selectedChannel}, user}) => {
-  // determine if the triggered player is owner's
-  const channelId = selectedChannel.id
-  const isChannelOwner = selectedChannel.ownerId === user.id
-  // if it was triggered by channel owner's player, manage all the listeners
-  if (isChannelOwner) {
-    socket.emit('owner-state-changed', channelId, playerState)
+/**
+ * handles redux state to be same as the spotify player
+ * TODO:
+ * - separate this to handle each state separately
+ * - let redux store handle these state separately through their own thunk
+ */
+function setStoreState(spotifyState, storeState, dispatch) {
+  const playerPaused = spotifyState.paused
+  const playerTrack = spotifyState.track_window.current_track
+  const playerPosition = spotifyState.position
+  // get redux store state
+  const stateTrack = storeState.currentTrack
+  const statePaused = storeState.isPaused
+  // full length of current track playing
+  const trackLength = playerTrack.duration_ms
+  // what we will return
+  const setResult = {trackChanged: false, positionChanged: false, pausedChanged: false}
+  // change store states if uri or pause changed
+  if (playerTrack.uri !== stateTrack.uri) {
+    dispatch(setNewTrack(playerTrack))
+    setResult.trackChanged = true
+  }
+  // sync the track location
+  setPosition(playerPosition, trackLength)
+  // if player paused change
+  if (playerPaused !== statePaused) {
+    playerPaused ? dispatch(stopTick()) : dispatch(startTick(trackLength))
+    dispatch(setPaused(playerPaused))
   }
 }
+
+/* END HELPER FUNCTION **************** /
+
+// ***** HANDLING OWNER"S SPOTIFY PLAYER CHANGE ***** //
 
 /**
  * handler for musicPlayerEvents when the player state changes
  * emit event to other socket when it is triggered by the channel owner
  */
-const handleStateChanged = (playerState, dispatch, getState) => {
-  handleOwnerChange(playerState, getState())
-  // spotify playerState from owner
-  const playerPaused = playerState.paused
-  const playerTrack = playerState.track_window.current_track
-  const playerPosition = playerState.position
-  // get redux store state
-  const stateTrack = getState().playerState.currentTrack
-  const statePaused = getState().playerState.isPaused
-  // change store states if uri or pause changed
-  if (playerTrack.uri !== stateTrack.uri) {
-    dispatch(setNewTrack(playerTrack))
-  }
-  // if player paused change
-  if (playerPaused !== statePaused) {
-    const trackLength = playerTrack.duration_ms
-    const position = playerState.position
-    playerPaused
-      ? dispatch(startTick(trackLength, position))
-      : dispatch(stopTick(trackLength, position))
-    dispatch(setPaused(playerPaused))
-  } else setPosition(playerPosition, playerTrack.duration_ms)
+const handleOwnerStateChanged = (changedState, dispatch, getState) => {
+  const selectedChannel = getState().channel.selectedChannel
+  socket.emit('owner-state-changed', selectedChannel.id, changedState)
+  // get state on redux
+  const storeState = getState().playerState
+  setStoreState(changedState, storeState, dispatch)
 }
 
-// ***** HANDLING HOST'S STATE CHANGE *****//
+// ***** HANDLING HOST'S STATE CHANGE ***** //
 
-// promise creator for calling thunks to update the listener's player
-const resolveStateChange = (uri, paused, position) => ({
-  shouldTogglePlay,
-  shouldChangeTrack,
-  shouldSeek
-}) =>
-  Promise.resolve(shouldChangeTrack && store.dispatch(playTrack(uri)))
-    .then(() => shouldTogglePlay && store.dispatch(togglePause(paused)))
-    .then(() => shouldSeek && store.dispatch(seekTrack(position)))
-/**
- * handler for when channel owner's player state changes
- * subscribed to listening players only when listener requests
- * check store/playerState/isListening.js
- * @param {WebPlaybackState} playerState
- * TODO:
- * - seek music
- */
-export const handleStateReceived = async receivedState => {
+// handler for dealing with received owner player state
+// subscribed when listener first enters the room
+const handleStateReceived = async receivedState => {
   // if received state is null, and our player is active, pause it just in case
-  if (!receivedState)
-    return store.getState().player && store.dispatch(togglePause(true))
-  // extract needed state from owner's player
-  const {paused, track_window: {current_track: {uri}}, position} = receivedState
+  if (!receivedState) return store.getState().player && store.dispatch(togglePause(true))
 
-  const stateChangePromise = resolveStateChange(uri, paused, position)
-
+  // create a promise that will resolve stateChange
+  // - remove this cancer
+  const resolveStateChange = getStateChangePromise(receivedState)
+  // get the state of my player
   const listenerState = await store.getState().player.getCurrentState()
-  if (!listenerState)
-    return stateChangePromise({
-      shouldTogglePlay: true,
-      shouldChangeTrack: true,
-      shouldSeek: true
-    })
-  const compareNewState = newStateComparer(paused, uri, position)
-  const whatToChange = compareNewState(listenerState)
+  const storeState = store.getState().playerState
+  // if no music is playing, set my state to null as well
+  if (!listenerState) {
+    return resolveStateChange(true, true, true).then(() =>
+      setStoreState(receivedState, storeState, store.dispatch)
+    )
+  }
+  // - Please remove cancer
+  const {shouldTogglePlay, shouldChangeTrack, shouldSeek} = getStateCompared(
+    receivedState,
+    listenerState
+  )
   // call the helper promise to determine the needed adjustment
-  return stateChangePromise(whatToChange)
+  return resolveStateChange(shouldTogglePlay, shouldChangeTrack, shouldSeek).then(() =>
+    // set the store to update the UI
+    setStoreState(receivedState, storeState, store.dispatch)
+  )
 }
 
-// ***** END *****//
+// ***** END ***** //
 
 // when listener clicks the 'start listening' button
 export const handleStartListening = channelId => {
   // subscribe listening
   musicPlayerEvent.on('state-received', handleStateReceived)
-  // update listener player with channel-owner's state
+  // request channel-owner's state
   socket.emit('request-channel-state', channelId, socket.id)
 }
 
@@ -123,7 +135,7 @@ export const handleStopListening = () => {
 }
 
 // listener for state change in spotify player
-musicPlayerEvent.on('state-changed', handleStateChanged)
+musicPlayerEvent.on('state-changed', handleOwnerStateChanged)
 musicPlayerEvent.on('start-listening', handleStartListening)
 musicPlayerEvent.on('stop-listening', handleStopListening)
 

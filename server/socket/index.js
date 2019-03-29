@@ -14,14 +14,16 @@ module.exports = io => {
       socket.to(channelId).emit('request', song, user)
     })
 
-    socket.on('join-room', (roomNumber, userID) => {
+    socket.on('join-room', (roomNumber, isOwner, joinId) => {
       socket.join(roomNumber)
-      console.log(`${socket.id} userId ${userID} joined room ${roomNumber}`)
+      console.log('owner?', isOwner)
+      console.log(`${socket.id} joined room ${roomNumber}`)
     })
 
     // leaving a channel
-    socket.on('leave-room', roomNumber => {
+    socket.on('leave-room', (roomNumber, isOwner) => {
       socket.leave(roomNumber)
+      if (isOwner) this.broadcast.to(roomNumber).emit('received-state-change', null)
       console.log(`${socket.id} left room ${roomNumber}`)
     })
 

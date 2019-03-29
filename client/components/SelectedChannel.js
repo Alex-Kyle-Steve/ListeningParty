@@ -21,8 +21,11 @@ import {TrackScrollTable} from './TrackScrollTable'
 export class SelectedChannel extends Component {
   componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId, 10)
+    const userId = this.props.user.id
+    const isOwner = userId === this.props.selectedChannel.ownerId
     // join room when first render
-    socket.emit('join-room', channelId)
+    socket.emit('join-room', channelId, isOwner, socket.id)
+
     this.props.fetchSelectedChannel(channelId)
     this.props.fetchPlaylist(channelId)
   }
@@ -31,15 +34,18 @@ export class SelectedChannel extends Component {
     // get previous and current channel ID
     const prevCh = prevProps.match.params.channelId
     const currCh = this.props.match.params.channelId
+    const userId = this.props.user.id
+    const isOwner = userId === this.props.selectedChannel.ownerId
     // if channel changed
     if (prevCh !== currCh) {
       // leave previous room
-      socket.emit('leave-room', prevCh)
+      socket.emit('leave-room', prevCh, isOwner, socket.id)
       // join current room
-      socket.emit('join-room', currCh)
+      socket.emit('join-room', currCh, isOwner, socket.id)
       // get the new channel and set it on state as SelectedChannel
       this.props.fetchSelectedChannel(currCh)
       this.props.fetchPlaylist(currCh)
+      this.props.stopListening()
       // stop listening if you were listening before
       if (this.props.isListening) this.props.stopListening()
     }
@@ -48,12 +54,13 @@ export class SelectedChannel extends Component {
   componentWillUnmount() {
     const currCh = this.props.match.params.channelId
     socket.emit('leave-room', currCh)
+    this.props.stopListening()
   }
 
   render() {
     const selectedChannel = this.props.selectedChannel
     const channelId = parseInt(this.props.match.params.channelId, 10)
-    const isOwner = this.props.selectedChannel.id === this.props.user.id
+    const isOwner = this.props.selectedChannel.ownerId === this.props.user.id
     return (
       <div>
         <Container fluid={true}>
@@ -92,10 +99,7 @@ export class SelectedChannel extends Component {
               </Row>
             </Col>
             <Col xs={12} s={12} md={3} l={3} lg={3}>
-              <Tabs
-                defaultActiveKey="description"
-                id="uncontrolled-tab-example"
-              >
+              <Tabs defaultActiveKey="description" id="uncontrolled-tab-example">
                 <Tab eventKey="description" title="Channel">
                   <CardDeck>
                     <Card border="light">
@@ -134,24 +138,21 @@ const mapStateToProps = state => {
     isPaused: state.playerState.isPaused,
     isListening: state.playerState.isListening,
     playlist: state.playerState.playlist,
-    currentTrack: state.currentTrack
+    currentTrack: state.playerState.currentTrack
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSelectedChannel: channelId =>
-      dispatch(fetchSelectedChannel(channelId)),
+    fetchSelectedChannel: channelId => dispatch(fetchSelectedChannel(channelId)),
     startListening: () => dispatch(startListening()),
     stopListening: () => dispatch(stopListening()),
-    addFavoriteChannel: (userId, channelId) =>
-      dispatch(addFavoriteChannel(userId, channelId)),
+    addFavoriteChannel: (userId, channelId) => dispatch(addFavoriteChannel(userId, channelId)),
     fetchPlaylist: channelId => dispatch(fetchChannelPlaylist(channelId)),
     playNextTrack: () => dispatch(playNextTrack())
   }
 }
 
-export const ConnectedSelectedChannel = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectedChannel)
+export const ConnectedSelectedChannel = connect(mapStateToProps, mapDispatchToProps)(
+  SelectedChannel
+)
