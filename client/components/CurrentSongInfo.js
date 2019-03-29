@@ -9,24 +9,16 @@ export const CurrentSongInfo = function(props) {
       </Card.Title>
       <hr />
       <Card.Text className="player-track-info-text">
-        Title:{' '}
-        {props.currentTrack && props.currentTrack.name
-          ? props.currentTrack.name
-          : ''}
+        Title: {props.currentTrack && props.currentTrack.name ? props.currentTrack.name : ''}
       </Card.Text>
       <hr />
       <Card.Text className="player-track-info-text">
         Artist:{' '}
-        {props.currentTrack && props.currentTrack.artists[0].name
-          ? props.currentTrack.artists[0].name
-          : ''}
+        {props.currentTrack && props.currentTrack.artists ? props.currentTrack.artists[0].name : ''}
       </Card.Text>
       <hr />
       <Card.Text className="player-track-info-text">
-        Album:{' '}
-        {props.currentTrack && props.artists[0].name
-          ? props.currentTrack.album.name
-          : ''}
+        Album: {props.currentTrack && props.currentTrack.album ? props.currentTrack.album.name : ''}
       </Card.Text>
     </div>
   )
