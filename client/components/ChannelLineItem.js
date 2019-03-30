@@ -42,18 +42,11 @@ class ChanneLineItem extends Component {
             <Card.Body>
               <Card.Title>
                 <Link to={`/channels/${this.props.channel.id}`}>
-                  <Card.Title className="link-styling">
-                    {this.props.channel.name}{' '}
-                  </Card.Title>
+                  <Card.Title className="link-styling">{this.props.channel.name} </Card.Title>
                 </Link>
               </Card.Title>
               <Card.Text>
-                <Button
-                  variant="link"
-                  className="link-styling"
-                  onClick={this.handleShow}
-                  size="sm"
-                >
+                <Button variant="link" className="link-styling" onClick={this.handleShow} size="sm">
                   Quick Info
                 </Button>
 
@@ -64,7 +57,7 @@ class ChanneLineItem extends Component {
                     onClick={this.handleClose}
                     size="sm"
                   >
-                    Join Channel
+                    Join Room
                   </Button>
                 </Link>
               </Card.Text>
@@ -77,20 +70,12 @@ class ChanneLineItem extends Component {
           </Modal.Header>
           <Modal.Body>{this.props.channel.description}</Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="link"
-              className="link-styling"
-              onClick={this.handleClose}
-            >
+            <Button variant="link" className="link-styling" onClick={this.handleClose}>
               Close
             </Button>
 
             <Link to={`channels/${this.props.channel.id}`}>
-              <Button
-                variant="link"
-                className="link-styling"
-                onClick={this.handleClose}
-              >
+              <Button variant="link" className="link-styling" onClick={this.handleClose}>
                 Join Channel
               </Button>
             </Link>
@@ -109,13 +94,9 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    addFavoriteChannel: (userId, channelId) =>
-      dispatch(addFavoriteChannel(userId, channelId)),
+    addFavoriteChannel: (userId, channelId) => dispatch(addFavoriteChannel(userId, channelId)),
     fetchMe: () => dispatch(me())
   }
 }
 
-export const ConnectedChannelLineItem = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChanneLineItem)
+export const ConnectedChannelLineItem = connect(mapStateToProps, mapDispatchToProps)(ChanneLineItem)

@@ -14,7 +14,7 @@ export class AllChannelsSidebar extends Component {
 
     return (
       <Container>
-        <h4>All Channels</h4>
+        <h4>All Rooms</h4>
         <ListGroup>
           {channels && channels.length ? (
             channels.map(channel => {
@@ -29,7 +29,7 @@ export class AllChannelsSidebar extends Component {
           ) : (
             <Col xs={12}>
               <Card border="light">
-                <Card.Text className="center">No Channels Found</Card.Text>
+                <Card.Text className="center">No Rooms Found</Card.Text>
               </Card>
             </Col>
           )}
@@ -50,7 +50,6 @@ const mapStateToProps = state => {
     allChannels: state.channel.allChannels
   }
 }
-export const ConnectedAllChannelsSidebar = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AllChannelsSidebar)
+export const ConnectedAllChannelsSidebar = connect(mapStateToProps, mapDispatchToProps)(
+  AllChannelsSidebar
+)

@@ -1,13 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  Card,
-  Container,
-  Col,
-  ListGroup,
-  Button,
-  Dropdown
-} from 'react-bootstrap'
+import {Card, Container, Col, ListGroup, Button, Dropdown} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import {deleteChannel, fetchOwnedChannels, me} from '../store/'
@@ -40,7 +33,7 @@ export class OwnedChannels extends Component {
     return (
       <Container fluid={true}>
         <ListGroup>
-          <h4>My Channels</h4>
+          <h4>My Rooms</h4>
           {ownedChannels && ownedChannels.length ? (
             ownedChannels.map(channel => (
               <ListGroup.Item key={channel.id} style={{border: 'none'}}>
@@ -65,13 +58,9 @@ export class OwnedChannels extends Component {
             ))
           ) : (
             <ListGroup>
-              <ListGroup.Item style={{border: 'none'}}>
-                No owned channels
-              </ListGroup.Item>
+              <ListGroup.Item style={{border: 'none'}}>No owned Rooms</ListGroup.Item>
               <Link to="/newchannel" className="create-channel-sidebar-link ">
-                <ListGroup.Item style={{border: 'none'}}>
-                  Want to Create a Channel?
-                </ListGroup.Item>
+                <ListGroup.Item style={{border: 'none'}}>Want to Create a Room?</ListGroup.Item>
               </Link>
             </ListGroup>
           )}
@@ -93,7 +82,4 @@ const mapStateToProps = state => {
     ownedChannels: state.channel.ownedChannels
   }
 }
-export const ConnectedOwnedChannels = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OwnedChannels)
+export const ConnectedOwnedChannels = connect(mapStateToProps, mapDispatchToProps)(OwnedChannels)

@@ -106,7 +106,7 @@ export class SelectedChannel extends Component {
                       <Card.Body>
                         <Card.Title className="link-styling">
                           <h3>
-                            Current Channel:
+                            Current Room:
                             <br />
                             {selectedChannel.name}{' '}
                           </h3>

@@ -25,7 +25,7 @@ export class FavoriteChannels extends Component {
     return (
       <Container>
         <ListGroup>
-          <h4>Favorite Channels</h4>
+          <h4>Favorite Rooms</h4>
 
           {favorites && favorites.length ? (
             favorites.map(channel => (
@@ -43,9 +43,7 @@ export class FavoriteChannels extends Component {
               </ListGroup.Item>
             ))
           ) : (
-            <ListGroup.Item style={{border: 'none'}}>
-              No favorite channels
-            </ListGroup.Item>
+            <ListGroup.Item style={{border: 'none'}}>No favorite rooms</ListGroup.Item>
           )}
         </ListGroup>
       </Container>
@@ -66,7 +64,6 @@ const mapStateToProps = state => {
     favoriteChannels: state.channel.favoriteChannels
   }
 }
-export const ConnectedFavoriteChannels = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FavoriteChannels)
+export const ConnectedFavoriteChannels = connect(mapStateToProps, mapDispatchToProps)(
+  FavoriteChannels
+)
