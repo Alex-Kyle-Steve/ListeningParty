@@ -1,4 +1,4 @@
-## Listening Party
+## Listening 🎉 Party
 ```
 Listening Party is a collaborative listening and playlist building app. In short, you and your friends, family, and even strangers, can hop into a virtual room and listen to the same song at the same time together.
 
@@ -8,11 +8,9 @@ Link to our App: https://listening-party-app.herokuapp.com/
 ## Getting Started / Installing
 
 ```
-`1. Fork and clone this repo`
-
-`2. npm install`
-
-`3. npm start`
+* 1. Fork and clone this repo
+* 2. npm install
+* 3. npm start
 ```
 
 ## Built With
