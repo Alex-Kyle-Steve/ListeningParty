@@ -5,13 +5,13 @@ import socket from '../../socket'
 const SET_PLAYLIST = 'SET_PLAYLIST'
 const ADD_TRACK = 'ADD_TRACK'
 
-const setPlaylist = playlist => {
+export const setPlaylist = playlist => {
   return {
     type: SET_PLAYLIST,
     playlist
   }
 }
-const addTrack = trackData => {
+export const addTrack = trackData => {
   return {
     type: ADD_TRACK,
     trackData

@@ -21,10 +21,8 @@ import Playlist from './Playlist'
 export class SelectedChannel extends Component {
   componentDidMount() {
     const channelId = parseInt(this.props.match.params.channelId, 10)
-    const userId = this.props.user.id
-    const isOwner = userId === this.props.selectedChannel.ownerId
     // join room when first render
-    socket.emit('join-room', channelId, isOwner, socket.id)
+    socket.emit('join-room', channelId)
 
     this.props.fetchSelectedChannel(channelId)
     this.props.fetchPlaylist(channelId)
@@ -39,9 +37,9 @@ export class SelectedChannel extends Component {
     // if channel changed
     if (prevCh !== currCh) {
       // leave previous room
-      socket.emit('leave-room', prevCh, isOwner, socket.id)
+      socket.emit('leave-room', prevCh, isOwner)
       // join current room
-      socket.emit('join-room', currCh, isOwner, socket.id)
+      socket.emit('join-room', currCh)
       // get the new channel and set it on state as SelectedChannel
       this.props.fetchSelectedChannel(currCh)
       this.props.fetchPlaylist(currCh)
@@ -53,7 +51,10 @@ export class SelectedChannel extends Component {
 
   componentWillUnmount() {
     const currCh = this.props.match.params.channelId
-    socket.emit('leave-room', currCh)
+    const userId = this.props.user.id
+    const isOwner = userId === this.props.selectedChannel.ownerId
+    console.log(userId === this.props.selectedChannel.ownerId)
+    socket.emit('leave-room', currCh, isOwner)
     this.props.stopListening()
   }
 

@@ -14,15 +14,15 @@ module.exports = io => {
       socket.to(channelId).emit('request-received', song, user)
     })
 
-    socket.on('join-room', (roomNumber, isOwner) => {
+    socket.on('join-room', roomNumber => {
       socket.join(roomNumber)
-      console.log('owner?', isOwner)
       console.log(`${socket.id} joined room ${roomNumber}`)
     })
 
     // leaving a channel
     socket.on('leave-room', function(roomNumber, isOwner) {
       socket.leave(roomNumber)
+      // set everyone's player's state to null if the owner leaves
       if (isOwner) this.broadcast.to(roomNumber).emit('received-state-change', null)
       console.log(`${socket.id} left room ${roomNumber}`)
     })
