@@ -1,18 +1,31 @@
-Link to our App: https://listening-party-app.herokuapp.com/
-
-What is Listening Party?
-
+## Listening Party
+```
 Listening Party is a collaborative listening and playlist building app. In short, you and your friends, family, and even strangers, can hop into a virtual room and listen to the same song at the same time together.
 
-How do I use Listening Party?
+Link to our App: https://listening-party-app.herokuapp.com/
+```
 
-1.  Navigate to a pre-made channel or create your own channel.
+## Getting Started / Installing
 
-2.  Use the built-in Spotify catalog search to find music and then add the songs to the playlist.
+```
+`1. Fork and clone this repo`
 
-3.  Use our built-in music controller to play, pause, or seek a track.
+`2. npm install`
 
-4.  Invite friends, family, strangers, to join the party!
+`3. npm start`
+```
+
+## Built With:
+
+* React
+* Redux
+* PostgreSQL
+* Express
+* Spotify Web SDK
+* Socket.io
+
+
+## Support
 
 Does Listening Party support other streaming platforms (ex. Apple Music, local files)?
 
