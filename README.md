@@ -15,7 +15,7 @@ Link to our App: https://listening-party-app.herokuapp.com/
 `3. npm start`
 ```
 
-## Built With:
+## Built With
 
 * React
 * Redux
