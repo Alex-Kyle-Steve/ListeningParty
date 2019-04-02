@@ -4,7 +4,6 @@ Listening Party is a collaborative listening and playlist building app. In short
 
 Link to our App: https://listening-party-app.herokuapp.com/
 
-
 ## Getting Started / Installing
 
 ```
@@ -21,7 +20,6 @@ Link to our App: https://listening-party-app.herokuapp.com/
 * Express
 * Spotify Web SDK
 * Socket.io
-
 
 ## Support
 
