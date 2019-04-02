@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 
 import musicPlayerEvent from './music-player'
 import store, {getMessage, addNewTrack} from './store'
+import {setPlaylist, addTrack} from './store/playerState/playlist'
 
 const socket = io(window.location.origin)
 
@@ -28,6 +29,13 @@ socket.on('connect', () => {
         store.dispatch(addNewTrack(song))
     })
   }
+})
+
+socket.on('channel-set-playlist', playlist => {
+  store.dispatch(setPlaylist(playlist))
+})
+socket.on('channel-add-track', trackData => {
+  store.dispatch(addTrack(trackData))
 })
 
 socket.on('received-state-change', playerState =>

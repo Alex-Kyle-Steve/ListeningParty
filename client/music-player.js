@@ -76,7 +76,6 @@ function setStoreState(spotifyState, storeState, dispatch) {
     dispatch(setPaused(playerPaused))
   }
 }
-
 /**
  * ***END***
  */
@@ -95,7 +94,6 @@ function setStoreState(spotifyState, storeState, dispatch) {
  */
 
 // ***** HANDLING OWNER"S SPOTIFY PLAYER CHANGE ***** //
-
 /**
  * handler for musicPlayerEvents when the player state changes
  * emit event to other socket when it is triggered by the channel owner
@@ -120,8 +118,7 @@ const handleOwnerStateChanged = (changedState, dispatch, getState) => {
   }
 }
 
-// ***** HANDLING OWNER"S SPOTIFY PLAYER CHANGE ***** //
-
+// ***** HANDLING RECEIVED SPOTIFY PLAYER CHANGE FROM OWNER ***** //
 // handler for dealing with received owner player state
 // subscribed when listener first enters the room
 const handleStateReceived = async receivedState => {
@@ -151,7 +148,6 @@ const handleStateReceived = async receivedState => {
     setStoreState(receivedState, storeState, store.dispatch)
   )
 }
-
 /**
  * ***END***
  */
@@ -179,7 +175,6 @@ export const handleStopListening = () => {
 musicPlayerEvent.on('state-changed', handleOwnerStateChanged)
 musicPlayerEvent.on('start-listening', handleStartListening)
 musicPlayerEvent.on('stop-listening', handleStopListening)
-
 /**
  * ***END***
  */
