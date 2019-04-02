@@ -12,7 +12,9 @@ import {
 
 const musicPlayerEvent = new EventEmitter()
 
-/***************** HELPER FUNCTIONS  */
+/**
+ * *** HELPER FUNCTIONS ***
+ */
 
 // returns a function that compares the provided spotify player state with the redux state
 const getStateCompared = function(receivedState, currentState) {
@@ -75,7 +77,22 @@ function setStoreState(spotifyState, storeState, dispatch) {
   }
 }
 
-/* END HELPER FUNCTION **************** /
+/**
+ * ***END***
+ */
+
+/**
+ * *** HANDLERS FOR SPOTIFY PLAYER STATE CHANGE ***
+ * * handleOwnerStateChanged:
+ * - subscribed to player directly.
+ * - called when channel owner manipulates his/her playlist
+ * - handles channel owner's state change and broadcasts it to other listeners
+ * ********************************************************
+ * * handleReceivedStateChange:
+ * - subscribed when listener starts to listen to a channel
+ * - unsubscribed when they stop listening
+ * - handles received state from the owner
+ */
 
 // ***** HANDLING OWNER"S SPOTIFY PLAYER CHANGE ***** //
 
@@ -102,7 +119,8 @@ const handleOwnerStateChanged = (changedState, dispatch, getState) => {
     dispatch(playNextTrack())
   }
 }
-// ***** HANDLING HOST'S STATE CHANGE ***** //
+
+// ***** HANDLING OWNER"S SPOTIFY PLAYER CHANGE ***** //
 
 // handler for dealing with received owner player state
 // subscribed when listener first enters the room
@@ -134,8 +152,13 @@ const handleStateReceived = async receivedState => {
   )
 }
 
-// ***** END ***** //
+/**
+ * ***END***
+ */
 
+/**
+ * *** SUBSCRIBING HANDLER ***
+ */
 // when listener clicks the 'start listening' button
 export const handleStartListening = channelId => {
   // subscribe listening
@@ -156,5 +179,9 @@ export const handleStopListening = () => {
 musicPlayerEvent.on('state-changed', handleOwnerStateChanged)
 musicPlayerEvent.on('start-listening', handleStartListening)
 musicPlayerEvent.on('stop-listening', handleStopListening)
+
+/**
+ * ***END***
+ */
 
 export default musicPlayerEvent
