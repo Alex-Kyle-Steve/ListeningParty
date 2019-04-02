@@ -14,7 +14,7 @@ module.exports = io => {
       socket.to(channelId).emit('request-received', song, user)
     })
 
-    socket.on('join-room', (roomNumber, isOwner, joinId) => {
+    socket.on('join-room', (roomNumber, isOwner) => {
       socket.join(roomNumber)
       console.log('owner?', isOwner)
       console.log(`${socket.id} joined room ${roomNumber}`)
@@ -25,6 +25,13 @@ module.exports = io => {
       socket.leave(roomNumber)
       if (isOwner) this.broadcast.to(roomNumber).emit('received-state-change', null)
       console.log(`${socket.id} left room ${roomNumber}`)
+    })
+
+    socket.on('setting-playlist', (channelId, playlist) => {
+      socket.to(channelId).emit('channel-set-playlist', playlist)
+    })
+    socket.on('adding-track', (channelId, trackData) => {
+      socket.to(channelId).emit('channel-add-track', trackData)
     })
 
     socket.on('request-channel-state', function(channelId, listenerId) {

@@ -1,17 +1,22 @@
 import axios from 'axios'
 import {playTrack} from '../player'
+import socket from '../../socket'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
 const ADD_TRACK = 'ADD_TRACK'
 
-const setPlaylist = playlist => ({
-  type: SET_PLAYLIST,
-  playlist
-})
-const addTrack = trackData => ({
-  type: ADD_TRACK,
-  trackData
-})
+const setPlaylist = playlist => {
+  return {
+    type: SET_PLAYLIST,
+    playlist
+  }
+}
+const addTrack = trackData => {
+  return {
+    type: ADD_TRACK,
+    trackData
+  }
+}
 
 export const fetchChannelPlaylist = channelId => dispatch =>
   axios.get(`/api/channels/${channelId}/playlist`).then(({data}) => dispatch(setPlaylist(data)))
@@ -20,6 +25,7 @@ export const changePlaylist = (channelId, newList) => dispatch =>
   axios
     .put(`/api/channels/${channelId}/playlist`, {playlist: newList.map(track => track.id)})
     .then(() => dispatch(setPlaylist(newList)))
+    .then(() => socket.emit('setting-playlist', channelId, newList))
 
 export const addNewTrack = newTrack => (dispatch, getState) =>
   axios
@@ -29,6 +35,7 @@ export const addNewTrack = newTrack => (dispatch, getState) =>
       // just in-case state updates slower, destructure old playlist and add in a new one
       const oldPlaylist = getState().playerState.playlist
       dispatch(addTrack(data))
+      socket.emit('adding-track', getState().channel.selectedChannel.id, data)
       // maps and return only the array of id
       return [...oldPlaylist, data].map(({id}) => id)
     })
