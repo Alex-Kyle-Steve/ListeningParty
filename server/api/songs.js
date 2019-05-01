@@ -28,9 +28,14 @@ const getSongRes = ({title, artist, uri, album, id}) => ({
   id
 })
 
-router.post('/', ({body: {title, artist, album, uri}}, res, next) =>
-  Song.findOrCreate({
-    where: {uri},
-    defaults: {title, artist, album, uri}
-  }).then(created => res.send(getSongRes(created[0])))
-)
+router.post('/', async ({body: {title, artist, album, uri}}, res, next) => {
+  try {
+    const createdSong = await Song.findOrCreate({
+      where: {uri},
+      defaults: {title, artist, album, uri}
+    })
+    res.send(getSongRes(createdSong[0]))
+  } catch (err) {
+    next(err)
+  }
+})

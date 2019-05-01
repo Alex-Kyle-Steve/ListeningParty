@@ -26,10 +26,7 @@ router.post('/', async (req, res, next) => {
 router.param('channelId', async (req, res, next) => {
   try {
     const channel = await Channel.findById(req.params.channelId, {
-      include: [
-        {model: User, as: 'owner'},
-        {model: Message, include: [{model: User}]}
-      ]
+      include: [{model: User, as: 'owner'}, {model: Message, include: [{model: User}]}]
     })
     req.selectedChannel = channel
     next()
@@ -108,9 +105,12 @@ router.get('/:channelId/playlist', (req, res, next) =>
 
 // update playlist
 // might need to parse req.body
-router.put('/:channelId/playlist', (req, res, next) =>
-  Channel.findById(req.params.channelId)
-    .then(channel => channel.update({playlist: req.body.playlist}))
-    .then(() => res.send(200))
-    .catch(next)
-)
+router.put('/:channelId/playlist', async (req, res, next) => {
+  try {
+    const channel = await Channel.findById(req.params.channelId)
+    channel.update({playlist: req.body.playlist})
+    res.send(200)
+  } catch (err) {
+    next(err)
+  }
+})
